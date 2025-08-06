@@ -106,15 +106,20 @@ class MainActivity : AppCompatActivity() {
         selectedPlatform = platform
         
         // Reset all tabs
-        binding.tvTikTok.setBackgroundResource(R.drawable.tab_background)
-        binding.tvInstagram.setBackgroundResource(R.drawable.tab_background)
-        binding.tvFacebook.setBackgroundResource(R.drawable.tab_background)
-        binding.tvTwitter.setBackgroundResource(R.drawable.tab_background)
+        binding.tvTikTok.setBackgroundResource(0)
+        binding.tvInstagram.setBackgroundResource(0)
+        binding.tvFacebook.setBackgroundResource(0)
+        binding.tvTwitter.setBackgroundResource(0)
         
         binding.tvTikTok.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         binding.tvInstagram.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         binding.tvFacebook.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         binding.tvTwitter.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
+        
+        binding.tvTikTok.isSelected = false
+        binding.tvInstagram.isSelected = false
+        binding.tvFacebook.isSelected = false
+        binding.tvTwitter.isSelected = false
         
         // Set selected tab
         selectedView.setBackgroundResource(R.drawable.tab_background)
@@ -184,36 +189,47 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun downloadFile(url: String, title: String) {
-        // Use app's private directory for better compatibility
-        val downloadsDir = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
-        if (!downloadsDir.exists()) {
-            downloadsDir.mkdirs()
-        }
-        
-        // Clean filename
-        val cleanTitle = title.replace(Regex("[^a-zA-Z0-9._-]"), "_")
-        val fileName = "${cleanTitle}_${System.currentTimeMillis()}.mp4"
-        val file = File(downloadsDir, fileName)
-        
-        downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
-            override fun onProgress(progress: Int) {
-                updateDownloadProgress(progress)
+        try {
+            // Use app's private directory for better compatibility
+            val downloadsDir = File(getExternalFilesDir(null), "SnapTikPro")
+            if (!downloadsDir.exists()) {
+                val created = downloadsDir.mkdirs()
+                android.util.Log.d("DownloadManager", "Created directory: $created, Path: ${downloadsDir.absolutePath}")
             }
             
-            override fun onSuccess(file: File) {
-                hideDownloadProgress()
-                Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
-                saveDownloadRecord(title, file.absolutePath, file.length())
+            // Clean filename
+            val cleanTitle = title.replace(Regex("[^a-zA-Z0-9._-]"), "_")
+            val fileName = "${cleanTitle}_${System.currentTimeMillis()}.mp4"
+            val file = File(downloadsDir, fileName)
+            
+            android.util.Log.d("DownloadManager", "Download path: ${file.absolutePath}")
+            android.util.Log.d("DownloadManager", "Directory exists: ${downloadsDir.exists()}")
+            android.util.Log.d("DownloadManager", "Directory writable: ${downloadsDir.canWrite()}")
+            
+            downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
+                override fun onProgress(progress: Int) {
+                    updateDownloadProgress(progress)
+                }
                 
-                // Show success dialog with options
-                showDownloadSuccessDialog(title, file.absolutePath)
-            }
+                override fun onSuccess(file: File) {
+                    hideDownloadProgress()
+                    Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
+                    saveDownloadRecord(title, file.absolutePath, file.length())
+                    
+                    // Show success dialog with options
+                    showDownloadSuccessDialog(title, file.absolutePath)
+                }
+                
+                override fun onError(error: String) {
+                    hideDownloadProgress()
+                    Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
+                }
+            })
             
-            override fun onError(error: String) {
-                hideDownloadProgress()
-                Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
-            }
-        })
+        } catch (e: Exception) {
+            android.util.Log.e("DownloadManager", "Error setting up download: ${e.message}")
+            Toast.makeText(this, "Error setting up download: ${e.message}", Toast.LENGTH_LONG).show()
+        }
     }
     
     private fun showDownloadProgress() {
@@ -328,20 +344,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun openHelp() {
-        AlertDialog.Builder(this)
-            .setTitle("Help")
-            .setMessage("1. Select a platform (TikTok, Instagram, etc.)\n" +
-                    "2. Paste or enter a video link\n" +
-                    "3. Tap Download to save the video\n" +
-                    "4. Videos are saved to Downloads/SnapTikPro folder")
-            .setPositiveButton("OK", null)
-            .show()
+        // TODO: Implement help activity
+        Toast.makeText(this, "Help coming soon", Toast.LENGTH_SHORT).show()
     }
-    
-    data class DownloadRecord(
-        val title: String,
-        val path: String,
-        val size: Long,
-        val date: String
-    )
 }
