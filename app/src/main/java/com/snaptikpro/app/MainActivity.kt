@@ -352,8 +352,8 @@ class MainActivity : AppCompatActivity() {
                     // Auto-paste the link
                     binding.etLink.setText(text)
                     
-                    // Show confirmation dialog
-                    showAutoDownloadDialog(text)
+                    // Automatically start download
+                    downloadVideo()
                 }
             }
         }
@@ -366,21 +366,7 @@ class MainActivity : AppCompatActivity() {
                text.contains("www.tiktok.com")
     }
     
-    private fun showAutoDownloadDialog(link: String) {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.tiktok_link_found))
-            .setMessage(getString(R.string.auto_download_message))
-            .setPositiveButton(getString(R.string.yes_download)) { _, _ ->
-                downloadVideo()
-            }
-            .setNegativeButton(getString(R.string.no_download)) { _, _ ->
-                // Just keep the link pasted, don't download
-            }
-            .setNeutralButton(getString(R.string.just_paste)) { _, _ ->
-                // Link already pasted, do nothing
-            }
-            .show()
-    }
+
     
 
     
