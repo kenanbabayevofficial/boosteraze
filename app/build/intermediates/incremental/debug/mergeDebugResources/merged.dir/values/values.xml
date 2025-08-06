@@ -6295,7 +6295,7 @@
         <item name="colorControlHighlight">@color/ripple</item>
     </style>
     <style name="Theme.SnapTikPro.Splash" parent="Theme.SnapTikPro">
-        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
