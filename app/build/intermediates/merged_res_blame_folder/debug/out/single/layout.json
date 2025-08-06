@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.snaptikpro.app-mergeDebugResources-49:/layout/activity_downloads.xml",
+        "source": "com.snaptikpro.app-main-52:/layout/activity_downloads.xml"
+    },
+    {
+        "merged": "com.snaptikpro.app-mergeDebugResources-49:/layout/item_download.xml",
+        "source": "com.snaptikpro.app-main-52:/layout/item_download.xml"
+    },
+    {
+        "merged": "com.snaptikpro.app-mergeDebugResources-49:/layout/activity_main.xml",
+        "source": "com.snaptikpro.app-main-52:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.snaptikpro.app-mergeDebugResources-49:/layout/activity_splash.xml",
+        "source": "com.snaptikpro.app-main-52:/layout/activity_splash.xml"
+    }
+]

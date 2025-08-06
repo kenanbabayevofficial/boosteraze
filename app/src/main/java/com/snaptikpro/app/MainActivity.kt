@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -109,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         
         // Set selected tab
         selectedView.setBackgroundResource(R.drawable.tab_background)
-        selectedView.setTextColor(ContextCompat.getColor(this, R.color.text_primary))
+        (selectedView as TextView).setTextColor(ContextCompat.getColor(this, R.color.text_primary))
         selectedView.isSelected = true
     }
     
