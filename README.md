@@ -27,9 +27,14 @@ Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirm
 - **cURL**: HTTP istekleri
 - **JSON**: Veri formatı
 
-## Kurulum
+## 📥 Kurulum
 
-### Android Uygulaması
+### 🚀 Android Uygulaması - Direkt İndirme
+**Hazır APK dosyası direkt indirme için mevcut:**
+
+🔗 **[SnapTikPro.apk İndir](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro.apk)**
+
+### 📱 Android Uygulaması - Kaynak Koddan
 
 1. **Projeyi klonlayın:**
 ```bash
