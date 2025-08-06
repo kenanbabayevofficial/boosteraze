@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.snaptikpro.app.R;
@@ -23,76 +21,41 @@ import java.lang.String;
 
 public final class ActivityMainBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final LinearLayout rootView;
 
   @NonNull
   public final Button btnDownload;
 
   @NonNull
-  public final Button btnPaste;
+  public final ImageButton btnSettings;
 
   @NonNull
-  public final CardView cardMain;
+  public final Button btnViewDownloads;
 
   @NonNull
-  public final EditText etLink;
-
-  @NonNull
-  public final LinearLayout headerLayout;
-
-  @NonNull
-  public final ImageView ivDownloads;
-
-  @NonNull
-  public final ImageView ivHelp;
-
-  @NonNull
-  public final ImageView ivSettings;
+  public final EditText etUrl;
 
   @NonNull
   public final ProgressBar progressBar;
 
   @NonNull
-  public final TextView tvFacebook;
-
-  @NonNull
-  public final TextView tvInstagram;
-
-  @NonNull
   public final TextView tvStatus;
 
-  @NonNull
-  public final TextView tvTikTok;
-
-  @NonNull
-  public final TextView tvTwitter;
-
-  private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnDownload,
-      @NonNull Button btnPaste, @NonNull CardView cardMain, @NonNull EditText etLink,
-      @NonNull LinearLayout headerLayout, @NonNull ImageView ivDownloads, @NonNull ImageView ivHelp,
-      @NonNull ImageView ivSettings, @NonNull ProgressBar progressBar, @NonNull TextView tvFacebook,
-      @NonNull TextView tvInstagram, @NonNull TextView tvStatus, @NonNull TextView tvTikTok,
-      @NonNull TextView tvTwitter) {
+  private ActivityMainBinding(@NonNull LinearLayout rootView, @NonNull Button btnDownload,
+      @NonNull ImageButton btnSettings, @NonNull Button btnViewDownloads, @NonNull EditText etUrl,
+      @NonNull ProgressBar progressBar, @NonNull TextView tvStatus) {
     this.rootView = rootView;
     this.btnDownload = btnDownload;
-    this.btnPaste = btnPaste;
-    this.cardMain = cardMain;
-    this.etLink = etLink;
-    this.headerLayout = headerLayout;
-    this.ivDownloads = ivDownloads;
-    this.ivHelp = ivHelp;
-    this.ivSettings = ivSettings;
+    this.btnSettings = btnSettings;
+    this.btnViewDownloads = btnViewDownloads;
+    this.etUrl = etUrl;
     this.progressBar = progressBar;
-    this.tvFacebook = tvFacebook;
-    this.tvInstagram = tvInstagram;
     this.tvStatus = tvStatus;
-    this.tvTikTok = tvTikTok;
-    this.tvTwitter = tvTwitter;
   }
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -123,45 +86,21 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.btnPaste;
-      Button btnPaste = ViewBindings.findChildViewById(rootView, id);
-      if (btnPaste == null) {
+      id = R.id.btnSettings;
+      ImageButton btnSettings = ViewBindings.findChildViewById(rootView, id);
+      if (btnSettings == null) {
         break missingId;
       }
 
-      id = R.id.cardMain;
-      CardView cardMain = ViewBindings.findChildViewById(rootView, id);
-      if (cardMain == null) {
+      id = R.id.btnViewDownloads;
+      Button btnViewDownloads = ViewBindings.findChildViewById(rootView, id);
+      if (btnViewDownloads == null) {
         break missingId;
       }
 
-      id = R.id.etLink;
-      EditText etLink = ViewBindings.findChildViewById(rootView, id);
-      if (etLink == null) {
-        break missingId;
-      }
-
-      id = R.id.headerLayout;
-      LinearLayout headerLayout = ViewBindings.findChildViewById(rootView, id);
-      if (headerLayout == null) {
-        break missingId;
-      }
-
-      id = R.id.ivDownloads;
-      ImageView ivDownloads = ViewBindings.findChildViewById(rootView, id);
-      if (ivDownloads == null) {
-        break missingId;
-      }
-
-      id = R.id.ivHelp;
-      ImageView ivHelp = ViewBindings.findChildViewById(rootView, id);
-      if (ivHelp == null) {
-        break missingId;
-      }
-
-      id = R.id.ivSettings;
-      ImageView ivSettings = ViewBindings.findChildViewById(rootView, id);
-      if (ivSettings == null) {
+      id = R.id.etUrl;
+      EditText etUrl = ViewBindings.findChildViewById(rootView, id);
+      if (etUrl == null) {
         break missingId;
       }
 
@@ -171,39 +110,14 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvFacebook;
-      TextView tvFacebook = ViewBindings.findChildViewById(rootView, id);
-      if (tvFacebook == null) {
-        break missingId;
-      }
-
-      id = R.id.tvInstagram;
-      TextView tvInstagram = ViewBindings.findChildViewById(rootView, id);
-      if (tvInstagram == null) {
-        break missingId;
-      }
-
       id = R.id.tvStatus;
       TextView tvStatus = ViewBindings.findChildViewById(rootView, id);
       if (tvStatus == null) {
         break missingId;
       }
 
-      id = R.id.tvTikTok;
-      TextView tvTikTok = ViewBindings.findChildViewById(rootView, id);
-      if (tvTikTok == null) {
-        break missingId;
-      }
-
-      id = R.id.tvTwitter;
-      TextView tvTwitter = ViewBindings.findChildViewById(rootView, id);
-      if (tvTwitter == null) {
-        break missingId;
-      }
-
-      return new ActivityMainBinding((ConstraintLayout) rootView, btnDownload, btnPaste, cardMain,
-          etLink, headerLayout, ivDownloads, ivHelp, ivSettings, progressBar, tvFacebook,
-          tvInstagram, tvStatus, tvTikTok, tvTwitter);
+      return new ActivityMainBinding((LinearLayout) rootView, btnDownload, btnSettings,
+          btnViewDownloads, etUrl, progressBar, tvStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
