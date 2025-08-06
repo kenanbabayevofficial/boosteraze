@@ -333,8 +333,8 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun openSettings() {
-        // TODO: Implement settings activity
-        Toast.makeText(this, getString(R.string.settings_coming_soon), Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
     
     private fun openHelp() {
@@ -373,7 +373,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.yes_download)) { _, _ ->
                 downloadVideo()
             }
-            .setNegativeButton(getString(R.string.no)) { _, _ ->
+            .setNegativeButton(getString(R.string.no_download)) { _, _ ->
                 // Just keep the link pasted, don't download
             }
             .setNeutralButton(getString(R.string.just_paste)) { _, _ ->

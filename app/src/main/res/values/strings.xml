@@ -46,6 +46,15 @@
     <string name="tiktok_link_found">TikTok Link Bulundu!</string>
     <string name="auto_download_message">Panoda TikTok linki bulundu. Otomatik olarak indirmek istiyor musunuz?</string>
     <string name="yes_download">Evet, İndir</string>
-    <string name="no">Hayır</string>
+    <string name="no_download">Hayır</string>
     <string name="just_paste">Sadece Yapıştır</string>
+    
+    <!-- Theme strings -->
+    <string name="theme_selection">Tema Seçimi</string>
+    <string name="current_theme">Cari tema</string>
+    <string name="change_theme">Tema Dəyişdir</string>
+    <string name="theme_change_confirm">Temanı \'%1$s\' olaraq dəyişdirmək istədiyinizə əminsiniz?</string>
+    <string name="yes">Bəli</string>
+    <string name="no">Xeyr</string>
+    <string name="theme_changed">Tema dəyişdirildi! Tətbiqi yenidən başladın.</string>
 </resources>
