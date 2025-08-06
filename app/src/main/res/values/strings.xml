@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">TRLike</string>
+    
+    <!-- Login Screen -->
+    <string name="sign_in_with_google">Oturum aç</string>
+    <string name="terms_privacy_notice">Kaydolarak veya giriş yaparak Kullanım Koşullarını ve Gizlilik Politikasını kabul etmiş olursunuz.</string>
+    
+    <!-- Main Screen -->
+    <string name="click_to_earn_credit">Tıkla Kredi Kazan</string>
+    <string name="buy_credit">Kredi Satın Al</string>
+    <string name="follower_packages">Takipçi Paketleri</string>
+    <string name="turkish_follower_packages">Takipçi Paketleri - %100 Türk</string>
+    <string name="swipe_for_all_packages">Tüm Paketler İçin Yana Kaydırın</string>
+    <string name="buy_now">Satın Al</string>
+    
+    <!-- Navigation -->
+    <string name="my_orders">SİPARİŞLERİM</string>
+    <string name="support">DESTEK</string>
+    <string name="use_coupon">KUPON KULLAN</string>
+    <string name="privacy_agreement">GİZLİLİK SÖZLEŞMESİ</string>
+    
+    <!-- Order Dialog -->
+    <string name="delivery_time">Gönderim 20-40 dakika içerisinde başlar.</string>
+    <string name="account_must_be_public">Hesabınız herkese açık olmalıdır.</string>
+    <string name="username_hint">Kullanıcı...</string>
+    <string name="close">KAPAT</string>
+    <string name="send">GÖNDER</string>
+    
+    <!-- Credits -->
+    <string name="credits">Kredi</string>
+    
+    <!-- Followers -->
+    <string name="followers">Takipçi</string>
+</resources>
