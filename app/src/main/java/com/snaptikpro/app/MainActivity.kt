@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
     private fun downloadFile(url: String, title: String) {
         try {
             // Use public Movies directory for better organization
-            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTik")
+            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
             if (!downloadsDir.exists()) {
                 val created = downloadsDir.mkdirs()
                 android.util.Log.d("DownloadManager", "Created directory: $created, Path: ${downloadsDir.absolutePath}")
