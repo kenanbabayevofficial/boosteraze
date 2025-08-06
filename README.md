@@ -1,126 +1,161 @@
-# TRLike SMM Android Uygulaması
+# SnapTik Pro - Video Downloader App
 
-Bu proje, sosyal medya pazarlama (SMM) hizmetleri sunan bir Android uygulaması ve PHP admin paneli içerir.
+Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirme Android uygulaması.
 
 ## Özellikler
 
-### Android Uygulaması
-- **Google ile Giriş**: Kullanıcılar Google hesapları ile giriş yapabilir
-- **Kredi Sistemi**: Uygulama içi kredi sistemi
-- **Hizmet Satın Alma**: Instagram, TikTok ve diğer platformlar için takipçi, beğeni vb. hizmetler
-- **Kupon Sistemi**: İndirim kuponları kullanma
-- **Sipariş Takibi**: Kullanıcılar siparişlerini takip edebilir
-- **Google Play Billing**: Kredi satın alma için Google Play entegrasyonu
+- 🎨 **Modern Dark Theme**: Koyu tema ile göz yormayan arayüz
+- 📱 **Platform Desteği**: TikTok, Instagram, Facebook, Twitter
+- 🔗 **Kolay Kullanım**: Link yapıştır ve indir
+- 📁 **İndirilenler Klasörü**: Tüm indirilen videoları görüntüle
+- ⚡ **Hızlı İndirme**: Progress bar ile indirme durumu
+- 🎯 **Splash Screen**: Güzel açılış animasyonu
+- 🔒 **Güvenli**: Filigransız video indirme
 
-### Admin Paneli
-- **Kullanıcı Yönetimi**: Kullanıcıları görüntüleme ve yasaklama
-- **Hizmet Yönetimi**: Yeni hizmetler ekleme, düzenleme ve silme
-- **Sipariş Yönetimi**: Siparişleri görüntüleme ve durum güncelleme
-- **Kupon Yönetimi**: Kupon oluşturma ve yönetimi
-- **API Sağlayıcı Yönetimi**: SMM API sağlayıcılarını yönetme
-- **İstatistikler**: Dashboard ile genel istatistikler
+## Teknolojiler
+
+### Android (Kotlin)
+- **Kotlin**: Modern Android geliştirme
+- **Retrofit**: API çağrıları
+- **Coroutines**: Asenkron işlemler
+- **ViewBinding**: Güvenli view erişimi
+- **Material Design**: Modern UI bileşenleri
+- **Lottie**: Animasyonlar
+
+### Backend (PHP)
+- **PHP**: API sunucusu
+- **cURL**: HTTP istekleri
+- **JSON**: Veri formatı
 
 ## Kurulum
 
-### Gereksinimler
-- Android Studio
+### Android Uygulaması
+
+1. **Projeyi klonlayın:**
+```bash
+git clone https://github.com/yourusername/SnapTikPro.git
+cd SnapTikPro
+```
+
+2. **Android Studio'da açın:**
+- Android Studio'yu açın
+- "Open an existing project" seçin
+- SnapTikPro klasörünü seçin
+
+3. **API URL'sini güncelleyin:**
+`app/src/main/java/com/snaptikpro/app/MainActivity.kt` dosyasında:
+```kotlin
+private const val BASE_URL = "https://your-domain.com/api/"
+```
+
+4. **Uygulamayı derleyin:**
+- Build > Make Project
+- Run > Run 'app'
+
+### PHP API
+
+1. **API dosyalarını sunucuya yükleyin:**
+```bash
+# api/ klasörünü web sunucunuza yükleyin
+```
+
+2. **Sunucu gereksinimleri:**
 - PHP 7.4+
-- MySQL 5.7+
-- Apache/Nginx web sunucusu
+- cURL extension
+- mod_rewrite (Apache)
 
-### Android Uygulaması Kurulumu
-
-1. **Projeyi klonlayın**:
-```bash
-git clone <repository-url>
-cd trlike-smm-app
+3. **API URL'sini test edin:**
+```
+https://your-domain.com/api/?action=download&url=VIDEO_URL&platform=tiktok
 ```
 
-2. **Google Services yapılandırması**:
-   - Google Cloud Console'da yeni bir proje oluşturun
-   - Google Sign-In API'yi etkinleştirin
-   - `google-services.json` dosyasını `app/` klasörüne ekleyin
-   - Google Play Billing için ürün ID'lerini yapılandırın
+## Kullanım
 
-3. **API URL'sini güncelleyin**:
-   - `app/src/main/java/com/trlike/smmapp/data/api/RetrofitClient.kt` dosyasında `BASE_URL`'yi güncelleyin
-
-4. **Uygulamayı derleyin**:
-```bash
-./gradlew build
-```
-
-### Admin Paneli Kurulumu
-
-1. **Veritabanını oluşturun**:
-```sql
-CREATE DATABASE trlike_smm;
-```
-
-2. **Veritabanı bağlantısını yapılandırın**:
-   - `admin/config/database.php` dosyasında veritabanı bilgilerini güncelleyin
-
-3. **Web sunucusuna yükleyin**:
-   - `admin/` klasörünü web sunucunuza yükleyin
-   - `api/` klasörünü web sunucunuza yükleyin
-
-4. **Admin kullanıcısı oluşturun**:
-```sql
-INSERT INTO users (id, email, name, is_admin, password) 
-VALUES (UNIQID(), 'admin@example.com', 'Admin', 1, '$2y$10$...');
-```
+1. **Uygulamayı açın**
+2. **Platform seçin** (TikTok, Instagram, Facebook, Twitter)
+3. **Video linkini yapıştırın** veya "Paste" butonuna basın
+4. **Download butonuna basın**
+5. **İndirilenler klasöründen videoları görüntüleyin**
 
 ## API Endpoints
 
-### Kimlik Doğrulama
-- `POST /api/auth` - Google ile giriş
+### Video İndirme
+```
+GET /api/?action=download&url={VIDEO_URL}&platform={PLATFORM}
+```
 
-### Kullanıcı
-- `GET /api/user` - Kullanıcı profili
-- `PUT /api/user` - Kredi güncelleme
+**Parametreler:**
+- `url`: Video linki
+- `platform`: Platform (tiktok, instagram, facebook, twitter)
 
-### Hizmetler
-- `GET /api/services` - Tüm hizmetler
-- `GET /api/services?category=followers` - Kategoriye göre hizmetler
+**Örnek:**
+```
+GET /api/?action=download&url=https://www.tiktok.com/@user/video/123456789&platform=tiktok
+```
 
-### Siparişler
-- `GET /api/orders` - Kullanıcı siparişleri
-- `GET /api/orders?id=ORDER_ID` - Belirli sipariş
-- `POST /api/orders` - Yeni sipariş oluşturma
+**Yanıt:**
+```json
+{
+  "success": true,
+  "message": "Video found",
+  "downloadUrl": "https://example.com/video.mp4",
+  "title": "Video Title",
+  "thumbnail": "https://example.com/thumb.jpg"
+}
+```
 
-### Kredi Paketleri
-- `GET /api/credit-packages` - Kredi paketleri
+## Dosya Yapısı
 
-### Kuponlar
-- `POST /api/coupons?action=validate` - Kupon doğrulama
-- `POST /api/coupons?action=apply` - Kupon uygulama
+```
+SnapTikPro/
+├── app/
+│   └── src/main/
+│       ├── java/com/snaptikpro/app/
+│       │   ├── MainActivity.kt
+│       │   ├── SplashActivity.kt
+│       │   ├── DownloadsActivity.kt
+│       │   ├── DownloadsAdapter.kt
+│       │   ├── network/
+│       │   │   └── ApiService.kt
+│       │   └── utils/
+│       │       └── DownloadManager.kt
+│       └── res/
+│           ├── layout/
+│           ├── drawable/
+│           ├── values/
+│           └── raw/
+├── api/
+│   ├── index.php
+│   ├── VideoDownloader.php
+│   └── .htaccess
+└── README.md
+```
 
-## Güvenlik
+## Özelleştirme
 
-### Android Uygulaması
-- ProGuard/R8 ile kod karıştırma
-- API anahtarlarını güvenli şekilde saklama
-- SSL pinning (production'da)
+### Renk Teması
+`app/src/main/res/values/colors.xml` dosyasında renkleri değiştirin:
 
-### Admin Paneli
-- Session tabanlı kimlik doğrulama
-- SQL injection koruması
-- XSS koruması
-- CSRF koruması
+```xml
+<color name="accent">#00FF88</color>
+<color name="background">#121212</color>
+```
 
-## Üretim Hazırlığı
+### API Entegrasyonu
+`api/VideoDownloader.php` dosyasında gerçek API entegrasyonu ekleyin:
 
-### Android Uygulaması
-1. Release build oluşturun
-2. Google Play Console'da uygulama yayınlayın
-3. Google Play Billing ürünlerini yapılandırın
-4. Firebase Analytics ekleyin
+```php
+private function getTikTokVideoInfo($videoId) {
+    // Gerçek TikTok API entegrasyonu
+    $apiUrl = "https://api.tiktok.com/video/{$videoId}";
+    $response = $this->makeRequest($apiUrl);
+    return json_decode($response, true);
+}
+```
 
-### Admin Paneli
-1. HTTPS sertifikası ekleyin
-2. Güvenlik duvarı yapılandırın
-3. Veritabanı yedekleme sistemi kurun
-4. Monitoring ve logging ekleyin
+## Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır.
 
 ## Katkıda Bulunma
 
@@ -130,20 +165,20 @@ VALUES (UNIQID(), 'admin@example.com', 'Admin', 1, '$2y$10$...');
 4. Push yapın (`git push origin feature/amazing-feature`)
 5. Pull Request oluşturun
 
-## Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır.
-
 ## İletişim
 
-- Email: support@trlike.com
-- Website: https://trlike.com
+- **Email**: your-email@example.com
+- **GitHub**: https://github.com/yourusername
 
 ## Sürüm Geçmişi
 
 ### v1.0.0
 - İlk sürüm
-- Temel SMM özellikleri
-- Google ile giriş
-- Admin paneli
-- API sistemi
+- TikTok, Instagram, Facebook, Twitter desteği
+- Modern dark theme
+- İndirilenler klasörü
+- Splash screen
+
+---
+
+**Not**: Bu uygulama eğitim amaçlıdır. Telif hakkı korumalı içeriklerin indirilmesi yasal olmayabilir. Kullanıcılar kendi sorumluluklarında kullanmalıdır.
