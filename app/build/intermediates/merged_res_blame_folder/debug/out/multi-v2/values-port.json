@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.snaptikpro.app-mergeDebugResources-48:/values-port/values-port.xml",
+            "outputFile": "com.snaptikpro.app-mergeDebugResources-52:/values-port/values-port.xml",
             "map": [
                 {
                     "source": "/home/ubuntu/.gradle/caches/transforms-3/0c94549e173926b625b714de813c7e22/transformed/appcompat-1.6.1/res/values-port/values-port.xml",

@@ -48,6 +48,11 @@
             android:name="com.snaptikpro.app.DownloadsActivity"
             android:exported="false"
             android:theme="@style/Theme.SnapTikPro" />
+        <activity
+            android:name="com.snaptikpro.app.VideoPlayerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

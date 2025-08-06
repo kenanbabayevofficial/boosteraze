@@ -37,11 +37,23 @@ class DownloadsActivity : AppCompatActivity() {
         loadDownloads()
     }
     
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        
+        if (requestCode == VideoPlayerActivity.REQUEST_CODE_VIDEO_PLAYER && resultCode == RESULT_OK) {
+            // Video was deleted from VideoPlayerActivity, refresh the list
+            loadDownloads()
+        }
+    }
+    
     private fun setupRecyclerView() {
         adapter = DownloadsAdapter(
             downloads = downloads,
             onItemClick = { downloadItem ->
                 playVideo(downloadItem)
+            },
+            onShareClick = { downloadItem ->
+                shareVideo(downloadItem)
             },
             onDeleteClick = { downloadItem ->
                 showDeleteDialog(downloadItem)
@@ -124,24 +136,43 @@ class DownloadsActivity : AppCompatActivity() {
         val file = File(downloadItem.path)
         if (file.exists()) {
             try {
+                val intent = Intent(this, VideoPlayerActivity::class.java).apply {
+                    putExtra("video_path", downloadItem.path)
+                }
+                startActivityForResult(intent, VideoPlayerActivity.REQUEST_CODE_VIDEO_PLAYER)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error opening video player: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
+            // Remove from list if file doesn't exist
+            removeFromList(downloadItem)
+        }
+    }
+    
+    private fun shareVideo(downloadItem: DownloadItem) {
+        try {
+            val file = File(downloadItem.path)
+            if (file.exists()) {
                 val uri = FileProvider.getUriForFile(
                     this,
                     "${packageName}.fileprovider",
                     file
                 )
                 
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.setDataAndType(uri, "video/*")
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "video/*"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    putExtra(Intent.EXTRA_SUBJECT, "Check out this video!")
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
                 
-                startActivity(intent)
-            } catch (e: Exception) {
-                Toast.makeText(this, getString(R.string.no_video_player), Toast.LENGTH_SHORT).show()
+                startActivity(Intent.createChooser(shareIntent, "Share video via"))
+            } else {
+                Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
-            // Remove from list if file doesn't exist
-            removeFromList(downloadItem)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error sharing video: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
     

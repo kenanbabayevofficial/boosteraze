@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.snaptikpro.app-mergeDebugResources-48:/values-as/values-as.xml",
+            "outputFile": "com.snaptikpro.app-mergeDebugResources-52:/values-as/values-as.xml",
             "map": [
                 {
                     "source": "/home/ubuntu/.gradle/caches/transforms-3/fe4ebd7c8fec48858550b9dfa489ec1a/transformed/core-1.9.0/res/values-as/values-as.xml",

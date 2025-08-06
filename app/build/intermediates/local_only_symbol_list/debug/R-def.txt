@@ -23,6 +23,7 @@ color transparent
 color warning
 color white
 drawable button_background
+drawable gradient_header
 drawable ic_back
 drawable ic_coupon
 drawable ic_delete
@@ -36,6 +37,7 @@ drawable ic_orders
 drawable ic_play
 drawable ic_privacy
 drawable ic_settings
+drawable ic_share
 drawable ic_support
 drawable ic_user
 drawable ic_wallet
@@ -50,13 +52,16 @@ id emptyLayout
 id etLink
 id headerLayout
 id ivBack
+id ivDelete
 id ivDownloads
 id ivHelp
 id ivLogo
 id ivPlay
 id ivSettings
+id ivShare
 id ivThumbnail
 id loadingAnimation
+id playerView
 id progressBar
 id rvDownloads
 id tvAppName
@@ -73,6 +78,7 @@ id tvVersion
 layout activity_downloads
 layout activity_main
 layout activity_splash
+layout activity_video_player
 layout item_download
 mipmap ic_launcher
 mipmap ic_launcher_round
