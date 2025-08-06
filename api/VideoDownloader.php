@@ -28,7 +28,7 @@ class VideoDownloader {
     }
     
     private function downloadTikTok($url) {
-        // Method 1: TikWM API (En güvenilir)
+        // Method 1: TikWM API (En güvenilir - API key gerektirmez)
         try {
             $apiUrl = "https://www.tikwm.com/api/?url=" . urlencode($url);
             $response = $this->makeRequest($apiUrl);
@@ -37,7 +37,7 @@ class VideoDownloader {
             if ($data['code'] === 0) {
                 return [
                     'success' => true,
-                    'message' => 'Video found',
+                    'message' => 'Video found via TikWM API',
                     'downloadUrl' => $data['data']['play'],
                     'title' => $data['data']['title'] ?? 'TikTok Video',
                     'thumbnail' => $data['data']['cover'] ?? ''
@@ -47,16 +47,9 @@ class VideoDownloader {
             // Continue to next method
         }
         
-        // Method 2: TikTok Web Scraping
+        // Method 2: TikTok Web Scraping (Fallback)
         try {
             return $this->downloadTikTokWebScraping($url);
-        } catch (Exception $e) {
-            // Continue to next method
-        }
-        
-        // Method 3: Alternative API
-        try {
-            return $this->downloadTikTokAlternative($url);
         } catch (Exception $e) {
             throw new Exception('All TikTok download methods failed: ' . $e->getMessage());
         }
@@ -88,37 +81,6 @@ class VideoDownloader {
         }
         
         throw new Exception('Video URL not found in HTML');
-    }
-    
-    private function downloadTikTokAlternative($url) {
-        // Alternative TikTok API
-        $videoId = $this->extractTikTokVideoId($url);
-        if (!$videoId) {
-            throw new Exception('Invalid TikTok URL');
-        }
-        
-        // Use TikTok's internal API
-        $apiUrl = "https://www.tiktok.com/api/item/detail/?itemId=" . $videoId;
-        $response = $this->makeRequest($apiUrl, [
-            'headers' => [
-                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                'Referer: https://www.tiktok.com/',
-                'Accept: application/json'
-            ]
-        ]);
-        
-        $data = json_decode($response, true);
-        if (isset($data['itemInfo']['itemStruct']['video']['playAddr'][0])) {
-            return [
-                'success' => true,
-                'message' => 'Video found via alternative API',
-                'downloadUrl' => $data['itemInfo']['itemStruct']['video']['playAddr'][0],
-                'title' => $data['itemInfo']['itemStruct']['desc'] ?? 'TikTok Video',
-                'thumbnail' => $data['itemInfo']['itemStruct']['video']['cover'] ?? ''
-            ];
-        }
-        
-        throw new Exception('Video not found in alternative API');
     }
     
     private function downloadInstagram($url) {
