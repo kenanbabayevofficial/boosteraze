@@ -3661,7 +3661,6 @@ string all_downloads_cleared
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior
-string auto_download_message
 string bottom_sheet_behavior
 string bottomsheet_action_collapse
 string bottomsheet_action_expand
@@ -3701,7 +3700,6 @@ string icon_content_description
 string instagram
 string invalid_link
 string item_view_role_description
-string just_paste
 string link_pasted
 string m3_sys_motion_easing_emphasized
 string m3_sys_motion_easing_emphasized_accelerate
@@ -3801,7 +3799,6 @@ string mtrl_timepicker_confirm
 string nav_app_bar_navigate_up_description
 string nav_app_bar_open_drawer_description
 string no_clipboard_text
-string no_download
 string no_downloads
 string no_video_player
 string no_video_url
@@ -3825,11 +3822,9 @@ string side_sheet_behavior
 string status_bar_notification_info_overflow
 string storage_permission_granted
 string tiktok
-string tiktok_link_found
 string twitter
 string version
 string view_downloads
-string yes_download
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

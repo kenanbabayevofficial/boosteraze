@@ -80,7 +80,6 @@ raw loading_animation
 string about
 string all_downloads_cleared
 string app_name
-string auto_download_message
 string cancel
 string clear
 string clear_all
@@ -102,10 +101,8 @@ string help
 string help_coming_soon
 string instagram
 string invalid_link
-string just_paste
 string link_pasted
 string no_clipboard_text
-string no_download
 string no_downloads
 string no_video_player
 string no_video_url
@@ -117,11 +114,9 @@ string settings
 string settings_coming_soon
 string storage_permission_granted
 string tiktok
-string tiktok_link_found
 string twitter
 string version
 string view_downloads
-string yes_download
 style Theme.SnapTikPro
 style Theme.SnapTikPro.Splash
 xml file_paths
