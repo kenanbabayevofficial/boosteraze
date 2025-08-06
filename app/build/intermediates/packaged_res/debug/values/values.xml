@@ -33,6 +33,7 @@
     <string name="developer">Tərtibatçı: SnapTik Pro Komandası</string>
     <string name="download">Yüklə</string>
     <string name="download_another">Başqa yüklə</string>
+    <string name="download_anyway">Yine de İndir</string>
     <string name="download_complete">Yükləmə tamamlandı</string>
     <string name="download_complete_message">Video \'%1$s\' uğurla yükləndi.</string>
     <string name="download_complete_title">Yükləmə tamamlandı!</string>
@@ -64,6 +65,8 @@
     <string name="tiktok_link_found_downloading">TikTok linki bulundu, indiriliyor...</string>
     <string name="twitter">Twitter</string>
     <string name="version">Versiya 1.0</string>
+    <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
     <string name="view_downloads">Yükləmələrə bax</string>
     <style name="Theme.SnapTikPro" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         

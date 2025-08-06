@@ -151,21 +151,28 @@ class MainActivity : AppCompatActivity() {
             try {
                 val response = apiService.downloadTikTokVideo(link)
                 
-                if (response.code == 0 && response.data != null) {
-                    val videoUrl = response.data.play ?: response.data.wmplay
-                    val title = response.data.title ?: "TikTok Video"
-                    val thumbnail = response.data.cover
-                    
-                    if (videoUrl != null) {
-                        downloadFile(videoUrl, title)
-                    } else {
-                        hideDownloadProgress()
-                        Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
-                    }
-                } else {
-                    hideDownloadProgress()
-                    Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
-                }
+                               if (response.code == 0 && response.data != null) {
+                   val videoUrl = response.data.play ?: response.data.wmplay
+                   val title = response.data.title ?: "TikTok Video"
+                   val thumbnail = response.data.cover
+
+                   if (videoUrl != null) {
+                       // Check if video already exists
+                       val videoTitle = "Video ${(1000000000..9999999999).random()}"
+                       if (isVideoAlreadyDownloaded(videoTitle)) {
+                           hideDownloadProgress()
+                           showVideoAlreadyExistsDialog(title)
+                       } else {
+                           downloadFile(videoUrl, title)
+                       }
+                   } else {
+                       hideDownloadProgress()
+                       Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
+                   }
+               } else {
+                   hideDownloadProgress()
+                   Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
+               }
             } catch (e: Exception) {
                 hideDownloadProgress()
                 Toast.makeText(this@MainActivity, "Network error: ${e.message}", Toast.LENGTH_LONG).show()
@@ -369,12 +376,48 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
-    private fun isTikTokLink(text: String): Boolean {
-        return text.contains("tiktok.com") || 
-               text.contains("vm.tiktok.com") || 
-               text.contains("vt.tiktok.com") ||
-               text.contains("www.tiktok.com")
-    }
+               private fun isTikTokLink(text: String): Boolean {
+               return text.contains("tiktok.com") ||
+                      text.contains("vm.tiktok.com") ||
+                      text.contains("vt.tiktok.com") ||
+                      text.contains("www.tiktok.com")
+           }
+           
+           private fun isVideoAlreadyDownloaded(videoTitle: String): Boolean {
+               val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
+               
+               if (downloadsDir.exists()) {
+                   val files = downloadsDir.listFiles { file ->
+                       file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
+                   }
+                   
+                   files?.forEach { file ->
+                       if (file.exists() && file.length() > 0) {
+                           // Check if any existing video has similar title
+                           val existingTitle = "Video ${file.nameWithoutExtension}"
+                           if (existingTitle == videoTitle) {
+                               return true
+                           }
+                       }
+                   }
+               }
+               return false
+           }
+           
+           private fun showVideoAlreadyExistsDialog(videoTitle: String) {
+               AlertDialog.Builder(this)
+                   .setTitle(getString(R.string.video_already_exists_title))
+                   .setMessage(getString(R.string.video_already_exists_message).format(videoTitle))
+                   .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
+                       openDownloads()
+                   }
+                   .setNegativeButton(getString(R.string.download_anyway)) { _, _ ->
+                       // Force download anyway
+                       downloadVideo()
+                   }
+                   .setNeutralButton(getString(R.string.cancel), null)
+                   .show()
+           }
     
 
     

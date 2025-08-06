@@ -3939,6 +3939,7 @@ string clear_text_end_icon_content_description
 string developer
 string download
 string download_another
+string download_anyway
 string download_complete
 string download_complete_message
 string download_complete_title
@@ -4140,6 +4141,8 @@ string tiktok
 string tiktok_link_found_downloading
 string twitter
 string version
+string video_already_exists_message
+string video_already_exists_title
 string view_downloads
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

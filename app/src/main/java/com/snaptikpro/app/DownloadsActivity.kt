@@ -268,4 +268,26 @@ class DownloadsActivity : AppCompatActivity() {
         val size: Long,
         val date: String
     )
+    
+    // Check if video already exists
+    fun isVideoAlreadyDownloaded(videoTitle: String): Boolean {
+        val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
+        
+        if (downloadsDir.exists()) {
+            val files = downloadsDir.listFiles { file ->
+                file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
+            }
+            
+            files?.forEach { file ->
+                if (file.exists() && file.length() > 0) {
+                    // Check if any existing video has similar title
+                    val existingTitle = "Video ${file.nameWithoutExtension}"
+                    if (existingTitle == videoTitle) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
 }

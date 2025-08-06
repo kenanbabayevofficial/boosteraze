@@ -46,5 +46,10 @@
     <!-- How to Use Section -->
     <string name="how_to_use_title">📱 Uygulama Nasıl Kullanılır?</string>
     <string name="how_to_use_description">1️⃣ TikTok video linkini kopyalayın\n2️⃣ Linki yukarıdaki alana yapıştırın\n3️⃣ Yüklə butonuna basın\n4️⃣ Video otomatik olarak indirilecek\n5️⃣ İndirilenler bölümünden videolarınızı görüntüleyin\n6️⃣ Videoları oynatın, paylaşın veya silin</string>
+    
+    <!-- Video Already Exists Dialog -->
+    <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
+    <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="download_anyway">Yine de İndir</string>
 
 </resources>
