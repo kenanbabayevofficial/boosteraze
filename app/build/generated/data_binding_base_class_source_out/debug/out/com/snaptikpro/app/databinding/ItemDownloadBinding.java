@@ -21,6 +21,9 @@ public final class ItemDownloadBinding implements ViewBinding {
   private final CardView rootView;
 
   @NonNull
+  public final ImageView btnDelete;
+
+  @NonNull
   public final ImageView ivPlay;
 
   @NonNull
@@ -35,10 +38,11 @@ public final class ItemDownloadBinding implements ViewBinding {
   @NonNull
   public final TextView tvTitle;
 
-  private ItemDownloadBinding(@NonNull CardView rootView, @NonNull ImageView ivPlay,
-      @NonNull ImageView ivThumbnail, @NonNull TextView tvDate, @NonNull TextView tvSize,
-      @NonNull TextView tvTitle) {
+  private ItemDownloadBinding(@NonNull CardView rootView, @NonNull ImageView btnDelete,
+      @NonNull ImageView ivPlay, @NonNull ImageView ivThumbnail, @NonNull TextView tvDate,
+      @NonNull TextView tvSize, @NonNull TextView tvTitle) {
     this.rootView = rootView;
+    this.btnDelete = btnDelete;
     this.ivPlay = ivPlay;
     this.ivThumbnail = ivThumbnail;
     this.tvDate = tvDate;
@@ -73,6 +77,12 @@ public final class ItemDownloadBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnDelete;
+      ImageView btnDelete = ViewBindings.findChildViewById(rootView, id);
+      if (btnDelete == null) {
+        break missingId;
+      }
+
       id = R.id.ivPlay;
       ImageView ivPlay = ViewBindings.findChildViewById(rootView, id);
       if (ivPlay == null) {
@@ -103,8 +113,8 @@ public final class ItemDownloadBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemDownloadBinding((CardView) rootView, ivPlay, ivThumbnail, tvDate, tvSize,
-          tvTitle);
+      return new ItemDownloadBinding((CardView) rootView, btnDelete, ivPlay, ivThumbnail, tvDate,
+          tvSize, tvTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

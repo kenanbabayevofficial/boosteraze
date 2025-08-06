@@ -25,6 +25,7 @@ color white
 drawable button_background
 drawable ic_back
 drawable ic_coupon
+drawable ic_delete
 drawable ic_download
 drawable ic_google
 drawable ic_help
@@ -41,6 +42,7 @@ drawable ic_wallet
 drawable input_background
 drawable splash_background
 drawable tab_background
+id btnDelete
 id btnDownload
 id btnPaste
 id cardMain
