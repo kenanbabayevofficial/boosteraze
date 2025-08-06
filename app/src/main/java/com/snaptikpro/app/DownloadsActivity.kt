@@ -114,21 +114,21 @@ class DownloadsActivity : AppCompatActivity() {
                 
                 startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "No video player found: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.no_video_player), Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
         }
     }
     
     private fun showClearAllDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Clear All Downloads")
-            .setMessage("Are you sure you want to delete all downloaded videos?")
-            .setPositiveButton("Clear") { _, _ ->
+            .setTitle(getString(R.string.clear_all_dialog_title))
+            .setMessage(getString(R.string.clear_all_dialog_message))
+            .setPositiveButton(getString(R.string.clear)) { _, _ ->
                 clearAllDownloads()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
     
@@ -144,7 +144,7 @@ class DownloadsActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
         updateEmptyState()
         
-        Toast.makeText(this, "All downloads cleared", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.all_downloads_cleared), Toast.LENGTH_SHORT).show()
     }
     
     data class DownloadItem(

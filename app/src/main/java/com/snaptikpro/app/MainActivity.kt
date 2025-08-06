@@ -83,11 +83,13 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun setupUI() {
-        // Platform tabs
+        // Platform tabs - Only TikTok supported
         binding.tvTikTok.setOnClickListener { selectPlatform("tiktok", binding.tvTikTok) }
-        binding.tvInstagram.setOnClickListener { selectPlatform("instagram", binding.tvInstagram) }
-        binding.tvFacebook.setOnClickListener { selectPlatform("facebook", binding.tvFacebook) }
-        binding.tvTwitter.setOnClickListener { selectPlatform("twitter", binding.tvTwitter) }
+        
+        // Hide other platforms
+        binding.tvInstagram.visibility = View.GONE
+        binding.tvFacebook.visibility = View.GONE
+        binding.tvTwitter.visibility = View.GONE
         
         // Buttons
         binding.btnPaste.setOnClickListener { pasteFromClipboard() }
@@ -105,21 +107,10 @@ class MainActivity : AppCompatActivity() {
     private fun selectPlatform(platform: String, selectedView: View) {
         selectedPlatform = platform
         
-        // Reset all tabs
+        // Reset TikTok tab
         binding.tvTikTok.setBackgroundResource(0)
-        binding.tvInstagram.setBackgroundResource(0)
-        binding.tvFacebook.setBackgroundResource(0)
-        binding.tvTwitter.setBackgroundResource(0)
-        
         binding.tvTikTok.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
-        binding.tvInstagram.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
-        binding.tvFacebook.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
-        binding.tvTwitter.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
-        
         binding.tvTikTok.isSelected = false
-        binding.tvInstagram.isSelected = false
-        binding.tvFacebook.isSelected = false
-        binding.tvTwitter.isSelected = false
         
         // Set selected tab
         selectedView.setBackgroundResource(R.drawable.tab_background)
@@ -131,14 +122,14 @@ class MainActivity : AppCompatActivity() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         if (clipboard.hasPrimaryClip()) {
             val clipData = clipboard.primaryClip
-            if (clipData != null && clipData.itemCount > 0) {
-                val text = clipData.getItemAt(0).text.toString()
-                binding.etLink.setText(text)
-                Toast.makeText(this, "Link pasted", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(this, "No text in clipboard", Toast.LENGTH_SHORT).show()
+                    if (clipData != null && clipData.itemCount > 0) {
+            val text = clipData.getItemAt(0).text.toString()
+            binding.etLink.setText(text)
+            Toast.makeText(this, getString(R.string.link_pasted), Toast.LENGTH_SHORT).show()
         }
+    } else {
+        Toast.makeText(this, getString(R.string.no_clipboard_text), Toast.LENGTH_SHORT).show()
+    }
     }
     
     private fun downloadVideo() {
@@ -156,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         
         // Only support TikTok for now with TikWM API
         if (selectedPlatform != "tiktok") {
-            Toast.makeText(this, "Only TikTok is supported with TikWM API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.only_tiktok_supported), Toast.LENGTH_SHORT).show()
             return
         }
         
@@ -175,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                         downloadFile(videoUrl, title)
                     } else {
                         hideDownloadProgress()
-                        Toast.makeText(this@MainActivity, "No video URL found", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
                     }
                 } else {
                     hideDownloadProgress()
@@ -264,16 +255,16 @@ class MainActivity : AppCompatActivity() {
     
     private fun showDownloadSuccessDialog(title: String, filePath: String) {
         AlertDialog.Builder(this)
-            .setTitle("Download Complete!")
-            .setMessage("Video '$title' has been downloaded successfully.")
-            .setPositiveButton("View Downloads") { _, _ ->
+            .setTitle(getString(R.string.download_complete_title))
+            .setMessage(getString(R.string.download_complete_message, title))
+            .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
                 openDownloads()
             }
-            .setNegativeButton("Download Another") { _, _ ->
+            .setNegativeButton(getString(R.string.download_another)) { _, _ ->
                 binding.etLink.text.clear()
                 binding.etLink.requestFocus()
             }
-            .setNeutralButton("Play Video") { _, _ ->
+            .setNeutralButton(getString(R.string.play_video)) { _, _ ->
                 playVideo(filePath)
             }
             .show()
@@ -295,10 +286,10 @@ class MainActivity : AppCompatActivity() {
                 
                 startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "No video player found: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.no_video_player), Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -326,7 +317,7 @@ class MainActivity : AppCompatActivity() {
         
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Storage permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.storage_permission_granted), Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, getString(R.string.permission_required), Toast.LENGTH_LONG).show()
             }
@@ -340,11 +331,11 @@ class MainActivity : AppCompatActivity() {
     
     private fun openSettings() {
         // TODO: Implement settings activity
-        Toast.makeText(this, "Settings coming soon", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.settings_coming_soon), Toast.LENGTH_SHORT).show()
     }
     
     private fun openHelp() {
         // TODO: Implement help activity
-        Toast.makeText(this, "Help coming soon", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.help_coming_soon), Toast.LENGTH_SHORT).show()
     }
 }
