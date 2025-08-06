@@ -21,7 +21,6 @@ import com.snaptikpro.app.databinding.ActivityMainBinding
 import com.snaptikpro.app.network.ApiService
 import com.snaptikpro.app.network.TikWMResponse
 import com.snaptikpro.app.utils.DownloadManager
-import com.snaptikpro.app.utils.DayNightManager
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -59,9 +58,6 @@ class MainActivity : AppCompatActivity() {
         setupDownloadManager()
         setupUI()
         checkPermissions()
-        
-        // Apply day/night theme
-        applyDayNightTheme()
         
         // Check clipboard for TikTok link on app start
         checkClipboardForTikTokLink()
@@ -386,26 +382,10 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
     
-    private fun applyDayNightTheme() {
-        DayNightManager.applyTheme(this)
-        
-        val isNight = DayNightManager.isNightMode(this)
-        val themeName = if (isNight) "Gece" else "Gündüz"
-        
-        android.util.Log.d("MainActivity", "Applied $themeName theme")
-        
-        // Show theme change notification
-        if (DayNightManager.shouldUpdateTheme(this)) {
-            Toast.makeText(this, "$themeName teması uygulandı", Toast.LENGTH_SHORT).show()
-        }
-    }
+
     
     override fun onResume() {
         super.onResume()
-        // Check if theme should be updated
-        if (DayNightManager.shouldUpdateTheme(this)) {
-            applyDayNightTheme()
-        }
         // Check clipboard when returning to the app
         checkClipboardForTikTokLink()
     }
