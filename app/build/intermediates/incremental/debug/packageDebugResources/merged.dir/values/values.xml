@@ -59,6 +59,7 @@
     <string name="settings_coming_soon">Tənzimləmələr tezliklə</string>
     <string name="storage_permission_granted">Daxili yaddaş icazəsi verildi</string>
     <string name="tiktok">TikTok</string>
+    <string name="tiktok_link_found_downloading">TikTok linki bulundu, indiriliyor...</string>
     <string name="twitter">Twitter</string>
     <string name="version">Versiya 1.0</string>
     <string name="view_downloads">Yükləmələrə bax</string>

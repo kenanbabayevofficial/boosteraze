@@ -3821,9 +3821,10 @@ int string side_sheet_behavior 0x7f1000bd
 int string status_bar_notification_info_overflow 0x7f1000be
 int string storage_permission_granted 0x7f1000bf
 int string tiktok 0x7f1000c0
-int string twitter 0x7f1000c1
-int string version 0x7f1000c2
-int string view_downloads 0x7f1000c3
+int string tiktok_link_found_downloading 0x7f1000c1
+int string twitter 0x7f1000c2
+int string version 0x7f1000c3
+int string view_downloads 0x7f1000c4
 int style AlertDialog_AppCompat 0x7f110000
 int style AlertDialog_AppCompat_Light 0x7f110001
 int style Animation_AppCompat_Dialog 0x7f110002

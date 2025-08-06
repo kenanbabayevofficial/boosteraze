@@ -3822,6 +3822,7 @@ string side_sheet_behavior
 string status_bar_notification_info_overflow
 string storage_permission_granted
 string tiktok
+string tiktok_link_found_downloading
 string twitter
 string version
 string view_downloads

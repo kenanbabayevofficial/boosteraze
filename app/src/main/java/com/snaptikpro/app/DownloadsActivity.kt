@@ -4,9 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.snaptikpro.app.databinding.ActivityDownloadsBinding
 import java.io.File
@@ -98,26 +100,23 @@ class DownloadsActivity : AppCompatActivity() {
                 android.util.Log.d("DownloadsActivity", "Total downloads in list: ${downloads.size}")
             } else {
                 android.util.Log.w("DownloadsActivity", "Downloads directory does not exist")
-                downloads.clear()
-                adapter.notifyDataSetChanged()
             }
+            
+            updateEmptyState()
+            
         } catch (e: Exception) {
             android.util.Log.e("DownloadsActivity", "Error loading downloads: ${e.message}")
             Toast.makeText(this, "Error loading downloads: ${e.message}", Toast.LENGTH_LONG).show()
-            downloads.clear()
-            adapter.notifyDataSetChanged()
         }
-        
-        updateEmptyState()
     }
     
     private fun updateEmptyState() {
         if (downloads.isEmpty()) {
-            binding.emptyLayout.visibility = android.view.View.VISIBLE
-            binding.rvDownloads.visibility = android.view.View.GONE
+            binding.rvDownloads.visibility = View.GONE
+            binding.emptyLayout.visibility = View.VISIBLE
         } else {
-            binding.emptyLayout.visibility = android.view.View.GONE
-            binding.rvDownloads.visibility = android.view.View.VISIBLE
+            binding.rvDownloads.visibility = View.VISIBLE
+            binding.emptyLayout.visibility = View.GONE
         }
     }
     
@@ -125,7 +124,7 @@ class DownloadsActivity : AppCompatActivity() {
         val file = File(downloadItem.path)
         if (file.exists()) {
             try {
-                val uri = androidx.core.content.FileProvider.getUriForFile(
+                val uri = FileProvider.getUriForFile(
                     this,
                     "${packageName}.fileprovider",
                     file

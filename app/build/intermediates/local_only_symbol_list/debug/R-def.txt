@@ -114,6 +114,7 @@ string settings
 string settings_coming_soon
 string storage_permission_granted
 string tiktok
+string tiktok_link_found_downloading
 string twitter
 string version
 string view_downloads
