@@ -20,6 +20,9 @@ class DownloadManager(private val context: Context) {
     }
     
     fun downloadFile(url: String, file: File, callback: DownloadCallback) {
+        android.util.Log.d("DownloadManager", "Starting download: $url")
+        android.util.Log.d("DownloadManager", "File path: ${file.absolutePath}")
+        
         scope.launch {
             try {
                 val request = Request.Builder()
@@ -48,6 +51,9 @@ class DownloadManager(private val context: Context) {
                 val inputStream = body.byteStream()
                 val outputStream = FileOutputStream(file)
                 
+                android.util.Log.d("DownloadManager", "Content length: $contentLength")
+                android.util.Log.d("DownloadManager", "File created: ${file.exists()}")
+                
                 val buffer = ByteArray(8192)
                 var bytesRead: Int
                 var totalBytesRead = 0L
@@ -66,6 +72,9 @@ class DownloadManager(private val context: Context) {
                 
                 outputStream.close()
                 inputStream.close()
+                
+                android.util.Log.d("DownloadManager", "Download completed. File size: ${file.length()}")
+                android.util.Log.d("DownloadManager", "File exists: ${file.exists()}")
                 
                 withContext(Dispatchers.Main) {
                     callback.onSuccess(file)

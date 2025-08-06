@@ -49,27 +49,40 @@ class DownloadsActivity : AppCompatActivity() {
     }
     
     private fun loadDownloads() {
-        val downloadsDir = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
-        if (downloadsDir.exists()) {
-            val files = downloadsDir.listFiles { file ->
-                file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
-            }
+        try {
+            val downloadsDir = File(getExternalFilesDir(null), "SnapTikPro")
+            android.util.Log.d("DownloadsActivity", "Downloads directory: ${downloadsDir.absolutePath}")
+            android.util.Log.d("DownloadsActivity", "Directory exists: ${downloadsDir.exists()}")
             
-            downloads.clear()
-            files?.forEach { file ->
-                downloads.add(
-                    DownloadItem(
-                        title = file.nameWithoutExtension,
-                        path = file.absolutePath,
-                        size = file.length(),
-                        date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                            .format(Date(file.lastModified()))
+            if (downloadsDir.exists()) {
+                val files = downloadsDir.listFiles { file ->
+                    file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
+                }
+                
+                android.util.Log.d("DownloadsActivity", "Found ${files?.size ?: 0} video files")
+                
+                downloads.clear()
+                files?.forEach { file ->
+                    android.util.Log.d("DownloadsActivity", "File: ${file.name}, Size: ${file.length()}")
+                    downloads.add(
+                        DownloadItem(
+                            title = file.nameWithoutExtension,
+                            path = file.absolutePath,
+                            size = file.length(),
+                            date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                .format(Date(file.lastModified()))
+                        )
                     )
-                )
+                }
+                
+                downloads.sortByDescending { it.date }
+                adapter.notifyDataSetChanged()
+            } else {
+                android.util.Log.w("DownloadsActivity", "Downloads directory does not exist")
             }
-            
-            downloads.sortByDescending { it.date }
-            adapter.notifyDataSetChanged()
+        } catch (e: Exception) {
+            android.util.Log.e("DownloadsActivity", "Error loading downloads: ${e.message}")
+            Toast.makeText(this, "Error loading downloads: ${e.message}", Toast.LENGTH_LONG).show()
         }
         
         updateEmptyState()
