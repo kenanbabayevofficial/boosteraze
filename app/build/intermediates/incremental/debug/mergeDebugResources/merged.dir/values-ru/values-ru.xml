@@ -33,18 +33,43 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Поделиться с помощью"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Поделиться с помощью <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Свернуть"</string>
+    <string name="about">О приложении</string>
+    <string name="all_downloads_cleared">Все загрузки очищены</string>
+    <string name="app_name">SnapTik Pro</string>
     <string name="bottomsheet_action_collapse">Свернуть нижний экран</string>
     <string name="bottomsheet_action_expand">Развернуть нижний экран</string>
     <string name="bottomsheet_action_expand_halfway">Развернуть наполовину</string>
     <string name="bottomsheet_drag_handle_clicked">Двойное нажатие на маркер перемещения</string>
     <string name="bottomsheet_drag_handle_content_description">Маркер перемещения</string>
+    <string name="cancel">Отмена</string>
     <string name="character_counter_content_description">Введено символов: %1$d из %2$d</string>
     <string name="character_counter_overflowed_content_description">Превышено ограничение на количество символов (%1$d из %2$d)</string>
+    <string name="clear">Очистить</string>
+    <string name="clear_all">Очистить все</string>
+    <string name="clear_all_dialog_message">Вы уверены, что хотите удалить все загруженные видео?</string>
+    <string name="clear_all_dialog_title">Очистить все загрузки</string>
     <string name="clear_text_end_icon_content_description">Очистить текстовое поле</string>
+    <string name="developer">Разработчик: Команда SnapTik Pro</string>
+    <string name="download">Скачать</string>
+    <string name="download_another">Скачать еще</string>
+    <string name="download_complete">Загрузка завершена</string>
+    <string name="download_complete_message">Видео \'%1$s\' успешно загружено.</string>
+    <string name="download_complete_title">Загрузка завершена!</string>
+    <string name="download_failed">Загрузка не удалась</string>
+    <string name="downloading">Загрузка...</string>
+    <string name="downloads">Загрузки</string>
+    <string name="enter_link">Введите ссылку</string>
     <string name="error_icon_content_description">Ошибка</string>
     <string name="exposed_dropdown_menu_content_description">Показать раскрывающееся меню</string>
+    <string name="facebook">Facebook</string>
+    <string name="file_not_found">Файл не найден</string>
+    <string name="help">Помощь</string>
+    <string name="help_coming_soon">Помощь скоро</string>
     <string name="icon_content_description">Значок диалогового окна</string>
+    <string name="instagram">Instagram</string>
+    <string name="invalid_link">Неверная ссылка</string>
     <string name="item_view_role_description">Вкладка</string>
+    <string name="link_pasted">Ссылка вставлена</string>
     <string name="material_clock_toggle_content_description">Выберите AM (до полудня) или PM (после полудня)</string>
     <string name="material_hour_24h_suffix">%1$s ч.</string>
     <string name="material_hour_selection">Выберите час</string>
@@ -96,7 +121,22 @@
     <string name="mtrl_timepicker_confirm">ОК</string>
     <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Перейти вверх"</string>
     <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Открыть панель навигации"</string>
+    <string name="no_clipboard_text">В буфере обмена нет текста</string>
+    <string name="no_downloads">Пока нет загрузок</string>
+    <string name="no_video_player">Видеоплеер не найден</string>
+    <string name="no_video_url">URL видео не найден</string>
+    <string name="only_tiktok_supported">Поддерживается только TikTok</string>
     <string name="password_toggle_content_description">Показать пароль</string>
+    <string name="paste">Вставить</string>
+    <string name="permission_required">Требуется разрешение на хранилище</string>
+    <string name="play_video">Воспроизвести видео</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Поиск"</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_coming_soon">Настройки скоро</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">">999"</string>
+    <string name="storage_permission_granted">Разрешение на хранилище предоставлено</string>
+    <string name="tiktok">TikTok</string>
+    <string name="twitter">Twitter</string>
+    <string name="version">Версия 1.0</string>
+    <string name="view_downloads">Просмотр загрузок</string>
 </resources>
