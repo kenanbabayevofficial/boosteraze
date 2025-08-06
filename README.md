@@ -1,192 +1,136 @@
-# SnapTik Pro - Video Downloader App
+# 🚀 SnapTik Pro - Video Downloader
 
-Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirme Android uygulaması.
+Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirme uygulaması.
 
-## Özellikler
+## ✨ Özellikler
 
-- 🎨 **Modern Dark Theme**: Koyu tema ile göz yormayan arayüz
-- 📱 **Platform Desteği**: TikTok, Instagram, Facebook, Twitter
-- 🔗 **Kolay Kullanım**: Link yapıştır ve indir
-- 📁 **İndirilenler Klasörü**: Tüm indirilen videoları görüntüle
-- ⚡ **Hızlı İndirme**: Progress bar ile indirme durumu
-- 🎯 **Splash Screen**: Güzel açılış animasyonu
-- 🔒 **Güvenli**: Filigransız video indirme
+- 📱 **Modern UI/UX** - Material Design 3 ile güzel arayüz
+- 🎨 **Dark Theme** - Göz yormayan karanlık tema
+- ⚡ **Hızlı İndirme** - Optimize edilmiş indirme sistemi
+- 🔄 **Çoklu Platform** - TikTok, Instagram, Facebook, Twitter
+- 📁 **Downloads Klasörü** - Videolar otomatik olarak Downloads klasörüne kaydedilir
+- 🎯 **Watermark Yok** - Temiz video indirme
+- 🌐 **Gerçek API Entegrasyonu** - Çalışan API'ler ile
 
-## Teknolojiler
+## 📥 İndirme
 
-### Android (Kotlin)
-- **Kotlin**: Modern Android geliştirme
-- **Retrofit**: API çağrıları
-- **Coroutines**: Asenkron işlemler
-- **ViewBinding**: Güvenli view erişimi
-- **Material Design**: Modern UI bileşenleri
-- **Lottie**: Animasyonlar
+### 🔥 En Güncel APK (HTTP 404 Hatası Düzeltildi)
+**[SnapTikPro-Updated.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Updated.apk)**
 
-### Backend (PHP)
-- **PHP**: API sunucusu
-- **cURL**: HTTP istekleri
-- **JSON**: Veri formatı
+### 📋 Önceki Sürümler
+- [SnapTikPro-Fixed.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Fixed.apk) - Splash screen hatası düzeltildi
+- [SnapTikPro.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro.apk) - İlk sürüm
 
-## 📥 Kurulum
+## 🛠️ Teknik Detaylar
 
-### 🚀 Android Uygulaması - Direkt İndirme
-**Hazır APK dosyası direkt indirme için mevcut:**
+### 📱 Platform Desteği
+- **Android**: API 26+ (Android 8.0+)
+- **Kotlin**: 1.8.0
+- **Gradle**: 8.5
+- **Android Gradle Plugin**: 8.2.0
 
-🔗 **[SnapTikPro.apk İndir](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro.apk)**
+### 🔧 Kullanılan Teknolojiler
+- **Kotlin** - Modern Android geliştirme
+- **Material Design 3** - Güzel UI/UX
+- **Retrofit** - HTTP API istekleri
+- **Kotlin Coroutines** - Asenkron işlemler
+- **ViewBinding** - Güvenli view erişimi
+- **Lottie** - Animasyonlar
+- **Glide** - Resim yükleme
 
-⚠️ **Splash Screen Hatası Düzeltildi!**
-🔗 **[SnapTikPro-Fixed.apk İndir](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Fixed.apk)** *(Önerilen)*
+### 🌐 API Entegrasyonu
+- **TikTok**: TikWM API (✅ Çalışıyor - API key gerektirmez)
+- **Instagram**: SnapInsta API (✅ Çalışıyor)
+- **Facebook**: FB Downloader API (✅ Çalışıyor)
+- **Twitter**: Twitter API v2 (⚠️ API key gerekli)
 
-### 📱 Android Uygulaması - Kaynak Koddan
+## 🎯 Son Güncellemeler
 
-1. **Projeyi klonlayın:**
+### ✅ HTTP 404 Hatası Düzeltildi
+- **Sorun**: API endpoint'leri bulunamıyordu
+- **Çözüm**: TikWM API entegrasyonu
+- **Sonuç**: Artık videolar başarıyla indiriliyor
+
+### ✅ API Entegrasyonu
+- **TikWM API**: TikTok için güvenilir API
+- **Fallback Sistemi**: Bir API çalışmazsa diğeri
+- **Hata Yönetimi**: Detaylı hata mesajları
+
+### ✅ Splash Screen Düzeltildi
+- **Sorun**: `Resources$NotFoundException: Drawable splash_background`
+- **Çözüm**: Theme'de background referansı düzeltildi
+- **Sonuç**: Uygulama artık açılıyor
+
+## 📋 Kurulum
+
+1. **APK'yı indirin** - Yukarıdaki linklerden
+2. **Bilinmeyen kaynaklara izin verin** - Ayarlar > Güvenlik
+3. **APK'yı yükleyin** - İndirilen dosyaya tıklayın
+4. **İzinleri verin** - Depolama ve internet erişimi
+5. **Kullanmaya başlayın** - Video linkini yapıştırın
+
+## 🎨 Ekran Görüntüleri
+
+### Ana Ekran
+- Modern ve temiz tasarım
+- Platform seçimi (TikTok, Instagram, Facebook, Twitter)
+- Link yapıştırma alanı
+- İndirme butonu
+
+### İndirme Ekranı
+- İlerleme çubuğu
+- Video bilgileri (başlık, thumbnail)
+- İndirme durumu
+
+### Downloads Klasörü
+- İndirilen videolar listesi
+- Video önizlemeleri
+- Paylaşım seçenekleri
+
+## 🔧 Geliştirme
+
+### Gereksinimler
+- Android Studio Arctic Fox veya üzeri
+- Android SDK 34
+- Java 8 veya üzeri
+
+### Kurulum
 ```bash
-git clone https://github.com/yourusername/SnapTikPro.git
-cd SnapTikPro
+git clone https://github.com/kenanbabayevofficial/aze.git
+cd aze
+./gradlew build
 ```
 
-2. **Android Studio'da açın:**
-- Android Studio'yu açın
-- "Open an existing project" seçin
-- SnapTikPro klasörünü seçin
-
-3. **API URL'sini güncelleyin:**
-`app/src/main/java/com/snaptikpro/app/MainActivity.kt` dosyasında:
-```kotlin
-private const val BASE_URL = "https://your-domain.com/api/"
-```
-
-4. **Uygulamayı derleyin:**
-- Build > Make Project
-- Run > Run 'app'
-
-### PHP API
-
-1. **API dosyalarını sunucuya yükleyin:**
+### API Test
 ```bash
-# api/ klasörünü web sunucunuza yükleyin
+# TikTok API test
+curl "https://www.tikwm.com/api/?url=https://vt.tiktok.com/ZSSCUTrC2/"
 ```
 
-2. **Sunucu gereksinimleri:**
-- PHP 7.4+
-- cURL extension
-- mod_rewrite (Apache)
-
-3. **API URL'sini test edin:**
-```
-https://your-domain.com/api/?action=download&url=VIDEO_URL&platform=tiktok
-```
-
-## Kullanım
-
-1. **Uygulamayı açın**
-2. **Platform seçin** (TikTok, Instagram, Facebook, Twitter)
-3. **Video linkini yapıştırın** veya "Paste" butonuna basın
-4. **Download butonuna basın**
-5. **İndirilenler klasöründen videoları görüntüleyin**
-
-## API Endpoints
-
-### Video İndirme
-```
-GET /api/?action=download&url={VIDEO_URL}&platform={PLATFORM}
-```
-
-**Parametreler:**
-- `url`: Video linki
-- `platform`: Platform (tiktok, instagram, facebook, twitter)
-
-**Örnek:**
-```
-GET /api/?action=download&url=https://www.tiktok.com/@user/video/123456789&platform=tiktok
-```
-
-**Yanıt:**
-```json
-{
-  "success": true,
-  "message": "Video found",
-  "downloadUrl": "https://example.com/video.mp4",
-  "title": "Video Title",
-  "thumbnail": "https://example.com/thumb.jpg"
-}
-```
-
-## Dosya Yapısı
-
-```
-SnapTikPro/
-├── app/
-│   └── src/main/
-│       ├── java/com/snaptikpro/app/
-│       │   ├── MainActivity.kt
-│       │   ├── SplashActivity.kt
-│       │   ├── DownloadsActivity.kt
-│       │   ├── DownloadsAdapter.kt
-│       │   ├── network/
-│       │   │   └── ApiService.kt
-│       │   └── utils/
-│       │       └── DownloadManager.kt
-│       └── res/
-│           ├── layout/
-│           ├── drawable/
-│           ├── values/
-│           └── raw/
-├── api/
-│   ├── index.php
-│   ├── VideoDownloader.php
-│   └── .htaccess
-└── README.md
-```
-
-## Özelleştirme
-
-### Renk Teması
-`app/src/main/res/values/colors.xml` dosyasında renkleri değiştirin:
-
-```xml
-<color name="accent">#00FF88</color>
-<color name="background">#121212</color>
-```
-
-### API Entegrasyonu
-`api/VideoDownloader.php` dosyasında gerçek API entegrasyonu ekleyin:
-
-```php
-private function getTikTokVideoInfo($videoId) {
-    // Gerçek TikTok API entegrasyonu
-    $apiUrl = "https://api.tiktok.com/video/{$videoId}";
-    $response = $this->makeRequest($apiUrl);
-    return json_decode($response, true);
-}
-```
-
-## Lisans
+## 📝 Lisans
 
 Bu proje MIT lisansı altında lisanslanmıştır.
 
-## Katkıda Bulunma
+## 🤝 Katkıda Bulunma
 
 1. Fork yapın
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Commit yapın (`git commit -m 'Add amazing feature'`)
-4. Push yapın (`git push origin feature/amazing-feature`)
-5. Pull Request oluşturun
+2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
+3. Commit yapın (`git commit -m 'Add some AmazingFeature'`)
+4. Push yapın (`git push origin feature/AmazingFeature`)
+5. Pull Request açın
 
-## İletişim
+## 📞 İletişim
 
-- **Email**: your-email@example.com
-- **GitHub**: https://github.com/yourusername
+- **GitHub**: [@kenanbabayevofficial](https://github.com/kenanbabayevofficial)
+- **Proje**: [SnapTik Pro](https://github.com/kenanbabayevofficial/aze)
 
-## Sürüm Geçmişi
+## 🎉 Teşekkürler
 
-### v1.0.0
-- İlk sürüm
-- TikTok, Instagram, Facebook, Twitter desteği
-- Modern dark theme
-- İndirilenler klasörü
-- Splash screen
+- **Material Design** - Güzel UI/UX için
+- **TikWM API** - TikTok video indirme için
+- **SnapInsta API** - Instagram video indirme için
+- **FB Downloader API** - Facebook video indirme için
 
 ---
 
-**Not**: Bu uygulama eğitim amaçlıdır. Telif hakkı korumalı içeriklerin indirilmesi yasal olmayabilir. Kullanıcılar kendi sorumluluklarında kullanmalıdır.
+⭐ **Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!**
