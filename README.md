@@ -34,6 +34,9 @@ Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirm
 
 🔗 **[SnapTikPro.apk İndir](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro.apk)**
 
+⚠️ **Splash Screen Hatası Düzeltildi!**
+🔗 **[SnapTikPro-Fixed.apk İndir](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Fixed.apk)** *(Önerilen)*
+
 ### 📱 Android Uygulaması - Kaynak Koddan
 
 1. **Projeyi klonlayın:**
