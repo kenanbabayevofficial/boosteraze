@@ -41,4 +41,11 @@
     <string name="clear">Təmizlə</string>
     <string name="cancel">Ləğv et</string>
     <string name="all_downloads_cleared">Bütün yükləmələr təmizləndi</string>
+    
+    <!-- Auto-download strings -->
+    <string name="tiktok_link_found">TikTok Link Bulundu!</string>
+    <string name="auto_download_message">Panoda TikTok linki bulundu. Otomatik olarak indirmek istiyor musunuz?</string>
+    <string name="yes_download">Evet, İndir</string>
+    <string name="no">Hayır</string>
+    <string name="just_paste">Sadece Yapıştır</string>
 </resources>

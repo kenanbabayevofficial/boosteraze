@@ -58,6 +58,9 @@ class MainActivity : AppCompatActivity() {
         setupDownloadManager()
         setupUI()
         checkPermissions()
+        
+        // Check clipboard for TikTok link on app start
+        checkClipboardForTikTokLink()
     }
     
     private fun setupApiService() {
@@ -337,5 +340,51 @@ class MainActivity : AppCompatActivity() {
     private fun openHelp() {
         // TODO: Implement help activity
         Toast.makeText(this, getString(R.string.help_coming_soon), Toast.LENGTH_SHORT).show()
+    }
+    
+    private fun checkClipboardForTikTokLink() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        if (clipboard.hasPrimaryClip()) {
+            val clipData = clipboard.primaryClip
+            if (clipData != null && clipData.itemCount > 0) {
+                val text = clipData.getItemAt(0).text.toString()
+                if (isTikTokLink(text)) {
+                    // Auto-paste the link
+                    binding.etLink.setText(text)
+                    
+                    // Show confirmation dialog
+                    showAutoDownloadDialog(text)
+                }
+            }
+        }
+    }
+    
+    private fun isTikTokLink(text: String): Boolean {
+        return text.contains("tiktok.com") || 
+               text.contains("vm.tiktok.com") || 
+               text.contains("vt.tiktok.com") ||
+               text.contains("www.tiktok.com")
+    }
+    
+    private fun showAutoDownloadDialog(link: String) {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.tiktok_link_found))
+            .setMessage(getString(R.string.auto_download_message))
+            .setPositiveButton(getString(R.string.yes_download)) { _, _ ->
+                downloadVideo()
+            }
+            .setNegativeButton(getString(R.string.no)) { _, _ ->
+                // Just keep the link pasted, don't download
+            }
+            .setNeutralButton(getString(R.string.just_paste)) { _, _ ->
+                // Link already pasted, do nothing
+            }
+            .show()
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Check clipboard when returning to the app
+        checkClipboardForTikTokLink()
     }
 }
