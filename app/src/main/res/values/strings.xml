@@ -48,4 +48,10 @@
     <string name="yes_download">Evet, İndir</string>
     <string name="no_download">Hayır</string>
     <string name="just_paste">Sadece Yapıştır</string>
+    
+    <!-- New strings for modern theme -->
+    <string name="download_tiktok_video">TikTok Video İndir</string>
+    <string name="paste_tiktok_link">TikTok linkini yapıştırın</string>
+    <string name="download_video">Video İndir</string>
+    <string name="downloads_description">İndirilen videolarınızı görüntüleyin</string>
 </resources>
