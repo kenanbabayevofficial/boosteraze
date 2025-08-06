@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.snaptikpro.app.databinding.ActivityMainBinding
 import com.snaptikpro.app.network.ApiService
-import com.snaptikpro.app.network.DownloadResponse
+import com.snaptikpro.app.network.TikWMResponse
 import com.snaptikpro.app.utils.DownloadManager
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -29,6 +29,13 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+data class DownloadRecord(
+    val title: String,
+    val path: String,
+    val size: Long,
+    val date: String
+)
+
 class MainActivity : AppCompatActivity() {
     
     private lateinit var binding: ActivityMainBinding
@@ -38,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
-        private const val BASE_URL = "https://your-api-domain.com/api/" // Replace with your PHP API URL
+        private const val BASE_URL = "https://www.tikwm.com/" // TikWM API URL
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,17 +148,32 @@ class MainActivity : AppCompatActivity() {
             return
         }
         
+        // Only support TikTok for now with TikWM API
+        if (selectedPlatform != "tiktok") {
+            Toast.makeText(this, "Only TikTok is supported with TikWM API", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
         showDownloadProgress()
         
         lifecycleScope.launch {
             try {
-                val response = apiService.downloadVideo(link, selectedPlatform)
+                val response = apiService.downloadTikTokVideo(link)
                 
-                if (response.success) {
-                    downloadFile(response.downloadUrl, response.title)
+                if (response.code == 0 && response.data != null) {
+                    val videoUrl = response.data.play ?: response.data.wmplay
+                    val title = response.data.title ?: "TikTok Video"
+                    val thumbnail = response.data.cover
+                    
+                    if (videoUrl != null) {
+                        downloadFile(videoUrl, title)
+                    } else {
+                        hideDownloadProgress()
+                        Toast.makeText(this@MainActivity, "No video URL found", Toast.LENGTH_LONG).show()
+                    }
                 } else {
                     hideDownloadProgress()
-                    Toast.makeText(this@MainActivity, response.message ?: "Download failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 hideDownloadProgress()
