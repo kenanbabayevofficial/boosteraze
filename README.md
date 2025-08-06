@@ -10,14 +10,15 @@ Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirm
 - 🔄 **Çoklu Platform** - TikTok, Instagram, Facebook, Twitter
 - 📁 **Downloads Klasörü** - Videolar otomatik olarak Downloads klasörüne kaydedilir
 - 🎯 **Watermark Yok** - Temiz video indirme
-- 🌐 **Gerçek API Entegrasyonu** - Çalışan API'ler ile
+- 🌐 **TikWM API Entegrasyonu** - Doğrudan Android uygulamasında
 
 ## 📥 İndirme
 
-### 🔥 En Güncel APK (HTTP 404 Hatası Düzeltildi)
-**[SnapTikPro-Updated.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Updated.apk)**
+### 🔥 En Güncel APK (TikWM API Entegrasyonu)
+**[SnapTikPro-TikWM-API.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-TikWM-API.apk)**
 
 ### 📋 Önceki Sürümler
+- [SnapTikPro-Updated.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Updated.apk) - HTTP 404 hatası düzeltildi
 - [SnapTikPro-Fixed.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro-Fixed.apk) - Splash screen hatası düzeltildi
 - [SnapTikPro.apk](https://github.com/kenanbabayevofficial/aze/raw/main/SnapTikPro.apk) - İlk sürüm
 
@@ -39,12 +40,23 @@ Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirm
 - **Glide** - Resim yükleme
 
 ### 🌐 API Entegrasyonu
-- **TikTok**: TikWM API (✅ Çalışıyor - API key gerektirmez)
+- **TikTok**: TikWM API (✅ Doğrudan entegre - API key gerektirmez)
 - **Instagram**: SnapInsta API (✅ Çalışıyor)
 - **Facebook**: FB Downloader API (✅ Çalışıyor)
 - **Twitter**: Twitter API v2 (⚠️ API key gerekli)
 
 ## 🎯 Son Güncellemeler
+
+### ✅ TikWM API Doğrudan Entegrasyonu
+- **Özellik**: TikWM API artık doğrudan Android uygulamasında
+- **Avantaj**: PHP backend'e gerek yok
+- **Sonuç**: Daha hızlı ve güvenilir video indirme
+
+### ✅ Tam TikTok Desteği
+- **Video İndirme**: Watermark'sız yüksek kalite
+- **Video Bilgileri**: Başlık, thumbnail, süre
+- **Müzik Bilgileri**: Orijinal ses dosyası
+- **İstatistikler**: Beğeni, yorum, paylaşım sayıları
 
 ### ✅ HTTP 404 Hatası Düzeltildi
 - **Sorun**: API endpoint'leri bulunamıyordu
@@ -67,7 +79,7 @@ Modern ve güzel tasarımlı TikTok, Instagram, Facebook ve Twitter video indirm
 2. **Bilinmeyen kaynaklara izin verin** - Ayarlar > Güvenlik
 3. **APK'yı yükleyin** - İndirilen dosyaya tıklayın
 4. **İzinleri verin** - Depolama ve internet erişimi
-5. **Kullanmaya başlayın** - Video linkini yapıştırın
+5. **Kullanmaya başlayın** - TikTok video linkini yapıştırın
 
 ## 🎨 Ekran Görüntüleri
 
