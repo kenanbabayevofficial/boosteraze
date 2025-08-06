@@ -50,7 +50,7 @@ class DownloadsActivity : AppCompatActivity() {
     
     private fun loadDownloads() {
         try {
-            val downloadsDir = File(getExternalFilesDir(null), "SnapTikPro")
+            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
             android.util.Log.d("DownloadsActivity", "Downloads directory: ${downloadsDir.absolutePath}")
             android.util.Log.d("DownloadsActivity", "Directory exists: ${downloadsDir.exists()}")
             

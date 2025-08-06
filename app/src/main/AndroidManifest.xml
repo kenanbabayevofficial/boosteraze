@@ -30,6 +30,11 @@
             android:exported="false"
             android:theme="@style/Theme.SnapTikPro" />
 
+        <activity
+            android:name=".DownloadsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SnapTikPro" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
