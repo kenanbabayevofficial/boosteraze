@@ -203,7 +203,7 @@ ADDED from /workspace/app/src/main/AndroidManifest.xml:33:9-36:55
 activity#com.snaptikpro.app.VideoPlayerActivity
 ADDED from /workspace/app/src/main/AndroidManifest.xml:38:9-42:66
 	android:screenOrientation
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:41:13-50
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:41:13-49
 	android:exported
 		ADDED from /workspace/app/src/main/AndroidManifest.xml:40:13-37
 	android:theme
