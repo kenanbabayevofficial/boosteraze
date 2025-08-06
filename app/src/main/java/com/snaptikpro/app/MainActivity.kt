@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
         private const val BASE_URL = "https://www.tikwm.com/" // TikWM API URL
+        private const val PREFS_NAME = "clipboard_prefs"
+        private const val KEY_LAST_LINK = "last_processed_link"
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +61,10 @@ class MainActivity : AppCompatActivity() {
         setupUI()
         checkPermissions()
         
-        // Check clipboard for TikTok link on app start
-        checkClipboardForTikTokLink()
+        // Check clipboard for TikTok link on app start with delay
+        binding.root.postDelayed({
+            checkClipboardForTikTokLink()
+        }, 1000) // 1 second delay to ensure app is fully loaded
     }
     
     private fun setupApiService() {
@@ -343,19 +347,38 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun checkClipboardForTikTokLink() {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        if (clipboard.hasPrimaryClip()) {
-            val clipData = clipboard.primaryClip
-            if (clipData != null && clipData.itemCount > 0) {
-                val text = clipData.getItemAt(0).text.toString()
-                if (isTikTokLink(text)) {
-                    // Auto-paste the link
-                    binding.etLink.setText(text)
+        try {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            
+            if (clipboard.hasPrimaryClip()) {
+                val clipData = clipboard.primaryClip
+                if (clipData != null && clipData.itemCount > 0) {
+                    val text = clipData.getItemAt(0).text.toString()
                     
-                    // Automatically start download
-                    downloadVideo()
+                    // Check if this is a TikTok link and not already processed
+                    if (isTikTokLink(text)) {
+                        val lastProcessedLink = prefs.getString(KEY_LAST_LINK, "")
+                        
+                        // Only process if it's a new link
+                        if (text != lastProcessedLink) {
+                            // Save the processed link
+                            prefs.edit().putString(KEY_LAST_LINK, text).apply()
+                            
+                            // Auto-paste the link
+                            binding.etLink.setText(text)
+                            
+                            // Show a brief message
+                            Toast.makeText(this, getString(R.string.tiktok_link_found_downloading), Toast.LENGTH_SHORT).show()
+                            
+                            // Automatically start download
+                            downloadVideo()
+                        }
+                    }
                 }
             }
+        } catch (e: Exception) {
+            android.util.Log.e("ClipboardCheck", "Error checking clipboard: ${e.message}")
         }
     }
     
@@ -372,7 +395,9 @@ class MainActivity : AppCompatActivity() {
     
     override fun onResume() {
         super.onResume()
-        // Check clipboard when returning to the app
-        checkClipboardForTikTokLink()
+        // Check clipboard when returning to the app with a small delay
+        binding.root.postDelayed({
+            checkClipboardForTikTokLink()
+        }, 500) // 500ms delay to ensure clipboard is ready
     }
 }
