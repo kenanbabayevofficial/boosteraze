@@ -31,43 +31,18 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Paylaşın"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> ilə paylaşın"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Yığcamlaşdırın"</string>
-    <string name="about">Haqqında</string>
-    <string name="all_downloads_cleared">Bütün yükləmələr təmizləndi</string>
-    <string name="app_name">SnapTik Pro</string>
     <string name="bottomsheet_action_collapse">Aşağıdakı vərəqi yığcamlaşdırın</string>
     <string name="bottomsheet_action_expand">Aşağıdakı vərəqi genişləndirin</string>
     <string name="bottomsheet_action_expand_halfway">Tam genişləndirin</string>
     <string name="bottomsheet_drag_handle_clicked">Dəstəyə iki dəfə toxunun</string>
     <string name="bottomsheet_drag_handle_content_description">Dəstək</string>
-    <string name="cancel">Ləğv et</string>
     <string name="character_counter_content_description">%1$d/%2$d simvol daxil edilib</string>
     <string name="character_counter_overflowed_content_description">Simvol limiti %1$d/%2$d dəyərini keçdi</string>
-    <string name="clear">Təmizlə</string>
-    <string name="clear_all">Hamısını təmizlə</string>
-    <string name="clear_all_dialog_message">Bütün yüklənmiş videoları silmək istədiyinizə əminsiniz?</string>
-    <string name="clear_all_dialog_title">Bütün yükləmələri təmizlə</string>
     <string name="clear_text_end_icon_content_description">Mətni silin</string>
-    <string name="developer">Tərtibatçı: SnapTik Pro Komandası</string>
-    <string name="download">Yüklə</string>
-    <string name="download_another">Başqa yüklə</string>
-    <string name="download_complete">Yükləmə tamamlandı</string>
-    <string name="download_complete_message">Video \'%1$s\' uğurla yükləndi.</string>
-    <string name="download_complete_title">Yükləmə tamamlandı!</string>
-    <string name="download_failed">Yükləmə uğursuz oldu</string>
-    <string name="downloading">Yüklənir...</string>
-    <string name="downloads">Yükləmələr</string>
-    <string name="enter_link">Link daxil edin</string>
     <string name="error_icon_content_description">Xəta</string>
     <string name="exposed_dropdown_menu_content_description">Açılan menyunu göstərin</string>
-    <string name="facebook">Facebook</string>
-    <string name="file_not_found">Fayl tapılmadı</string>
-    <string name="help">Kömək</string>
-    <string name="help_coming_soon">Kömək tezliklə</string>
     <string name="icon_content_description">Dialoq ikonası</string>
-    <string name="instagram">Instagram</string>
-    <string name="invalid_link">Yanlış link</string>
     <string name="item_view_role_description">Tab</string>
-    <string name="link_pasted">Link yapışdırıldı</string>
     <string name="material_clock_toggle_content_description">Gündüz və ya axşam seçin</string>
     <string name="material_hour_24h_suffix">%1$s saat</string>
     <string name="material_hour_selection">Saatı seçin</string>
@@ -119,22 +94,7 @@
     <string name="mtrl_timepicker_confirm">OK</string>
     <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Yuxarı keçin"</string>
     <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Naviqasiya panelini açın"</string>
-    <string name="no_clipboard_text">Klipbordda mətn yoxdur</string>
-    <string name="no_downloads">Hələ yükləmə yoxdur</string>
-    <string name="no_video_player">Video oynatıcı tapılmadı</string>
-    <string name="no_video_url">Video URL tapılmadı</string>
-    <string name="only_tiktok_supported">Yalnız TikTok dəstəklənir</string>
     <string name="password_toggle_content_description">Parolu göstərin</string>
-    <string name="paste">Yapışdır</string>
-    <string name="permission_required">Daxili yaddaş icazəsi tələb olunur</string>
-    <string name="play_video">Videonu oynat</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Axtarın"</string>
-    <string name="settings">Tənzimləmələr</string>
-    <string name="settings_coming_soon">Tənzimləmələr tezliklə</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
-    <string name="storage_permission_granted">Daxili yaddaş icazəsi verildi</string>
-    <string name="tiktok">TikTok</string>
-    <string name="twitter">Twitter</string>
-    <string name="version">Versiya 1.0</string>
-    <string name="view_downloads">Yükləmələrə bax</string>
 </resources>
