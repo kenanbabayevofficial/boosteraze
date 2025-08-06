@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:33:9-41:20
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:38:9-46:20
 	android:grantUriPermissions
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:37:13-47
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:42:13-47
 	android:authorities
 		INJECTED from /workspace/app/src/main/AndroidManifest.xml
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:35:13-64
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:40:13-64
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:36:13-37
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:41:13-37
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:34:13-62
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:39:13-62
 manifest
-ADDED from /workspace/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-45:12
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-45:12
+ADDED from /workspace/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-50:12
 MERGED from [androidx.databinding:viewbinding:8.2.0] /home/ubuntu/.gradle/caches/transforms-3/f483eddb7438cb20c38e1a1e7aad8844/transformed/jetified-viewbinding-8.2.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] /home/ubuntu/.gradle/caches/transforms-3/cb563ab62b64878a5325a696b8577c94/transformed/navigation-ui-ktx-2.5.3/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui:2.5.3] /home/ubuntu/.gradle/caches/transforms-3/575788ed17ce72eb25556e6a9f5f0868/transformed/navigation-ui-2.5.3/AndroidManifest.xml:17:1-24:12
@@ -103,8 +103,8 @@ ADDED from /workspace/app/src/main/AndroidManifest.xml:7:5-79
 	android:name
 		ADDED from /workspace/app/src/main/AndroidManifest.xml:7:22-76
 application
-ADDED from /workspace/app/src/main/AndroidManifest.xml:9:5-43:19
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:9:5-43:19
+ADDED from /workspace/app/src/main/AndroidManifest.xml:9:5-48:19
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:9:5-48:19
 MERGED from [com.google.android.material:material:1.8.0] /home/ubuntu/.gradle/caches/transforms-3/76093cbb3e705c3055638eef04d77a19/transformed/material-1.8.0/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.8.0] /home/ubuntu/.gradle/caches/transforms-3/76093cbb3e705c3055638eef04d77a19/transformed/material-1.8.0/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/ubuntu/.gradle/caches/transforms-3/07725f65fc95c3161b19aa144b2bfb0d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -173,12 +173,20 @@ ADDED from /workspace/app/src/main/AndroidManifest.xml:28:9-31:55
 		ADDED from /workspace/app/src/main/AndroidManifest.xml:31:13-52
 	android:name
 		ADDED from /workspace/app/src/main/AndroidManifest.xml:29:13-41
-meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from /workspace/app/src/main/AndroidManifest.xml:38:13-40:54
-	android:resource
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:40:17-51
+activity#com.snaptikpro.app.DownloadsActivity
+ADDED from /workspace/app/src/main/AndroidManifest.xml:33:9-36:55
+	android:exported
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:35:13-37
+	android:theme
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:36:13-52
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:39:17-67
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:34:13-46
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /workspace/app/src/main/AndroidManifest.xml:43:13-45:54
+	android:resource
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:45:17-51
+	android:name
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:44:17-67
 uses-sdk
 INJECTED from /workspace/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspace/app/src/main/AndroidManifest.xml
