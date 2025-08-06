@@ -126,6 +126,7 @@ string tiktok_link_found_downloading
 string twitter
 string version
 string video_already_exists_message
+string video_already_exists_message_link
 string video_already_exists_title
 string view_downloads
 style Theme.SnapTikPro

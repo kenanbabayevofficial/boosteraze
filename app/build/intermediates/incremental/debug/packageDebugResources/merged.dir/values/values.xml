@@ -66,6 +66,7 @@
     <string name="twitter">Twitter</string>
     <string name="version">Versiya 1.0</string>
     <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_message_link">Bu TikTok linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
     <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
     <string name="view_downloads">Yükləmələrə bax</string>
     <style name="Theme.SnapTikPro" parent="Theme.MaterialComponents.DayNight.NoActionBar">

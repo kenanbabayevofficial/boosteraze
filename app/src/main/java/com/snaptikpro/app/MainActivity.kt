@@ -126,61 +126,60 @@ class MainActivity : AppCompatActivity() {
     
     
     
-    private fun downloadVideo() {
-        val link = binding.etLink.text.toString().trim()
-        
-        if (link.isEmpty()) {
-            Toast.makeText(this, getString(R.string.enter_link), Toast.LENGTH_SHORT).show()
-            return
-        }
-        
-        if (!isValidUrl(link)) {
-            Toast.makeText(this, getString(R.string.invalid_link), Toast.LENGTH_SHORT).show()
-            return
-        }
-        
-        // Only support TikTok for now with TikWM API
-        if (selectedPlatform != "tiktok") {
-            Toast.makeText(this, getString(R.string.only_tiktok_supported), Toast.LENGTH_SHORT).show()
-            return
-        }
-        
-        showDownloadProgress()
-        
-        lifecycleScope.launch {
-            try {
-                val response = apiService.downloadTikTokVideo(link)
-                
-                               if (response.code == 0 && response.data != null) {
-                   val videoUrl = response.data.play ?: response.data.wmplay
-                   val title = response.data.title ?: "TikTok Video"
-                   val thumbnail = response.data.cover
+               private fun downloadVideo() {
+               val link = binding.etLink.text.toString().trim()
 
-                   if (videoUrl != null) {
-                       // Check if video already exists
-                       val videoTitle = "Video ${(1000000000..9999999999).random()}"
-                       if (isVideoAlreadyDownloaded(videoTitle)) {
-                           hideDownloadProgress()
-                           showVideoAlreadyExistsDialog(title)
-                       } else {
-                           downloadFile(videoUrl, title)
-                       }
-                   } else {
-                       hideDownloadProgress()
-                       Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
-                   }
-               } else {
-                   hideDownloadProgress()
-                   Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
+               if (link.isEmpty()) {
+                   Toast.makeText(this, getString(R.string.enter_link), Toast.LENGTH_SHORT).show()
+                   return
                }
-            } catch (e: Exception) {
-                hideDownloadProgress()
-                Toast.makeText(this@MainActivity, "Network error: ${e.message}", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+
+               if (!isValidUrl(link)) {
+                   Toast.makeText(this, getString(R.string.invalid_link), Toast.LENGTH_SHORT).show()
+                   return
+               }
+
+               // Only support TikTok for now with TikWM API
+               if (selectedPlatform != "tiktok") {
+                   Toast.makeText(this, getString(R.string.only_tiktok_supported), Toast.LENGTH_SHORT).show()
+                   return
+               }
+
+               // Check if this TikTok link was already downloaded
+               if (isVideoAlreadyDownloaded(link)) {
+                   showVideoAlreadyExistsDialog(link)
+                   return
+               }
+
+               showDownloadProgress()
+
+               lifecycleScope.launch {
+                   try {
+                       val response = apiService.downloadTikTokVideo(link)
+
+                       if (response.code == 0 && response.data != null) {
+                           val videoUrl = response.data.play ?: response.data.wmplay
+                           val title = response.data.title ?: "TikTok Video"
+                           val thumbnail = response.data.cover
+
+                           if (videoUrl != null) {
+                               downloadFile(videoUrl, title, link)
+                           } else {
+                               hideDownloadProgress()
+                               Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
+                           }
+                       } else {
+                           hideDownloadProgress()
+                           Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
+                       }
+                   } catch (e: Exception) {
+                       hideDownloadProgress()
+                       Toast.makeText(this@MainActivity, "Network error: ${e.message}", Toast.LENGTH_LONG).show()
+                   }
+               }
+           }
     
-    private fun downloadFile(url: String, title: String) {
+               private fun downloadFile(url: String, title: String, tikTokLink: String) {
         try {
             // Use public Movies directory for better organization
             val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
@@ -198,25 +197,27 @@ class MainActivity : AppCompatActivity() {
             android.util.Log.d("DownloadManager", "Directory exists: ${downloadsDir.exists()}")
             android.util.Log.d("DownloadManager", "Directory writable: ${downloadsDir.canWrite()}")
             
-            downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
-                override fun onProgress(progress: Int) {
-                    updateDownloadProgress(progress)
-                }
-                
-                override fun onSuccess(file: File) {
-                    hideDownloadProgress()
-                    Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
-                    saveDownloadRecord(title, file.absolutePath, file.length())
-                    
-                    // Show success dialog with options
-                    showDownloadSuccessDialog(title, file.absolutePath)
-                }
-                
-                override fun onError(error: String) {
-                    hideDownloadProgress()
-                    Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
-                }
-            })
+                               downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
+                       override fun onProgress(progress: Int) {
+                           updateDownloadProgress(progress)
+                       }
+
+                       override fun onSuccess(file: File) {
+                           hideDownloadProgress()
+                           // Save the TikTok link to prevent re-downloading
+                           saveDownloadedLink(tikTokLink)
+                           Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
+                           saveDownloadRecord(title, file.absolutePath, file.length())
+
+                           // Show success dialog with options
+                           showDownloadSuccessDialog(title, file.absolutePath)
+                       }
+
+                       override fun onError(error: String) {
+                           hideDownloadProgress()
+                           Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
+                       }
+                   })
             
         } catch (e: Exception) {
             android.util.Log.e("DownloadManager", "Error setting up download: ${e.message}")
@@ -383,36 +384,55 @@ class MainActivity : AppCompatActivity() {
                       text.contains("www.tiktok.com")
            }
            
-           private fun isVideoAlreadyDownloaded(videoTitle: String): Boolean {
-               val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
+           private fun isVideoAlreadyDownloaded(tikTokLink: String): Boolean {
+               // Check if this TikTok link was already processed
+               val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
+               val downloadedLinks = prefs.getStringSet("downloaded_links", setOf()) ?: setOf()
                
-               if (downloadsDir.exists()) {
-                   val files = downloadsDir.listFiles { file ->
-                       file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
-                   }
-                   
-                   files?.forEach { file ->
-                       if (file.exists() && file.length() > 0) {
-                           // Check if any existing video has similar title
-                           val existingTitle = "Video ${file.nameWithoutExtension}"
-                           if (existingTitle == videoTitle) {
-                               return true
-                           }
-                       }
-                   }
-               }
-               return false
+               // Clean the link for comparison (remove query parameters)
+               val cleanLink = cleanTikTokLink(tikTokLink)
+               
+               return downloadedLinks.contains(cleanLink)
            }
            
-           private fun showVideoAlreadyExistsDialog(videoTitle: String) {
+           private fun cleanTikTokLink(link: String): String {
+               // Remove query parameters and get the base TikTok URL
+               return try {
+                   val uri = Uri.parse(link)
+                   val baseUrl = "${uri.scheme}://${uri.host}${uri.path}"
+                   baseUrl
+               } catch (e: Exception) {
+                   // If parsing fails, return the original link
+                   link
+               }
+           }
+           
+           private fun saveDownloadedLink(tikTokLink: String) {
+               val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
+               val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
+               
+               val cleanLink = cleanTikTokLink(tikTokLink)
+               downloadedLinks.add(cleanLink)
+               
+               prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
+           }
+           
+           private fun showVideoAlreadyExistsDialog(tikTokLink: String) {
                AlertDialog.Builder(this)
                    .setTitle(getString(R.string.video_already_exists_title))
-                   .setMessage(getString(R.string.video_already_exists_message).format(videoTitle))
+                   .setMessage(getString(R.string.video_already_exists_message_link).format(tikTokLink))
                    .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
                        openDownloads()
                    }
                    .setNegativeButton(getString(R.string.download_anyway)) { _, _ ->
-                       // Force download anyway
+                       // Force download anyway by removing from history
+                       val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
+                       val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
+                       val cleanLink = cleanTikTokLink(tikTokLink)
+                       downloadedLinks.remove(cleanLink)
+                       prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
+                       
+                       // Start download
                        downloadVideo()
                    }
                    .setNeutralButton(getString(R.string.cancel), null)

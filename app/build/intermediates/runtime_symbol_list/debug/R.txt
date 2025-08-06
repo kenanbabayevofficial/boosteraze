@@ -4141,8 +4141,9 @@ int string tiktok_link_found_downloading 0x7f1200f9
 int string twitter 0x7f1200fa
 int string version 0x7f1200fb
 int string video_already_exists_message 0x7f1200fc
-int string video_already_exists_title 0x7f1200fd
-int string view_downloads 0x7f1200fe
+int string video_already_exists_message_link 0x7f1200fd
+int string video_already_exists_title 0x7f1200fe
+int string view_downloads 0x7f1200ff
 int style AlertDialog_AppCompat 0x7f130000
 int style AlertDialog_AppCompat_Light 0x7f130001
 int style Animation_AppCompat_Dialog 0x7f130002

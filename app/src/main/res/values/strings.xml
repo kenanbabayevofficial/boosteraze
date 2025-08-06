@@ -50,6 +50,7 @@
     <!-- Video Already Exists Dialog -->
     <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
     <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_message_link">Bu TikTok linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
     <string name="download_anyway">Yine de İndir</string>
 
 </resources>
