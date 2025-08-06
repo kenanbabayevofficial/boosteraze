@@ -44,6 +44,8 @@
     <string name="file_not_found">Fayl tapılmadı</string>
     <string name="help">Kömək</string>
     <string name="help_coming_soon">Kömək tezliklə</string>
+    <string name="how_to_use_description">1️⃣ TikTok video linkini kopyalayın\n2️⃣ Linki yukarıdaki alana yapıştırın\n3️⃣ Yüklə butonuna basın\n4️⃣ Video otomatik olarak indirilecek\n5️⃣ İndirilenler bölümünden videolarınızı görüntüleyin\n6️⃣ Videoları oynatın, paylaşın veya silin</string>
+    <string name="how_to_use_title">📱 Uygulama Nasıl Kullanılır?</string>
     <string name="instagram">Instagram</string>
     <string name="invalid_link">Yanlış link</string>
     <string name="link_pasted">Link yapışdırıldı</string>

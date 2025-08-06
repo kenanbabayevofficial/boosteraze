@@ -3171,7 +3171,6 @@ id bounceEnd
 id bounceStart
 id btnDelete
 id btnDownload
-id btnPaste
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -4010,6 +4009,8 @@ string file_not_found
 string help
 string help_coming_soon
 string hide_bottom_view_on_scroll_behavior
+string how_to_use_description
+string how_to_use_title
 string icon_content_description
 string instagram
 string invalid_link

@@ -98,9 +98,8 @@ class MainActivity : AppCompatActivity() {
         binding.tvFacebook.visibility = View.GONE
         binding.tvTwitter.visibility = View.GONE
         
-        // Buttons
-        binding.btnPaste.setOnClickListener { pasteFromClipboard() }
-        binding.btnDownload.setOnClickListener { downloadVideo() }
+                       // Buttons
+               binding.btnDownload.setOnClickListener { downloadVideo() }
         
         // Header buttons
         binding.ivDownloads.setOnClickListener { openDownloads() }
@@ -125,19 +124,7 @@ class MainActivity : AppCompatActivity() {
         selectedView.isSelected = true
     }
     
-    private fun pasteFromClipboard() {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        if (clipboard.hasPrimaryClip()) {
-            val clipData = clipboard.primaryClip
-                    if (clipData != null && clipData.itemCount > 0) {
-            val text = clipData.getItemAt(0).text.toString()
-            binding.etLink.setText(text)
-            Toast.makeText(this, getString(R.string.link_pasted), Toast.LENGTH_SHORT).show()
-        }
-    } else {
-        Toast.makeText(this, getString(R.string.no_clipboard_text), Toast.LENGTH_SHORT).show()
-    }
-    }
+    
     
     private fun downloadVideo() {
         val link = binding.etLink.text.toString().trim()

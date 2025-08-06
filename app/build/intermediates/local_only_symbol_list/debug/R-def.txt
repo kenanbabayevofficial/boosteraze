@@ -46,7 +46,6 @@ drawable splash_background
 drawable tab_background
 id btnDelete
 id btnDownload
-id btnPaste
 id cardMain
 id emptyLayout
 id etLink
@@ -105,6 +104,8 @@ string facebook
 string file_not_found
 string help
 string help_coming_soon
+string how_to_use_description
+string how_to_use_title
 string instagram
 string invalid_link
 string link_pasted
