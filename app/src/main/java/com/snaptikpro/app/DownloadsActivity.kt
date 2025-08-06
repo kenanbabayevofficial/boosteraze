@@ -29,6 +29,12 @@ class DownloadsActivity : AppCompatActivity() {
         loadDownloads()
     }
     
+    override fun onResume() {
+        super.onResume()
+        // Refresh the list when returning to this activity
+        loadDownloads()
+    }
+    
     private fun setupRecyclerView() {
         adapter = DownloadsAdapter(
             downloads = downloads,
@@ -62,33 +68,44 @@ class DownloadsActivity : AppCompatActivity() {
             
             if (downloadsDir.exists()) {
                 val files = downloadsDir.listFiles { file ->
-                    file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
+                    file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv") && file.exists() && file.length() > 0
                 }
                 
-                android.util.Log.d("DownloadsActivity", "Found ${files?.size ?: 0} video files")
+                android.util.Log.d("DownloadsActivity", "Found ${files?.size ?: 0} valid video files")
                 
                 downloads.clear()
                 files?.forEach { file ->
-                    android.util.Log.d("DownloadsActivity", "File: ${file.name}, Size: ${file.length()}")
-                    downloads.add(
-                        DownloadItem(
-                            title = "Video ${file.nameWithoutExtension}",
-                            path = file.absolutePath,
-                            size = file.length(),
-                            date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                                .format(Date(file.lastModified()))
+                    // Double check if file still exists and is valid
+                    if (file.exists() && file.length() > 0) {
+                        android.util.Log.d("DownloadsActivity", "Adding file: ${file.name}, Size: ${file.length()}")
+                        downloads.add(
+                            DownloadItem(
+                                title = "Video ${file.nameWithoutExtension}",
+                                path = file.absolutePath,
+                                size = file.length(),
+                                date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                    .format(Date(file.lastModified()))
+                            )
                         )
-                    )
+                    } else {
+                        android.util.Log.w("DownloadsActivity", "Skipping invalid file: ${file.name}")
+                    }
                 }
                 
                 downloads.sortByDescending { it.date }
                 adapter.notifyDataSetChanged()
+                
+                android.util.Log.d("DownloadsActivity", "Total downloads in list: ${downloads.size}")
             } else {
                 android.util.Log.w("DownloadsActivity", "Downloads directory does not exist")
+                downloads.clear()
+                adapter.notifyDataSetChanged()
             }
         } catch (e: Exception) {
             android.util.Log.e("DownloadsActivity", "Error loading downloads: ${e.message}")
             Toast.makeText(this, "Error loading downloads: ${e.message}", Toast.LENGTH_LONG).show()
+            downloads.clear()
+            adapter.notifyDataSetChanged()
         }
         
         updateEmptyState()
@@ -134,12 +151,15 @@ class DownloadsActivity : AppCompatActivity() {
         if (file.exists()) {
             val deleted = file.delete()
             if (deleted) {
+                android.util.Log.d("DownloadsActivity", "File ${file.name} deleted successfully")
                 removeFromList(downloadItem)
                 Toast.makeText(this, "Video deleted", Toast.LENGTH_SHORT).show()
             } else {
+                android.util.Log.w("DownloadsActivity", "Failed to delete file ${file.name}")
                 Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show()
             }
         } else {
+            android.util.Log.w("DownloadsActivity", "File ${downloadItem.path} does not exist")
             // Remove from list if file doesn't exist
             removeFromList(downloadItem)
             Toast.makeText(this, "File not found, removed from list", Toast.LENGTH_SHORT).show()
@@ -183,12 +203,20 @@ class DownloadsActivity : AppCompatActivity() {
                     file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
                 }
                 
+                var deletedCount = 0
                 files?.forEach { file ->
                     if (file.exists()) {
                         val deleted = file.delete()
-                        android.util.Log.d("DownloadsActivity", "File ${file.name} deleted: $deleted")
+                        if (deleted) {
+                            deletedCount++
+                            android.util.Log.d("DownloadsActivity", "File ${file.name} deleted successfully")
+                        } else {
+                            android.util.Log.w("DownloadsActivity", "Failed to delete file ${file.name}")
+                        }
                     }
                 }
+                
+                android.util.Log.d("DownloadsActivity", "Total files deleted: $deletedCount")
             }
             
             // Clear the list and refresh
