@@ -48,4 +48,8 @@
     <string name="yes_download">Evet, İndir</string>
     <string name="no_download">Hayır</string>
     <string name="just_paste">Sadece Yapıştır</string>
+    
+    <!-- Day/Night theme strings -->
+    <string name="night_theme_applied">Gece teması uygulandı</string>
+    <string name="day_theme_applied">Gündüz teması uygulandı</string>
 </resources>

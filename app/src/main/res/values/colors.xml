@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dark Theme (Night Mode) -->
+    <color name="primary_dark">#1A1A1A</color>
+    <color name="primary_dark_dark">#000000</color>
+    <color name="primary_light_dark">#2D2D2D</color>
+    <color name="accent_dark">#00FF88</color>
+    <color name="accent_dark_dark">#00CC6A</color>
+    <color name="accent_light_dark">#33FFAA</color>
+    
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="surface_light_dark">#2A2A2A</color>
+    <color name="card_background_dark">#242424</color>
+    
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#B3FFFFFF</color>
+    <color name="text_hint_dark">#80FFFFFF</color>
+    
+    <color name="divider_dark">#1F1F1F</color>
+    <color name="ripple_dark">#33FFFFFF</color>
+    
+    <!-- Light Theme (Day Mode) -->
+    <color name="primary_light">#2196F3</color>
+    <color name="primary_dark_light">#1976D2</color>
+    <color name="primary_light_light">#BBDEFB</color>
+    <color name="accent_light">#FF4081</color>
+    <color name="accent_dark_light">#F50057</color>
+    <color name="accent_light_light">#FF80AB</color>
+    
+    <color name="background_light">#FFFFFF</color>
+    <color name="surface_light">#F5F5F5</color>
+    <color name="surface_light_light">#FAFAFA</color>
+    <color name="card_background_light">#FFFFFF</color>
+    
+    <color name="text_primary_light">#212121</color>
+    <color name="text_secondary_light">#757575</color>
+    <color name="text_hint_light">#BDBDBD</color>
+    
+    <color name="divider_light">#E0E0E0</color>
+    <color name="ripple_light">#1F000000</color>
+    
+    <!-- Current Theme Colors (Default to Dark) -->
     <color name="primary">#1A1A1A</color>
-    <color name="primary_dark">#000000</color>
-    <color name="primary_light">#2D2D2D</color>
     <color name="accent">#00FF88</color>
-    <color name="accent_dark">#00CC6A</color>
-    <color name="accent_light">#33FFAA</color>
     
     <color name="background">#121212</color>
     <color name="surface">#1E1E1E</color>
-    <color name="surface_light">#2A2A2A</color>
     <color name="card_background">#242424</color>
     
     <color name="text_primary">#FFFFFF</color>
@@ -19,6 +55,7 @@
     <color name="divider">#1F1F1F</color>
     <color name="ripple">#33FFFFFF</color>
     
+    <!-- Common colors -->
     <color name="success">#4CAF50</color>
     <color name="error">#F44336</color>
     <color name="warning">#FF9800</color>
