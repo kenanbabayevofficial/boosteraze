@@ -24,6 +24,7 @@ class DownloadManager(private val context: Context) {
             try {
                 val request = Request.Builder()
                     .url(url)
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
                     .build()
                 
                 val response = client.newCall(request).execute()

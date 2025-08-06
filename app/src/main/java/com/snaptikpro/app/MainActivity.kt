@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
@@ -183,12 +184,15 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun downloadFile(url: String, title: String) {
-        val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
+        // Use app's private directory for better compatibility
+        val downloadsDir = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
         if (!downloadsDir.exists()) {
             downloadsDir.mkdirs()
         }
         
-        val fileName = "${title}_${System.currentTimeMillis()}.mp4"
+        // Clean filename
+        val cleanTitle = title.replace(Regex("[^a-zA-Z0-9._-]"), "_")
+        val fileName = "${cleanTitle}_${System.currentTimeMillis()}.mp4"
         val file = File(downloadsDir, fileName)
         
         downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
@@ -200,6 +204,9 @@ class MainActivity : AppCompatActivity() {
                 hideDownloadProgress()
                 Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
                 saveDownloadRecord(title, file.absolutePath, file.length())
+                
+                // Show success dialog with options
+                showDownloadSuccessDialog(title, file.absolutePath)
             }
             
             override fun onError(error: String) {
@@ -237,6 +244,46 @@ class MainActivity : AppCompatActivity() {
         
         // Save to local database or shared preferences
         // For now, we'll just show a success message
+    }
+    
+    private fun showDownloadSuccessDialog(title: String, filePath: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Download Complete!")
+            .setMessage("Video '$title' has been downloaded successfully.")
+            .setPositiveButton("View Downloads") { _, _ ->
+                openDownloads()
+            }
+            .setNegativeButton("Download Another") { _, _ ->
+                binding.etLink.text.clear()
+                binding.etLink.requestFocus()
+            }
+            .setNeutralButton("Play Video") { _, _ ->
+                playVideo(filePath)
+            }
+            .show()
+    }
+    
+    private fun playVideo(filePath: String) {
+        val file = File(filePath)
+        if (file.exists()) {
+            try {
+                val uri = androidx.core.content.FileProvider.getUriForFile(
+                    this,
+                    "${packageName}.fileprovider",
+                    file
+                )
+                
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setDataAndType(uri, "video/*")
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "No video player found: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
+        }
     }
     
     private fun isValidUrl(url: String): Boolean {

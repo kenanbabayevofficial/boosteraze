@@ -3,6 +3,7 @@ package com.snaptikpro.app
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +49,7 @@ class DownloadsActivity : AppCompatActivity() {
     }
     
     private fun loadDownloads() {
-        val downloadsDir = File(getExternalFilesDir(null), "SnapTikPro")
+        val downloadsDir = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
         if (downloadsDir.exists()) {
             val files = downloadsDir.listFiles { file ->
                 file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
@@ -87,14 +88,20 @@ class DownloadsActivity : AppCompatActivity() {
     private fun playVideo(downloadItem: DownloadItem) {
         val file = File(downloadItem.path)
         if (file.exists()) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(Uri.fromFile(file), "video/*")
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            
             try {
+                val uri = androidx.core.content.FileProvider.getUriForFile(
+                    this,
+                    "${packageName}.fileprovider",
+                    file
+                )
+                
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setDataAndType(uri, "video/*")
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                
                 startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "No video player found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No video player found: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
