@@ -66,7 +66,7 @@ class DownloadsActivity : AppCompatActivity() {
                     android.util.Log.d("DownloadsActivity", "File: ${file.name}, Size: ${file.length()}")
                     downloads.add(
                         DownloadItem(
-                            title = file.nameWithoutExtension,
+                            title = "Video ${file.nameWithoutExtension}",
                             path = file.absolutePath,
                             size = file.length(),
                             date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())

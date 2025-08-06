@@ -189,8 +189,8 @@ class MainActivity : AppCompatActivity() {
             }
             
             // Clean filename
-            val cleanTitle = title.replace(Regex("[^a-zA-Z0-9._-]"), "_")
-            val fileName = "${cleanTitle}_${System.currentTimeMillis()}.mp4"
+                    val randomNumber = (1000000000..9999999999).random()
+        val fileName = "${randomNumber}.mp4"
             val file = File(downloadsDir, fileName)
             
             android.util.Log.d("DownloadManager", "Download path: ${file.absolutePath}")
