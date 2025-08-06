@@ -40,10 +40,6 @@
         "source": "com.snaptikpro.app-main-52:/xml/file_paths.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-50:/layout_item_theme.xml.flat",
-        "source": "com.snaptikpro.app-main-52:/layout/item_theme.xml"
-    },
-    {
         "merged": "com.snaptikpro.app-merged_res-50:/drawable_ic_back.xml.flat",
         "source": "com.snaptikpro.app-main-52:/drawable/ic_back.xml"
     },
@@ -68,10 +64,6 @@
         "source": "com.snaptikpro.app-main-52:/drawable/ic_settings.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-50:/layout_activity_settings.xml.flat",
-        "source": "com.snaptikpro.app-main-52:/layout/activity_settings.xml"
-    },
-    {
         "merged": "com.snaptikpro.app-merged_res-50:/drawable_ic_menu.xml.flat",
         "source": "com.snaptikpro.app-main-52:/drawable/ic_menu.xml"
     },
@@ -84,10 +76,6 @@
         "source": "com.snaptikpro.app-main-52:/drawable/button_background.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-50:/drawable_theme_background.xml.flat",
-        "source": "com.snaptikpro.app-main-52:/drawable/theme_background.xml"
-    },
-    {
         "merged": "com.snaptikpro.app-merged_res-50:/layout_activity_downloads.xml.flat",
         "source": "com.snaptikpro.app-main-52:/layout/activity_downloads.xml"
     },
@@ -98,10 +86,6 @@
     {
         "merged": "com.snaptikpro.app-merged_res-50:/drawable_ic_logo.xml.flat",
         "source": "com.snaptikpro.app-main-52:/drawable/ic_logo.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-50:/drawable_ic_check.xml.flat",
-        "source": "com.snaptikpro.app-main-52:/drawable/ic_check.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-50:/drawable_splash_background.xml.flat",
@@ -146,10 +130,6 @@
     {
         "merged": "com.snaptikpro.app-merged_res-50:/drawable_ic_play.xml.flat",
         "source": "com.snaptikpro.app-main-52:/drawable/ic_play.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-50:/drawable_theme_selected_background.xml.flat",
-        "source": "com.snaptikpro.app-main-52:/drawable/theme_selected_background.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-50:/drawable_ic_orders.xml.flat",
