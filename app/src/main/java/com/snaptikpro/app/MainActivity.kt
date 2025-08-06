@@ -333,8 +333,8 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun openSettings() {
-        val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
+        // TODO: Implement settings activity
+        Toast.makeText(this, getString(R.string.settings_coming_soon), Toast.LENGTH_SHORT).show()
     }
     
     private fun openHelp() {
