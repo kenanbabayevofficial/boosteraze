@@ -8,7 +8,8 @@ import java.text.DecimalFormat
 
 class DownloadsAdapter(
     private val downloads: List<DownloadsActivity.DownloadItem>,
-    private val onItemClick: (DownloadsActivity.DownloadItem) -> Unit
+    private val onItemClick: (DownloadsActivity.DownloadItem) -> Unit,
+    private val onDeleteClick: (DownloadsActivity.DownloadItem) -> Unit
 ) : RecyclerView.Adapter<DownloadsAdapter.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +34,13 @@ class DownloadsAdapter(
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onItemClick(downloads[position])
+                }
+            }
+            
+            binding.btnDelete.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onDeleteClick(downloads[position])
                 }
             }
         }

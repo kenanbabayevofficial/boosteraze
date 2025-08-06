@@ -30,9 +30,15 @@ class DownloadsActivity : AppCompatActivity() {
     }
     
     private fun setupRecyclerView() {
-        adapter = DownloadsAdapter(downloads) { downloadItem ->
-            playVideo(downloadItem)
-        }
+        adapter = DownloadsAdapter(
+            downloads = downloads,
+            onItemClick = { downloadItem ->
+                playVideo(downloadItem)
+            },
+            onDeleteClick = { downloadItem ->
+                showDeleteDialog(downloadItem)
+            }
+        )
         
         binding.rvDownloads.layoutManager = LinearLayoutManager(this)
         binding.rvDownloads.adapter = adapter
@@ -118,7 +124,43 @@ class DownloadsActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
+            // Remove from list if file doesn't exist
+            removeFromList(downloadItem)
         }
+    }
+    
+    private fun deleteVideo(downloadItem: DownloadItem) {
+        val file = File(downloadItem.path)
+        if (file.exists()) {
+            val deleted = file.delete()
+            if (deleted) {
+                removeFromList(downloadItem)
+                Toast.makeText(this, "Video deleted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // Remove from list if file doesn't exist
+            removeFromList(downloadItem)
+            Toast.makeText(this, "File not found, removed from list", Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    private fun showDeleteDialog(downloadItem: DownloadItem) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Video")
+            .setMessage("Are you sure you want to delete this video?")
+            .setPositiveButton("Delete") { _, _ ->
+                deleteVideo(downloadItem)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+    
+    private fun removeFromList(downloadItem: DownloadItem) {
+        downloads.remove(downloadItem)
+        adapter.notifyDataSetChanged()
+        updateEmptyState()
     }
     
     private fun showClearAllDialog() {
@@ -133,18 +175,33 @@ class DownloadsActivity : AppCompatActivity() {
     }
     
     private fun clearAllDownloads() {
-        downloads.forEach { downloadItem ->
-            val file = File(downloadItem.path)
-            if (file.exists()) {
-                file.delete()
+        try {
+            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTik")
+            
+            if (downloadsDir.exists()) {
+                val files = downloadsDir.listFiles { file ->
+                    file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
+                }
+                
+                files?.forEach { file ->
+                    if (file.exists()) {
+                        val deleted = file.delete()
+                        android.util.Log.d("DownloadsActivity", "File ${file.name} deleted: $deleted")
+                    }
+                }
             }
+            
+            // Clear the list and refresh
+            downloads.clear()
+            adapter.notifyDataSetChanged()
+            updateEmptyState()
+            
+            Toast.makeText(this, getString(R.string.all_downloads_cleared), Toast.LENGTH_SHORT).show()
+            
+        } catch (e: Exception) {
+            android.util.Log.e("DownloadsActivity", "Error clearing downloads: ${e.message}")
+            Toast.makeText(this, "Error clearing downloads: ${e.message}", Toast.LENGTH_LONG).show()
         }
-        
-        downloads.clear()
-        adapter.notifyDataSetChanged()
-        updateEmptyState()
-        
-        Toast.makeText(this, getString(R.string.all_downloads_cleared), Toast.LENGTH_SHORT).show()
     }
     
     data class DownloadItem(
