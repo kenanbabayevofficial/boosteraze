@@ -86,16 +86,40 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun setupUI() {
+        // Platform tabs - Only TikTok supported
+        binding.tvTikTok.setOnClickListener { selectPlatform("tiktok", binding.tvTikTok) }
+        
+        // Hide other platforms
+        binding.tvInstagram.visibility = View.GONE
+        binding.tvFacebook.visibility = View.GONE
+        binding.tvTwitter.visibility = View.GONE
+        
         // Buttons
+        binding.btnPaste.setOnClickListener { pasteFromClipboard() }
         binding.btnDownload.setOnClickListener { downloadVideo() }
-        binding.btnViewDownloads.setOnClickListener { openDownloads() }
-        binding.btnSettings.setOnClickListener { openSettings() }
+        
+        // Header buttons
+        binding.ivDownloads.setOnClickListener { openDownloads() }
+        binding.ivSettings.setOnClickListener { openSettings() }
+        binding.ivHelp.setOnClickListener { openHelp() }
         
         // Set TikTok as default selected
-        selectedPlatform = "tiktok"
+        selectPlatform("tiktok", binding.tvTikTok)
     }
     
-
+    private fun selectPlatform(platform: String, selectedView: View) {
+        selectedPlatform = platform
+        
+        // Reset TikTok tab
+        binding.tvTikTok.setBackgroundResource(0)
+        binding.tvTikTok.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
+        binding.tvTikTok.isSelected = false
+        
+        // Set selected tab
+        selectedView.setBackgroundResource(R.drawable.tab_background)
+        (selectedView as TextView).setTextColor(ContextCompat.getColor(this, R.color.text_primary))
+        selectedView.isSelected = true
+    }
     
     private fun pasteFromClipboard() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -103,7 +127,7 @@ class MainActivity : AppCompatActivity() {
             val clipData = clipboard.primaryClip
                     if (clipData != null && clipData.itemCount > 0) {
             val text = clipData.getItemAt(0).text.toString()
-            binding.etUrl.setText(text)
+            binding.etLink.setText(text)
             Toast.makeText(this, getString(R.string.link_pasted), Toast.LENGTH_SHORT).show()
         }
     } else {
@@ -112,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun downloadVideo() {
-        val link = binding.etUrl.text.toString().trim()
+        val link = binding.etLink.text.toString().trim()
         
         if (link.isEmpty()) {
             Toast.makeText(this, getString(R.string.enter_link), Toast.LENGTH_SHORT).show()
@@ -240,8 +264,8 @@ class MainActivity : AppCompatActivity() {
                 openDownloads()
             }
             .setNegativeButton(getString(R.string.download_another)) { _, _ ->
-                        binding.etUrl.text.clear()
-        binding.etUrl.requestFocus()
+                                        binding.etLink.text.clear()
+                binding.etLink.requestFocus()
             }
             .setNeutralButton(getString(R.string.play_video)) { _, _ ->
                 playVideo(filePath)
@@ -326,7 +350,7 @@ class MainActivity : AppCompatActivity() {
                 val text = clipData.getItemAt(0).text.toString()
                 if (isTikTokLink(text)) {
                     // Auto-paste the link
-                    binding.etUrl.setText(text)
+                    binding.etLink.setText(text)
                     
                     // Show confirmation dialog
                     showAutoDownloadDialog(text)
