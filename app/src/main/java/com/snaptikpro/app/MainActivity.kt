@@ -180,9 +180,9 @@ class MainActivity : AppCompatActivity() {
            }
     
                private fun downloadFile(url: String, title: String, tikTokLink: String) {
-        try {
-            // Use public Movies directory for better organization
-            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
+                       try {
+                   // Use DCIM directory so videos appear in gallery
+                   val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
             if (!downloadsDir.exists()) {
                 val created = downloadsDir.mkdirs()
                 android.util.Log.d("DownloadManager", "Created directory: $created, Path: ${downloadsDir.absolutePath}")
@@ -204,10 +204,13 @@ class MainActivity : AppCompatActivity() {
 
                        override fun onSuccess(file: File) {
                            hideDownloadProgress()
-                           // Save the TikTok link to prevent re-downloading
+                           // Save the video link to prevent re-downloading
                            saveDownloadedLink(tikTokLink)
                            Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
                            saveDownloadRecord(title, file.absolutePath, file.length())
+
+                           // Trigger media scanner to make video appear in gallery
+                           triggerMediaScanner(file.absolutePath)
 
                            // Show success dialog with options
                            showDownloadSuccessDialog(title, file.absolutePath)
@@ -446,11 +449,27 @@ class MainActivity : AppCompatActivity() {
     
 
     
-    override fun onResume() {
-        super.onResume()
-                       // Check clipboard when returning to the app with a small delay
+               override fun onResume() {
+               super.onResume()
+               // Check clipboard when returning to the app with a small delay
                binding.root.postDelayed({
                    checkClipboardForVideoLink()
                }, 500) // 500ms delay to ensure clipboard is ready
-    }
+           }
+
+           private fun triggerMediaScanner(filePath: String) {
+               try {
+                   val file = File(filePath)
+                   
+                   // Trigger media scanner to make video appear in gallery
+                   val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                   val uri = Uri.fromFile(file)
+                   intent.data = uri
+                   sendBroadcast(intent)
+                   
+                   android.util.Log.d("MediaScanner", "Triggered media scanner for: $filePath")
+               } catch (e: Exception) {
+                   android.util.Log.e("MediaScanner", "Error triggering media scanner: ${e.message}")
+               }
+           }
 }

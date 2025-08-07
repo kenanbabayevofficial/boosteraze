@@ -74,9 +74,9 @@ class DownloadsActivity : AppCompatActivity() {
         }
     }
     
-    private fun loadDownloads() {
-        try {
-            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
+               private fun loadDownloads() {
+               try {
+                   val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
             android.util.Log.d("DownloadsActivity", "Downloads directory: ${downloadsDir.absolutePath}")
             android.util.Log.d("DownloadsActivity", "Directory exists: ${downloadsDir.exists()}")
             
@@ -224,9 +224,9 @@ class DownloadsActivity : AppCompatActivity() {
             .show()
     }
     
-    private fun clearAllDownloads() {
-        try {
-            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "SnapTikPro")
+               private fun clearAllDownloads() {
+               try {
+                   val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
             
             if (downloadsDir.exists()) {
                 val files = downloadsDir.listFiles { file ->

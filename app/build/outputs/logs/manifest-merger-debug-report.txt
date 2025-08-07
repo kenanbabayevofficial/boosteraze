@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:49:9-57:20
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:50:9-58:20
 	android:grantUriPermissions
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:53:13-47
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:54:13-47
 	android:authorities
 		INJECTED from /workspace/app/src/main/AndroidManifest.xml
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:51:13-64
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:52:13-64
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:52:13-37
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:53:13-37
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:50:13-62
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:51:13-62
 manifest
-ADDED from /workspace/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-61:12
+ADDED from /workspace/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:2:1-62:12
 MERGED from [androidx.databinding:viewbinding:8.2.0] /home/ubuntu/.gradle/caches/transforms-3/f483eddb7438cb20c38e1a1e7aad8844/transformed/jetified-viewbinding-8.2.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] /home/ubuntu/.gradle/caches/transforms-3/cb563ab62b64878a5325a696b8577c94/transformed/navigation-ui-ktx-2.5.3/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui:2.5.3] /home/ubuntu/.gradle/caches/transforms-3/575788ed17ce72eb25556e6a9f5f0868/transformed/navigation-ui-2.5.3/AndroidManifest.xml:17:1-24:12
@@ -116,9 +116,13 @@ MERGED from [androidx.media3:media3-exoplayer:1.2.0] /home/ubuntu/.gradle/caches
 MERGED from [androidx.media3:media3-exoplayer:1.2.0] /home/ubuntu/.gradle/caches/transforms-3/a2f6d572f9a23b66960169ab96ece375/transformed/jetified-media3-exoplayer-1.2.0/AndroidManifest.xml:22:5-79
 	android:name
 		ADDED from /workspace/app/src/main/AndroidManifest.xml:7:22-76
+uses-permission#android.permission.MEDIA_CONTENT_CONTROL
+ADDED from /workspace/app/src/main/AndroidManifest.xml:8:5-80
+	android:name
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:8:22-77
 application
-ADDED from /workspace/app/src/main/AndroidManifest.xml:9:5-59:19
-INJECTED from /workspace/app/src/main/AndroidManifest.xml:9:5-59:19
+ADDED from /workspace/app/src/main/AndroidManifest.xml:10:5-60:19
+INJECTED from /workspace/app/src/main/AndroidManifest.xml:10:5-60:19
 MERGED from [com.google.android.material:material:1.8.0] /home/ubuntu/.gradle/caches/transforms-3/76093cbb3e705c3055638eef04d77a19/transformed/material-1.8.0/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.8.0] /home/ubuntu/.gradle/caches/transforms-3/76093cbb3e705c3055638eef04d77a19/transformed/material-1.8.0/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/ubuntu/.gradle/caches/transforms-3/07725f65fc95c3161b19aa144b2bfb0d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -148,77 +152,77 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/ubunt
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] /home/ubuntu/.gradle/caches/transforms-3/fe4ebd7c8fec48858550b9dfa489ec1a/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:14:9-35
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:15:9-35
 	android:label
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:12:9-41
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:13:9-41
 	android:roundIcon
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:13:9-54
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:14:9-54
 	android:icon
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:11:9-43
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:12:9-43
 	android:allowBackup
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:10:9-35
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:11:9-35
 	android:theme
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:15:9-48
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:16:9-48
 	android:usesCleartextTraffic
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:16:9-44
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:17:9-44
 activity#com.snaptikpro.app.SplashActivity
-ADDED from /workspace/app/src/main/AndroidManifest.xml:18:9-26:20
+ADDED from /workspace/app/src/main/AndroidManifest.xml:19:9-27:20
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:20:13-36
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:21:13-36
 	android:theme
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:21:13-59
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:22:13-59
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:19:13-43
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:20:13-43
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /workspace/app/src/main/AndroidManifest.xml:22:13-25:29
+ADDED from /workspace/app/src/main/AndroidManifest.xml:23:13-26:29
 action#android.intent.action.MAIN
-ADDED from /workspace/app/src/main/AndroidManifest.xml:23:17-69
+ADDED from /workspace/app/src/main/AndroidManifest.xml:24:17-69
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:23:25-66
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:24:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /workspace/app/src/main/AndroidManifest.xml:24:17-77
+ADDED from /workspace/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:24:27-74
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:25:27-74
 activity#com.snaptikpro.app.MainActivity
-ADDED from /workspace/app/src/main/AndroidManifest.xml:28:9-31:55
+ADDED from /workspace/app/src/main/AndroidManifest.xml:29:9-32:55
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:30:13-37
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:31:13-37
 	android:theme
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:31:13-52
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:32:13-52
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:29:13-41
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:30:13-41
 activity#com.snaptikpro.app.DownloadsActivity
-ADDED from /workspace/app/src/main/AndroidManifest.xml:33:9-36:55
+ADDED from /workspace/app/src/main/AndroidManifest.xml:34:9-37:55
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:35:13-37
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:36:13-37
 	android:theme
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:36:13-52
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:37:13-52
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:34:13-46
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:35:13-46
 activity#com.snaptikpro.app.VideoPlayerActivity
-ADDED from /workspace/app/src/main/AndroidManifest.xml:38:9-42:66
+ADDED from /workspace/app/src/main/AndroidManifest.xml:39:9-43:66
 	android:screenOrientation
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:41:13-49
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:42:13-49
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:40:13-37
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:41:13-37
 	android:theme
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:42:13-63
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:43:13-63
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:39:13-48
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:40:13-48
 activity#com.snaptikpro.app.SettingsActivity
-ADDED from /workspace/app/src/main/AndroidManifest.xml:44:9-47:55
+ADDED from /workspace/app/src/main/AndroidManifest.xml:45:9-48:55
 	android:exported
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:46:13-37
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:47:13-37
 	android:theme
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:47:13-52
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:48:13-52
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:45:13-45
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:46:13-45
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from /workspace/app/src/main/AndroidManifest.xml:54:13-56:54
+ADDED from /workspace/app/src/main/AndroidManifest.xml:55:13-57:54
 	android:resource
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:56:17-51
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:57:17-51
 	android:name
-		ADDED from /workspace/app/src/main/AndroidManifest.xml:55:17-67
+		ADDED from /workspace/app/src/main/AndroidManifest.xml:56:17-67
 uses-sdk
 INJECTED from /workspace/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspace/app/src/main/AndroidManifest.xml
