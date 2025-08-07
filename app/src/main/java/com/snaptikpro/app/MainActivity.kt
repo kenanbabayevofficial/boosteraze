@@ -22,6 +22,9 @@ import com.snaptikpro.app.databinding.ActivityMainBinding
 import com.snaptikpro.app.network.ApiService
 import com.snaptikpro.app.network.TikWMResponse
 import com.snaptikpro.app.utils.DownloadManager
+import com.snaptikpro.app.security.SecurityManager
+import com.snaptikpro.app.security.SecurePreferences
+import com.snaptikpro.app.security.AntiTampering
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,6 +46,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var apiService: ApiService
     private lateinit var downloadManager: DownloadManager
+    private lateinit var securityManager: SecurityManager
+    private lateinit var securePreferences: SecurePreferences
+    private lateinit var antiTampering: AntiTampering
     private var selectedPlatform = "tiktok"
     
     companion object {
@@ -52,37 +58,69 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_LAST_LINK = "last_processed_link"
     }
     
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize security components
+        initializeSecurity()
         
+        // Perform security checks
+        if (!performSecurityChecks()) {
+            finish()
+            return
+        }
+
         setupApiService()
         setupDownloadManager()
         setupUI()
         checkPermissions()
-        
+
         // Check clipboard for video link on app start with delay
         binding.root.postDelayed({
             checkClipboardForVideoLink()
         }, 1000) // 1 second delay to ensure app is fully loaded
     }
     
+        private fun initializeSecurity() {
+        securityManager = SecurityManager()
+        securePreferences = SecurePreferences(this)
+        antiTampering = AntiTampering(this)
+    }
+    
+    private fun performSecurityChecks(): Boolean {
+        try {
+            // Perform anti-tampering checks
+            if (!antiTampering.performSecurityChecks()) {
+                Toast.makeText(this, "Security violation detected", Toast.LENGTH_LONG).show()
+                return false
+            }
+            
+            return true
+        } catch (e: Exception) {
+            Toast.makeText(this, "Security check failed", Toast.LENGTH_LONG).show()
+            return false
+        }
+    }
+    
     private fun setupApiService() {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        
-        val client = OkHttpClient.Builder()
+
+        // Use secure HTTP client
+        val client = securityManager.createSecureOkHttpClient()
+            .newBuilder()
             .addInterceptor(loggingInterceptor)
             .build()
-        
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        
+
         apiService = retrofit.create(ApiService::class.java)
     }
     
@@ -409,31 +447,30 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
     
-    private fun checkClipboardForVideoLink() {
+        private fun checkClipboardForVideoLink() {
         try {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            
+
             if (clipboard.hasPrimaryClip()) {
                 val clipData = clipboard.primaryClip
                 if (clipData != null && clipData.itemCount > 0) {
                     val text = clipData.getItemAt(0).text.toString()
-                    
+
                     // Check if this is a video link and not already processed
                     if (isVideoLink(text)) {
-                        val lastProcessedLink = prefs.getString(KEY_LAST_LINK, "")
-                        
+                        val lastProcessedLink = securePreferences.getSecureString(KEY_LAST_LINK, "")
+
                         // Only process if it's a new link
                         if (text != lastProcessedLink) {
-                            // Save the processed link
-                            prefs.edit().putString(KEY_LAST_LINK, text).apply()
-                            
+                            // Save the processed link securely
+                            securePreferences.putSecureString(KEY_LAST_LINK, text)
+
                             // Auto-paste the link
                             binding.etLink.setText(text)
-                            
+
                             // Show a brief message
                             Toast.makeText(this, getString(R.string.tiktok_link_found_downloading), Toast.LENGTH_SHORT).show()
-                            
+
                             // Automatically start download
                             downloadVideo()
                         }
@@ -455,16 +492,15 @@ class MainActivity : AppCompatActivity() {
                       text.contains("twitter.com")
            }
            
-           private fun isVideoAlreadyDownloaded(videoLink: String): Boolean {
-               // Check if this video link was already processed
-               val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
-               val downloadedLinks = prefs.getStringSet("downloaded_links", setOf()) ?: setOf()
-               
-               // Clean the link for comparison (remove query parameters)
-               val cleanLink = cleanVideoLink(videoLink)
-               
-               return downloadedLinks.contains(cleanLink)
-           }
+               private fun isVideoAlreadyDownloaded(videoLink: String): Boolean {
+        // Check if this video link was already processed using secure preferences
+        val downloadedLinks = securePreferences.getSecureString("downloaded_links", "")?.split(",")?.toSet() ?: setOf()
+
+        // Clean the link for comparison (remove query parameters)
+        val cleanLink = cleanVideoLink(videoLink)
+
+        return downloadedLinks.contains(cleanLink)
+    }
            
            private fun cleanVideoLink(link: String): String {
                // Remove query parameters and get the base TikTok URL
@@ -478,15 +514,15 @@ class MainActivity : AppCompatActivity() {
                }
            }
            
-           private fun saveDownloadedLink(videoLink: String) {
-               val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
-               val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
-               
-               val cleanLink = cleanVideoLink(videoLink)
-               downloadedLinks.add(cleanLink)
-               
-               prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
-           }
+               private fun saveDownloadedLink(videoLink: String) {
+        val downloadedLinks = securePreferences.getSecureString("downloaded_links", "")?.split(",")?.toMutableSet() ?: mutableSetOf()
+
+        val cleanLink = cleanVideoLink(videoLink)
+        downloadedLinks.add(cleanLink)
+
+        val linksString = downloadedLinks.joinToString(",")
+        securePreferences.putSecureString("downloaded_links", linksString)
+    }
            
            private fun showVideoAlreadyExistsDialog(videoLink: String) {
                AlertDialog.Builder(this)
