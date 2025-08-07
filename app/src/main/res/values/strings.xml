@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SnapTik Pro</string>
+    <string name="app_name">Video Downloader Pro</string>
     <string name="enter_link">Link daxil edin</string>
     <string name="paste">Yapışdır</string>
     <string name="download">Yüklə</string>
@@ -8,7 +8,7 @@
     <string name="download_failed">Yükləmə uğursuz oldu</string>
     <string name="invalid_link">Yanlış link</string>
     <string name="permission_required">Daxili yaddaş icazəsi tələb olunur</string>
-    <string name="tiktok">TikTok</string>
+    <string name="tiktok">Video Platform</string>
     <string name="instagram">Instagram</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -31,12 +31,12 @@
     <string name="file_not_found">Fayl tapılmadı</string>
     <string name="link_pasted">Link yapışdırıldı</string>
     <string name="no_clipboard_text">Klipbordda mətn yoxdur</string>
-    <string name="only_tiktok_supported">Yalnız TikTok dəstəklənir</string>
+    <string name="only_tiktok_supported">Yalnız video platformları dəstəklənir</string>
     <string name="no_video_url">Video URL tapılmadı</string>
     <string name="storage_permission_granted">Daxili yaddaş icazəsi verildi</string>
     <string name="settings_coming_soon">Tənzimləmələr tezliklə</string>
     <string name="help_coming_soon">Kömək tezliklə</string>
-    <string name="tiktok_link_found_downloading">TikTok linki bulundu, indiriliyor...</string>
+    <string name="tiktok_link_found_downloading">Video linki bulundu, indiriliyor...</string>
     <string name="clear_all_dialog_title">Bütün yükləmələri təmizlə</string>
     <string name="clear_all_dialog_message">Bütün yüklənmiş videoları silmək istədiyinizə əminsiniz?</string>
     <string name="clear">Təmizlə</string>
@@ -45,12 +45,12 @@
     
     <!-- How to Use Section -->
     <string name="how_to_use_title">📱 Tətbiq necə istifadə olunur?</string>
-    <string name="how_to_use_description">1️⃣ TikTok video linkini kopyalayın\n2️⃣ Linki yuxarıdakı sahəyə yapışdırın\n3️⃣ Yüklə düyməsinə basın\n4️⃣ Video avtomatik olaraq yüklənəcək\n5️⃣ Yükləmələr bölməsindən videolarınızı görüntüləyin\n6️⃣ Videoları oynadın, paylaşın və ya silin</string>
+    <string name="how_to_use_description">1️⃣ Video linkini kopyalayın\n2️⃣ Linki yuxarıdakı sahəyə yapışdırın\n3️⃣ Yüklə düyməsinə basın\n4️⃣ Video avtomatik olaraq yüklənəcək\n5️⃣ Yükləmələr bölməsindən videolarınızı görüntüləyin\n6️⃣ Videoları oynadın, paylaşın və ya silin</string>
     
     <!-- Video Already Exists Dialog -->
     <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
     <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
-    <string name="video_already_exists_message_link">Bu TikTok linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_message_link">Bu video linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
     <string name="download_anyway">Yine de İndir</string>
 
 </resources>

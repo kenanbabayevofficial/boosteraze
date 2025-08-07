@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
                 .apply()
             
             Toast.makeText(this, 
-                if (isChecked) "Otomatik indirme açıldı" else "Otomatik indirme kapatıldı", 
+                if (isChecked) "Otomatik video indirme açıldı" else "Otomatik video indirme kapatıldı", 
                 Toast.LENGTH_SHORT).show()
         }
         
@@ -57,7 +57,7 @@ class SettingsActivity : AppCompatActivity() {
                 .putString("download_quality", quality)
                 .apply()
             
-            Toast.makeText(this, "İndirme kalitesi: $quality", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Video indirme kalitesi: $quality", Toast.LENGTH_SHORT).show()
         }
         
         // Load saved quality preference
@@ -105,15 +105,15 @@ class SettingsActivity : AppCompatActivity() {
     
     private fun showAboutDialog() {
         AlertDialog.Builder(this)
-            .setTitle("SnapTik Pro Hakkında")
-            .setMessage("SnapTik Pro, TikTok videolarını kolayca indirmenizi sağlayan ücretsiz bir uygulamadır.\n\n" +
+            .setTitle("Video Downloader Pro Hakkında")
+            .setMessage("Video Downloader Pro, video platformlarından videoları kolayca indirmenizi sağlayan ücretsiz bir uygulamadır.\n\n" +
                     "Özellikler:\n" +
-                    "• TikTok video indirme\n" +
+                    "• Video indirme\n" +
                     "• Otomatik link algılama\n" +
                     "• Uygulama içi video oynatıcı\n" +
                     "• Çoklu dil desteği\n" +
                     "• Paylaşım özelliği\n\n" +
-                    "Geliştirici: SnapTik Pro Ekibi")
+                    "Geliştirici: Video Downloader Pro Ekibi")
             .setPositiveButton("Tamam", null)
             .show()
     }
@@ -134,7 +134,7 @@ class SettingsActivity : AppCompatActivity() {
     }
     
     private fun shareApp() {
-        val shareText = "SnapTik Pro - TikTok videolarını kolayca indirin!\n\n" +
+        val shareText = "Video Downloader Pro - Videoları kolayca indirin!\n\n" +
                 "https://play.google.com/store/apps/details?id=${packageName}"
         
         val intent = Intent(Intent.ACTION_SEND).apply {

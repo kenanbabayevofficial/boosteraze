@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SnapTik Pro</string>
+    <string name="app_name">Video Downloader Pro</string>
     <string name="enter_link">Enter link</string>
     <string name="paste">Paste</string>
     <string name="download">Download</string>
@@ -8,7 +8,7 @@
     <string name="download_failed">Download failed</string>
     <string name="invalid_link">Invalid link</string>
     <string name="permission_required">Storage permission required</string>
-    <string name="tiktok">TikTok</string>
+    <string name="tiktok">Video Platform</string>
     <string name="instagram">Instagram</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -31,12 +31,12 @@
     <string name="file_not_found">File not found</string>
     <string name="link_pasted">Link pasted</string>
     <string name="no_clipboard_text">No text in clipboard</string>
-    <string name="only_tiktok_supported">Only TikTok is supported</string>
+    <string name="only_tiktok_supported">Only video platforms are supported</string>
     <string name="no_video_url">Video URL not found</string>
     <string name="storage_permission_granted">Storage permission granted</string>
     <string name="settings_coming_soon">Settings coming soon</string>
     <string name="help_coming_soon">Help coming soon</string>
-    <string name="tiktok_link_found_downloading">TikTok link found, downloading...</string>
+    <string name="tiktok_link_found_downloading">Video link found, downloading...</string>
     <string name="clear_all_dialog_title">Clear all downloads</string>
     <string name="clear_all_dialog_message">Are you sure you want to delete all downloaded videos?</string>
     <string name="clear">Clear</string>
@@ -45,11 +45,11 @@
     
     <!-- How to Use Section -->
     <string name="how_to_use_title">📱 How to Use the App?</string>
-    <string name="how_to_use_description">1️⃣ Copy TikTok video link\n2️⃣ Paste the link in the field above\n3️⃣ Press Download button\n4️⃣ Video will be downloaded automatically\n5️⃣ View your videos from Downloads section\n6️⃣ Play, share or delete videos</string>
+    <string name="how_to_use_description">1️⃣ Copy video link\n2️⃣ Paste the link in the field above\n3️⃣ Press Download button\n4️⃣ Video will be downloaded automatically\n5️⃣ View your videos from Downloads section\n6️⃣ Play, share or delete videos</string>
     
     <!-- Video Already Exists Dialog -->
     <string name="video_already_exists_title">⚠️ Video Already Downloaded</string>
     <string name="video_already_exists_message">This video is already downloaded to your phone:\n\n\'%1$s\'\n\nWhat would you like to do?</string>
-    <string name="video_already_exists_message_link">This TikTok link is already downloaded:\n\n\'%1$s\'\n\nWhat would you like to do?</string>
+    <string name="video_already_exists_message_link">This video link is already downloaded:\n\n\'%1$s\'\n\nWhat would you like to do?</string>
     <string name="download_anyway">Download Anyway</string>
 </resources>

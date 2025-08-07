@@ -2,7 +2,7 @@
 <resources>
     <string name="about">Hakkında</string>
     <string name="all_downloads_cleared">Tüm indirmeler temizlendi</string>
-    <string name="app_name">SnapTik Pro</string>
+    <string name="app_name">Video Downloader Pro</string>
     <string name="cancel">İptal</string>
     <string name="clear">Temizle</string>
     <string name="clear_all">Tümünü temizle</string>
@@ -23,7 +23,7 @@
     <string name="file_not_found">Dosya bulunamadı</string>
     <string name="help">Yardım</string>
     <string name="help_coming_soon">Yardım yakında</string>
-    <string name="how_to_use_description">1️⃣ TikTok video linkini kopyalayın\n2️⃣ Linki yukarıdaki alana yapıştırın\n3️⃣ İndir butonuna basın\n4️⃣ Video otomatik olarak indirilecek\n5️⃣ İndirilenler bölümünden videolarınızı görüntüleyin\n6️⃣ Videoları oynatın, paylaşın veya silin</string>
+    <string name="how_to_use_description">1️⃣ Video linkini kopyalayın\n2️⃣ Linki yukarıdaki alana yapıştırın\n3️⃣ İndir butonuna basın\n4️⃣ Video otomatik olarak indirilecek\n5️⃣ İndirilenler bölümünden videolarınızı görüntüleyin\n6️⃣ Videoları oynatın, paylaşın veya silin</string>
     <string name="how_to_use_title">📱 Uygulama Nasıl Kullanılır?</string>
     <string name="instagram">Instagram</string>
     <string name="invalid_link">Geçersiz link</string>
@@ -32,19 +32,19 @@
     <string name="no_downloads">Henüz indirme yok</string>
     <string name="no_video_player">Video oynatıcı bulunamadı</string>
     <string name="no_video_url">Video URL bulunamadı</string>
-    <string name="only_tiktok_supported">Sadece TikTok destekleniyor</string>
+    <string name="only_tiktok_supported">Sadece video platformları destekleniyor</string>
     <string name="paste">Yapıştır</string>
     <string name="permission_required">Depolama izni gerekli</string>
     <string name="play_video">Videoyu oynat</string>
     <string name="settings">Ayarlar</string>
     <string name="settings_coming_soon">Ayarlar yakında</string>
     <string name="storage_permission_granted">Depolama izni verildi</string>
-    <string name="tiktok">TikTok</string>
-    <string name="tiktok_link_found_downloading">TikTok linki bulundu, indiriliyor...</string>
+    <string name="tiktok">Video Platform</string>
+    <string name="tiktok_link_found_downloading">Video linki bulundu, indiriliyor...</string>
     <string name="twitter">Twitter</string>
     <string name="version">Sürüm 1.0</string>
     <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
-    <string name="video_already_exists_message_link">Bu TikTok linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_message_link">Bu video linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
     <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
     <string name="view_downloads">İndirilenleri görüntüle</string>
 </resources>

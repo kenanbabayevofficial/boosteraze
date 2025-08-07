@@ -61,10 +61,10 @@ class MainActivity : AppCompatActivity() {
         setupUI()
         checkPermissions()
         
-        // Check clipboard for TikTok link on app start with delay
-        binding.root.postDelayed({
-            checkClipboardForTikTokLink()
-        }, 1000) // 1 second delay to ensure app is fully loaded
+                       // Check clipboard for video link on app start with delay
+               binding.root.postDelayed({
+                   checkClipboardForVideoLink()
+               }, 1000) // 1 second delay to ensure app is fully loaded
     }
     
     private fun setupApiService() {
@@ -341,7 +341,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.help_coming_soon), Toast.LENGTH_SHORT).show()
     }
     
-    private fun checkClipboardForTikTokLink() {
+    private fun checkClipboardForVideoLink() {
         try {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -351,8 +351,8 @@ class MainActivity : AppCompatActivity() {
                 if (clipData != null && clipData.itemCount > 0) {
                     val text = clipData.getItemAt(0).text.toString()
                     
-                    // Check if this is a TikTok link and not already processed
-                    if (isTikTokLink(text)) {
+                    // Check if this is a video link and not already processed
+                    if (isVideoLink(text)) {
                         val lastProcessedLink = prefs.getString(KEY_LAST_LINK, "")
                         
                         // Only process if it's a new link
@@ -377,25 +377,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
-               private fun isTikTokLink(text: String): Boolean {
+               private fun isVideoLink(text: String): Boolean {
                return text.contains("tiktok.com") ||
                       text.contains("vm.tiktok.com") ||
                       text.contains("vt.tiktok.com") ||
-                      text.contains("www.tiktok.com")
+                      text.contains("www.tiktok.com") ||
+                      text.contains("instagram.com") ||
+                      text.contains("facebook.com") ||
+                      text.contains("twitter.com")
            }
            
-           private fun isVideoAlreadyDownloaded(tikTokLink: String): Boolean {
-               // Check if this TikTok link was already processed
+           private fun isVideoAlreadyDownloaded(videoLink: String): Boolean {
+               // Check if this video link was already processed
                val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
                val downloadedLinks = prefs.getStringSet("downloaded_links", setOf()) ?: setOf()
                
                // Clean the link for comparison (remove query parameters)
-               val cleanLink = cleanTikTokLink(tikTokLink)
+               val cleanLink = cleanVideoLink(videoLink)
                
                return downloadedLinks.contains(cleanLink)
            }
            
-           private fun cleanTikTokLink(link: String): String {
+           private fun cleanVideoLink(link: String): String {
                // Remove query parameters and get the base TikTok URL
                return try {
                    val uri = Uri.parse(link)
@@ -407,20 +410,20 @@ class MainActivity : AppCompatActivity() {
                }
            }
            
-           private fun saveDownloadedLink(tikTokLink: String) {
+           private fun saveDownloadedLink(videoLink: String) {
                val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
                val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
                
-               val cleanLink = cleanTikTokLink(tikTokLink)
+               val cleanLink = cleanVideoLink(videoLink)
                downloadedLinks.add(cleanLink)
                
                prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
            }
            
-           private fun showVideoAlreadyExistsDialog(tikTokLink: String) {
+           private fun showVideoAlreadyExistsDialog(videoLink: String) {
                AlertDialog.Builder(this)
                    .setTitle(getString(R.string.video_already_exists_title))
-                   .setMessage(getString(R.string.video_already_exists_message_link).format(tikTokLink))
+                   .setMessage(getString(R.string.video_already_exists_message_link).format(videoLink))
                    .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
                        openDownloads()
                    }
@@ -428,7 +431,7 @@ class MainActivity : AppCompatActivity() {
                        // Force download anyway by removing from history
                        val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
                        val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
-                       val cleanLink = cleanTikTokLink(tikTokLink)
+                       val cleanLink = cleanVideoLink(videoLink)
                        downloadedLinks.remove(cleanLink)
                        prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
                        
@@ -445,9 +448,9 @@ class MainActivity : AppCompatActivity() {
     
     override fun onResume() {
         super.onResume()
-        // Check clipboard when returning to the app with a small delay
-        binding.root.postDelayed({
-            checkClipboardForTikTokLink()
-        }, 500) // 500ms delay to ensure clipboard is ready
+                       // Check clipboard when returning to the app with a small delay
+               binding.root.postDelayed({
+                   checkClipboardForVideoLink()
+               }, 500) // 500ms delay to ensure clipboard is ready
     }
 }
