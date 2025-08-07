@@ -10,10 +10,10 @@
                android:id="@+id/headerLayout"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:background="@drawable/gradient_primary"
-               android:elevation="8dp"
+               android:background="@color/primary"
+               android:elevation="4dp"
                android:orientation="horizontal"
-               android:padding="24dp"
+               android:padding="16dp"
                app:layout_constraintTop_toTopOf="parent">
 
                        <TextView
@@ -21,39 +21,35 @@
                    android:layout_height="wrap_content"
                    android:layout_weight="1"
                    android:text="@string/app_name"
-                   android:textColor="@color/text_on_primary"
-                   android:textSize="28sp"
-                   android:textStyle="bold"
-                   android:fontFamily="sans-serif-medium" />
+                   android:textColor="@color/text_primary"
+                   android:textSize="24sp"
+                   android:textStyle="bold" />
 
                        <ImageView
                    android:id="@+id/ivDownloads"
-                   android:layout_width="32dp"
-                   android:layout_height="32dp"
-                   android:layout_marginEnd="20dp"
+                   android:layout_width="24dp"
+                   android:layout_height="24dp"
+                   android:layout_marginEnd="16dp"
                    android:background="?attr/selectableItemBackgroundBorderless"
-                   android:padding="8dp"
-                   android:src="@drawable/ic_download"
-                   android:tint="@color/text_on_primary" />
+                   android:padding="4dp"
+                   android:src="@drawable/ic_download" />
 
                <ImageView
                    android:id="@+id/ivSettings"
-                   android:layout_width="32dp"
-                   android:layout_height="32dp"
-                   android:layout_marginEnd="20dp"
+                   android:layout_width="24dp"
+                   android:layout_height="24dp"
+                   android:layout_marginEnd="16dp"
                    android:background="?attr/selectableItemBackgroundBorderless"
-                   android:padding="8dp"
-                   android:src="@drawable/ic_settings"
-                   android:tint="@color/text_on_primary" />
+                   android:padding="4dp"
+                   android:src="@drawable/ic_settings" />
 
                <ImageView
                    android:id="@+id/ivHelp"
-                   android:layout_width="32dp"
-                   android:layout_height="32dp"
+                   android:layout_width="24dp"
+                   android:layout_height="24dp"
                    android:background="?attr/selectableItemBackgroundBorderless"
-                   android:padding="8dp"
-                   android:src="@drawable/ic_help"
-                   android:tint="@color/text_on_primary" />
+                   android:padding="4dp"
+                   android:src="@drawable/ic_help" />
 
     </LinearLayout>
 
@@ -64,8 +60,8 @@
                android:layout_height="wrap_content"
                android:layout_margin="24dp"
                app:cardBackgroundColor="@color/card_background"
-               app:cardCornerRadius="24dp"
-               app:cardElevation="12dp"
+               app:cardCornerRadius="16dp"
+               app:cardElevation="8dp"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toBottomOf="@id/headerLayout">
@@ -92,14 +88,13 @@
                                android:id="@+id/tvTikTok"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
-                               android:background="@drawable/tab_background_modern"
-                               android:paddingHorizontal="24dp"
-                               android:paddingVertical="16dp"
+                               android:background="@drawable/tab_background"
+                               android:paddingHorizontal="16dp"
+                               android:paddingVertical="8dp"
                                android:text="@string/tiktok"
                                android:textColor="@color/text_primary"
-                               android:textSize="16sp"
-                               android:textStyle="bold"
-                               android:fontFamily="sans-serif-medium" />
+                               android:textSize="14sp"
+                               android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvInstagram"
@@ -146,27 +141,25 @@
                        android:id="@+id/etLink"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:background="@drawable/input_background_modern"
+                       android:background="@drawable/input_background"
                        android:hint="@string/enter_link"
                        android:inputType="textUri"
-                       android:padding="20dp"
+                       android:padding="16dp"
                        android:textColor="@color/text_primary"
                        android:textColorHint="@color/text_hint"
-                       android:textSize="16sp"
-                       android:fontFamily="sans-serif" />
+                       android:textSize="16sp" />
 
                                <!-- Download Button -->
                    <Button
                        android:id="@+id/btnDownload"
                        android:layout_width="match_parent"
-                       android:layout_height="64dp"
-                       android:layout_marginTop="24dp"
-                       android:background="@drawable/button_primary_modern"
+                       android:layout_height="56dp"
+                       android:layout_marginTop="16dp"
+                       android:background="@drawable/button_background"
                        android:text="@string/download"
-                       android:textColor="@color/text_on_primary"
-                       android:textSize="18sp"
-                       android:textStyle="bold"
-                       android:fontFamily="sans-serif-medium" />
+                       android:textColor="@color/black"
+                       android:textSize="16sp"
+                       android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -204,8 +197,8 @@
                android:layout_height="wrap_content"
                android:layout_margin="24dp"
                app:cardBackgroundColor="@color/card_background"
-               app:cardCornerRadius="24dp"
-               app:cardElevation="12dp"
+               app:cardCornerRadius="16dp"
+               app:cardElevation="8dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent">
@@ -221,19 +214,17 @@
                        android:layout_height="wrap_content"
                        android:text="@string/how_to_use_title"
                        android:textColor="@color/text_primary"
-                       android:textSize="20sp"
-                       android:textStyle="bold"
-                       android:fontFamily="sans-serif-medium" />
+                       android:textSize="18sp"
+                       android:textStyle="bold" />
 
                    <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:layout_marginTop="16dp"
+                       android:layout_marginTop="12dp"
                        android:text="@string/how_to_use_description"
                        android:textColor="@color/text_secondary"
-                       android:textSize="15sp"
-                       android:lineSpacingExtra="6dp"
-                       android:fontFamily="sans-serif" />
+                       android:textSize="14sp"
+                       android:lineSpacingExtra="4dp" />
 
                </LinearLayout>
 

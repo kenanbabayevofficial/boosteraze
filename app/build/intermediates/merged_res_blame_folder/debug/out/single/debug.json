@@ -12,10 +12,6 @@
         "source": "com.snaptikpro.app-main-56:/xml/file_paths.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_tab_background_modern.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/tab_background_modern.xml"
-    },
-    {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_wallet.xml.flat",
         "source": "com.snaptikpro.app-main-56:/drawable/ic_wallet.xml"
     },
@@ -26,10 +22,6 @@
     {
         "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher.xml.flat",
         "source": "com.snaptikpro.app-main-56:/mipmap-xhdpi/ic_launcher.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_button_primary_modern.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/button_primary_modern.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/raw_loading_animation.json.flat",
@@ -48,20 +40,12 @@
         "source": "com.snaptikpro.app-main-56:/drawable/gradient_header.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_gradient_primary.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/gradient_primary.xml"
-    },
-    {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_share.xml.flat",
         "source": "com.snaptikpro.app-main-56:/drawable/ic_share.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_orders.xml.flat",
         "source": "com.snaptikpro.app-main-56:/drawable/ic_orders.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_card_background_modern.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/card_background_modern.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/mipmap-hdpi_ic_launcher.xml.flat",
@@ -114,10 +98,6 @@
     {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_delete.xml.flat",
         "source": "com.snaptikpro.app-main-56:/drawable/ic_delete.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_input_background_modern.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/input_background_modern.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher_round.xml.flat",
