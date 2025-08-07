@@ -92,15 +92,20 @@ class DownloadsActivity : AppCompatActivity() {
                     // Double check if file still exists and is valid
                     if (file.exists() && file.length() > 0) {
                         android.util.Log.d("DownloadsActivity", "Adding file: ${file.name}, Size: ${file.length()}")
-                        downloads.add(
-                            DownloadItem(
-                                title = "Video ${file.nameWithoutExtension}",
-                                path = file.absolutePath,
-                                size = file.length(),
-                                date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                                    .format(Date(file.lastModified()))
-                            )
-                        )
+                                               // Check if thumbnail exists
+                       val thumbnailFile = File(downloadsDir, "${file.nameWithoutExtension}_thumb.jpg")
+                       val thumbnailPath = if (thumbnailFile.exists()) thumbnailFile.absolutePath else null
+                       
+                       downloads.add(
+                           DownloadItem(
+                               title = "Video ${file.nameWithoutExtension}",
+                               path = file.absolutePath,
+                               size = file.length(),
+                               date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                   .format(Date(file.lastModified())),
+                               thumbnailPath = thumbnailPath
+                           )
+                       )
                     } else {
                         android.util.Log.w("DownloadsActivity", "Skipping invalid file: ${file.name}")
                     }
@@ -182,25 +187,34 @@ class DownloadsActivity : AppCompatActivity() {
         }
     }
     
-    private fun deleteVideo(downloadItem: DownloadItem) {
-        val file = File(downloadItem.path)
-        if (file.exists()) {
-            val deleted = file.delete()
-            if (deleted) {
-                android.util.Log.d("DownloadsActivity", "File ${file.name} deleted successfully")
-                removeFromList(downloadItem)
-                Toast.makeText(this, "Video deleted", Toast.LENGTH_SHORT).show()
-            } else {
-                android.util.Log.w("DownloadsActivity", "Failed to delete file ${file.name}")
-                Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            android.util.Log.w("DownloadsActivity", "File ${downloadItem.path} does not exist")
-            // Remove from list if file doesn't exist
-            removeFromList(downloadItem)
-            Toast.makeText(this, "File not found, removed from list", Toast.LENGTH_SHORT).show()
-        }
-    }
+               private fun deleteVideo(downloadItem: DownloadItem) {
+               val file = File(downloadItem.path)
+               if (file.exists()) {
+                   val deleted = file.delete()
+                   if (deleted) {
+                       // Also delete thumbnail if exists
+                       if (!downloadItem.thumbnailPath.isNullOrEmpty()) {
+                           val thumbnailFile = File(downloadItem.thumbnailPath)
+                           if (thumbnailFile.exists()) {
+                               thumbnailFile.delete()
+                               android.util.Log.d("DownloadsActivity", "Thumbnail ${thumbnailFile.name} deleted successfully")
+                           }
+                       }
+                       
+                       android.util.Log.d("DownloadsActivity", "File ${file.name} deleted successfully")
+                       removeFromList(downloadItem)
+                       Toast.makeText(this, "Video deleted", Toast.LENGTH_SHORT).show()
+                   } else {
+                       android.util.Log.w("DownloadsActivity", "Failed to delete file ${file.name}")
+                       Toast.makeText(this, "Failed to delete video", Toast.LENGTH_SHORT).show()
+                   }
+               } else {
+                   android.util.Log.w("DownloadsActivity", "File ${downloadItem.path} does not exist")
+                   // Remove from list if file doesn't exist
+                   removeFromList(downloadItem)
+                   Toast.makeText(this, "File not found, removed from list", Toast.LENGTH_SHORT).show()
+               }
+           }
     
     private fun showDeleteDialog(downloadItem: DownloadItem) {
         AlertDialog.Builder(this)
@@ -239,18 +253,25 @@ class DownloadsActivity : AppCompatActivity() {
                     file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv")
                 }
                 
-                var deletedCount = 0
-                files?.forEach { file ->
-                    if (file.exists()) {
-                        val deleted = file.delete()
-                        if (deleted) {
-                            deletedCount++
-                            android.util.Log.d("DownloadsActivity", "File ${file.name} deleted successfully")
-                        } else {
-                            android.util.Log.w("DownloadsActivity", "Failed to delete file ${file.name}")
-                        }
-                    }
-                }
+                                       var deletedCount = 0
+                       files?.forEach { file ->
+                           if (file.exists()) {
+                               val deleted = file.delete()
+                               if (deleted) {
+                                   deletedCount++
+                                   android.util.Log.d("DownloadsActivity", "File ${file.name} deleted successfully")
+                                   
+                                   // Also delete corresponding thumbnail
+                                   val thumbnailFile = File(downloadsDir, "${file.nameWithoutExtension}_thumb.jpg")
+                                   if (thumbnailFile.exists()) {
+                                       thumbnailFile.delete()
+                                       android.util.Log.d("DownloadsActivity", "Thumbnail ${thumbnailFile.name} deleted successfully")
+                                   }
+                               } else {
+                                   android.util.Log.w("DownloadsActivity", "Failed to delete file ${file.name}")
+                               }
+                           }
+                       }
                 
                 android.util.Log.d("DownloadsActivity", "Total files deleted: $deletedCount")
             }
@@ -269,11 +290,12 @@ class DownloadsActivity : AppCompatActivity() {
     }
     
     data class DownloadItem(
-        val title: String,
-        val path: String,
-        val size: Long,
-        val date: String
-    )
+    val title: String,
+    val path: String,
+    val size: Long,
+    val date: String,
+    val thumbnailPath: String? = null
+)
     
     // Check if video already exists
     fun isVideoAlreadyDownloaded(videoTitle: String): Boolean {
