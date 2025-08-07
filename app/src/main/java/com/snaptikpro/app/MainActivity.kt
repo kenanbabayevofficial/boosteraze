@@ -9,9 +9,7 @@ import android.net.Uri
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,7 +28,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -64,11 +61,12 @@ class MainActivity : AppCompatActivity() {
         setupDownloadManager()
         setupUI()
         checkPermissions()
+        updateDownloadCount()
         
-                       // Check clipboard for video link on app start with delay
-               binding.root.postDelayed({
-                   checkClipboardForVideoLink()
-               }, 1000) // 1 second delay to ensure app is fully loaded
+        // Check clipboard for video link on app start with delay
+        binding.root.postDelayed({
+            checkClipboardForVideoLink()
+        }, 1000) // 1 second delay to ensure app is fully loaded
     }
     
     private fun setupApiService() {
@@ -223,6 +221,9 @@ class MainActivity : AppCompatActivity() {
 
                            // Show success dialog with options
                            showDownloadSuccessDialog(title, file.absolutePath)
+                           
+                           // Update download count
+                           updateDownloadCount()
                        }
 
                        override fun onError(error: String) {
@@ -293,99 +294,20 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun showDownloadSuccessDialog(title: String, filePath: String) {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_download_success, null)
-        
-        // Set video title
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvVideoTitle)
-        tvTitle.text = title
-        
-        // Set file info
-        val file = File(filePath)
-        val tvFileInfo = dialogView.findViewById<TextView>(R.id.tvFileInfo)
-        val fileSize = formatFileSize(file.length())
-        val fileName = file.name
-        tvFileInfo.text = "📁 $fileName\n💾 $fileSize"
-        
-        // Set download location
-        val tvLocation = dialogView.findViewById<TextView>(R.id.tvLocation)
-        tvLocation.text = "📂 DCIM/SnapTikPro"
-        
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
-        
-        // Set button click listeners
-        dialogView.findViewById<Button>(R.id.btnPlayVideo).setOnClickListener {
-            dialog.dismiss()
-            playVideo(filePath)
-        }
-        
-        dialogView.findViewById<Button>(R.id.btnViewDownloads).setOnClickListener {
-            dialog.dismiss()
-            openDownloads()
-        }
-        
-        dialogView.findViewById<Button>(R.id.btnShareVideo).setOnClickListener {
-            dialog.dismiss()
-            shareVideo(filePath)
-        }
-        
-        dialogView.findViewById<Button>(R.id.btnDownloadAnother).setOnClickListener {
-            dialog.dismiss()
-            binding.etLink.text.clear()
-            binding.etLink.requestFocus()
-        }
-        
-        dialogView.findViewById<Button>(R.id.btnClose).setOnClickListener {
-            dialog.dismiss()
-        }
-        
-        dialog.show()
-    }
-    
-    private fun formatFileSize(size: Long): String {
-        val df = DecimalFormat("#.##")
-        val sizeKb = size / 1024.0
-        val sizeMb = sizeKb / 1024.0
-        val sizeGb = sizeMb / 1024.0
-
-        return when {
-            sizeGb >= 1 -> "${df.format(sizeGb)} GB"
-            sizeMb >= 1 -> "${df.format(sizeMb)} MB"
-            sizeKb >= 1 -> "${df.format(sizeKb)} KB"
-            else -> "$size bytes"
-        }
-    }
-    
-    private fun shareVideo(filePath: String) {
-        try {
-            val file = File(filePath)
-            if (file.exists()) {
-                val uri = try {
-                    FileProvider.getUriForFile(
-                        this,
-                        "${packageName}.fileprovider",
-                        file
-                    )
-                } catch (e: Exception) {
-                    Uri.fromFile(file)
-                }
-
-                val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                    type = "video/*"
-                    putExtra(Intent.EXTRA_STREAM, uri)
-                    putExtra(Intent.EXTRA_SUBJECT, "Check out this video!")
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-
-                startActivity(Intent.createChooser(shareIntent, "Share video via"))
-            } else {
-                Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.download_complete_title))
+            .setMessage(getString(R.string.download_complete_message, title))
+            .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
+                openDownloads()
             }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error sharing video: ${e.message}", Toast.LENGTH_LONG).show()
-        }
+            .setNegativeButton(getString(R.string.download_another)) { _, _ ->
+                binding.etLink.text.clear()
+                binding.etLink.requestFocus()
+            }
+            .setNeutralButton(getString(R.string.play_video)) { _, _ ->
+                playVideo(filePath)
+            }
+            .show()
     }
     
     private fun playVideo(filePath: String) {
@@ -451,6 +373,23 @@ class MainActivity : AppCompatActivity() {
                val intent = Intent(this, SettingsActivity::class.java)
                startActivity(intent)
            }
+    
+    private fun updateDownloadCount() {
+        try {
+            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
+            if (downloadsDir.exists()) {
+                val files = downloadsDir.listFiles { file ->
+                    file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv") && file.exists() && file.length() > 0
+                }
+                val count = files?.size ?: 0
+                binding.tvDownloadCount.text = "📥 $count video indirildi"
+            } else {
+                binding.tvDownloadCount.text = "📥 0 video indirildi"
+            }
+        } catch (e: Exception) {
+            binding.tvDownloadCount.text = "📥 0 video indirildi"
+        }
+    }
     
     private fun openHelp() {
         AlertDialog.Builder(this)
@@ -594,13 +533,16 @@ class MainActivity : AppCompatActivity() {
     
 
     
-               override fun onResume() {
-               super.onResume()
-               // Check clipboard when returning to the app with a small delay
-               binding.root.postDelayed({
-                   checkClipboardForVideoLink()
-               }, 500) // 500ms delay to ensure clipboard is ready
-           }
+                   override fun onResume() {
+        super.onResume()
+        // Update download count when returning to app
+        updateDownloadCount()
+        
+        // Check clipboard when returning to the app with a small delay
+        binding.root.postDelayed({
+            checkClipboardForVideoLink()
+        }, 500) // 500ms delay to ensure clipboard is ready
+    }
 
            private fun triggerMediaScanner(filePath: String) {
                try {
