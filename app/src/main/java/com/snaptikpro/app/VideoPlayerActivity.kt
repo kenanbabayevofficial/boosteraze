@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.PlayerView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import com.snaptikpro.app.databinding.ActivityVideoPlayerBinding
 import java.io.File
 
@@ -94,7 +94,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                     }
                 }
                 
-                override fun onPlayerError(error: com.google.android.exoplayer2.PlaybackException) {
+                override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
                     Toast.makeText(this@VideoPlayerActivity, "Error playing video: ${error.message}", Toast.LENGTH_LONG).show()
                     binding.progressBar.visibility = View.GONE
                 }
