@@ -1,26 +1,30 @@
 [
     {
-        "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/activity_video_player.xml",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_video_player.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-mergeDebugResources-53:/layout/activity_main.xml",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_main.xml"
     },
     {
-        "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/activity_splash.xml",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_splash.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-mergeDebugResources-53:/layout/activity_settings.xml",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_settings.xml"
     },
     {
-        "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/activity_downloads.xml",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_downloads.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-mergeDebugResources-53:/layout/activity_video_player.xml",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_video_player.xml"
+    },
+    {
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-mergeDebugResources-53:/layout/activity_splash.xml",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_splash.xml"
     },
     {
         "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/activity_main.xml",
         "source": "com.snaptikpro.app-main-56:/layout/activity_main.xml"
     },
     {
-        "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/item_download.xml",
-        "source": "com.snaptikpro.app-main-56:/layout/item_download.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-mergeDebugResources-53:/layout/activity_downloads.xml",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_downloads.xml"
     },
     {
-        "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/activity_settings.xml",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_settings.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-mergeDebugResources-53:/layout/item_download.xml",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/item_download.xml"
     }
 ]

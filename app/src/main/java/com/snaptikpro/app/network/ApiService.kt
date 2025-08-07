@@ -9,6 +9,11 @@ interface ApiService {
     suspend fun downloadTikTokVideo(
         @Query("url") url: String
     ): TikWMResponse
+    
+    @GET("api/")
+    suspend fun downloadInstagramVideo(
+        @Query("url") url: String
+    ): InstagramResponse
 }
 
 data class TikWMResponse(
@@ -58,6 +63,46 @@ data class Author(
     val unique_id: String?,
     val nickname: String?,
     val avatar: String?
+)
+
+// Instagram API Response
+data class InstagramResponse(
+    val code: Int,
+    val msg: String,
+    val processed_time: Double,
+    val data: InstagramData?
+)
+
+data class InstagramData(
+    val id: String?,
+    val title: String?,
+    val description: String?,
+    val thumbnail: String?,
+    val video_url: String?,
+    val audio_url: String?,
+    val duration: Int?,
+    val width: Int?,
+    val height: Int?,
+    val size: Long?,
+    val author: InstagramAuthor?,
+    val created_time: Long?,
+    val likes_count: Long?,
+    val comments_count: Long?,
+    val views_count: Long?,
+    val is_video: Boolean?,
+    val is_reel: Boolean?,
+    val is_story: Boolean?
+)
+
+data class InstagramAuthor(
+    val id: String?,
+    val username: String?,
+    val full_name: String?,
+    val profile_pic_url: String?,
+    val is_verified: Boolean?,
+    val is_private: Boolean?,
+    val followers_count: Long?,
+    val following_count: Long?
 )
 
 // Legacy response for backward compatibility

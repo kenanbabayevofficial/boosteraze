@@ -1,162 +1,166 @@
 [
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_play.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_play.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_help.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_help.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-mdpi_ic_launcher_round.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-mdpi/ic_launcher_round.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-hdpi_ic_launcher_round.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-hdpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/xml_file_paths.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/xml/file_paths.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_splash_background.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/splash_background.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_wallet.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_wallet.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_play.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_play.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_help.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_help.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-xxhdpi_ic_launcher.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-xxhdpi/ic_launcher.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-xhdpi/ic_launcher.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/layout_item_download.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/item_download.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/raw_loading_animation.json.flat",
-        "source": "com.snaptikpro.app-main-56:/raw/loading_animation.json"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_privacy.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_privacy.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_download.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_download.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_menu.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_menu.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_back.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_back.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-xxxhdpi_ic_launcher_round.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-xxxhdpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_gradient_header.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/gradient_header.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-xxhdpi_ic_launcher_round.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-xxhdpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_share.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_share.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_wallet.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_wallet.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_orders.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_orders.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_input_background.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/input_background.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-hdpi_ic_launcher.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-hdpi/ic_launcher.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_orders.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_orders.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/layout_activity_video_player.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_video_player.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/layout_activity_settings.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_settings.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_coupon.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_coupon.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-xxxhdpi_ic_launcher.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-xxxhdpi/ic_launcher.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xxxhdpi_ic_launcher_round.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-xxxhdpi/ic_launcher_round.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_support.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_support.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_settings.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_settings.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/layout_activity_video_player.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_video_player.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_button_background.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/button_background.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-xhdpi/ic_launcher.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/layout_activity_splash.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_splash.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_download.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_download.xml"
+    },
+    {
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_back.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/layout_activity_downloads.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_downloads.xml"
+    },
+    {
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_delete.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_delete.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/layout_activity_main.xml.flat",
         "source": "com.snaptikpro.app-main-56:/layout/activity_main.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_user.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_user.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/layout_activity_splash.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_splash.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_privacy.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_privacy.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_menu.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_menu.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-mdpi_ic_launcher_round.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-mdpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_logo.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_logo.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_tab_background.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/tab_background.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_delete.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_delete.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_settings.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_settings.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher_round.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-xhdpi/ic_launcher_round.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher_round.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-xhdpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_input_background.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/input_background.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/raw_loading_animation.json.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/raw/loading_animation.json"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/layout_item_download.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/layout/item_download.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-hdpi_ic_launcher.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-hdpi/ic_launcher.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/layout_activity_settings.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_settings.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/xml_file_paths.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/xml/file_paths.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_launcher_foreground.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_user.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_user.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-mdpi_ic_launcher.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-mdpi/ic_launcher.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/mipmap-mdpi_ic_launcher.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/mipmap-mdpi/ic_launcher.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xxhdpi_ic_launcher.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-xxhdpi/ic_launcher.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_coupon.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_coupon.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_tab_background.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/tab_background.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_gradient_header.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/gradient_header.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_support.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_support.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_google.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_google.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xxxhdpi_ic_launcher.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-xxxhdpi/ic_launcher.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_logo.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_logo.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_google.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/ic_google.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_ic_share.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/ic_share.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/drawable_splash_background.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/drawable/splash_background.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/drawable_button_background.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/drawable/button_background.xml"
     },
     {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xxhdpi_ic_launcher_round.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-xxhdpi/ic_launcher_round.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-54:/layout_activity_downloads.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/layout/activity_downloads.xml"
-    },
-    {
-        "merged": "com.snaptikpro.app-merged_res-54:/mipmap-hdpi_ic_launcher_round.xml.flat",
-        "source": "com.snaptikpro.app-main-56:/mipmap-hdpi/ic_launcher_round.xml"
+        "merged": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-merged_res-54:/layout_activity_main.xml.flat",
+        "source": "/home/ubuntu/.gradle/daemon/8.5/com.snaptikpro.app-main-56:/layout/activity_main.xml"
     }
 ]

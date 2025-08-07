@@ -118,7 +118,8 @@
                         android:paddingVertical="8dp"
                         android:text="@string/facebook"
                         android:textColor="@color/text_secondary"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tvTwitter"
@@ -130,7 +131,8 @@
                         android:paddingVertical="8dp"
                         android:text="@string/twitter"
                         android:textColor="@color/text_secondary"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

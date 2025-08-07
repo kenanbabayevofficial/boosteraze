@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
         private const val BASE_URL = "https://www.tikwm.com/" // TikWM API URL
+        private const val INSTAGRAM_BASE_URL = "https://api.rapidapi.com/" // Instagram API URL
         private const val PREFS_NAME = "clipboard_prefs"
         private const val KEY_LAST_LINK = "last_processed_link"
     }
@@ -90,17 +91,21 @@ class MainActivity : AppCompatActivity() {
         downloadManager = DownloadManager(this)
     }
     
-    private fun setupUI() {
-        // Platform tabs - Only TikTok supported
+        private fun setupUI() {
+        // Platform tabs - TikTok and Instagram supported
         binding.tvTikTok.setOnClickListener { selectPlatform("tiktok", binding.tvTikTok) }
+        binding.tvInstagram.setOnClickListener { 
+            selectPlatform("instagram", binding.tvInstagram)
+            // Instagram seçildiğinde Instagram linklerini kontrol et
+            checkForInstagramLinks()
+        }
         
         // Hide other platforms
-        binding.tvInstagram.visibility = View.GONE
         binding.tvFacebook.visibility = View.GONE
         binding.tvTwitter.visibility = View.GONE
         
-                       // Buttons
-               binding.btnDownload.setOnClickListener { downloadVideo() }
+        // Buttons
+        binding.btnDownload.setOnClickListener { downloadVideo() }
         
         // Header buttons
         binding.ivDownloads.setOnClickListener { openDownloads() }
@@ -114,10 +119,14 @@ class MainActivity : AppCompatActivity() {
     private fun selectPlatform(platform: String, selectedView: View) {
         selectedPlatform = platform
         
-        // Reset TikTok tab
+        // Reset all tabs
         binding.tvTikTok.setBackgroundResource(0)
         binding.tvTikTok.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         binding.tvTikTok.isSelected = false
+        
+        binding.tvInstagram.setBackgroundResource(0)
+        binding.tvInstagram.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
+        binding.tvInstagram.isSelected = false
         
         // Set selected tab
         selectedView.setBackgroundResource(R.drawable.tab_background)
@@ -127,58 +136,98 @@ class MainActivity : AppCompatActivity() {
     
     
     
-               private fun downloadVideo() {
-               val link = binding.etLink.text.toString().trim()
+                   private fun downloadVideo() {
+        val link = binding.etLink.text.toString().trim()
 
-               if (link.isEmpty()) {
-                   Toast.makeText(this, getString(R.string.enter_link), Toast.LENGTH_SHORT).show()
-                   return
-               }
+        if (link.isEmpty()) {
+            Toast.makeText(this, getString(R.string.enter_link), Toast.LENGTH_SHORT).show()
+            return
+        }
 
-               if (!isValidUrl(link)) {
-                   Toast.makeText(this, getString(R.string.invalid_link), Toast.LENGTH_SHORT).show()
-                   return
-               }
+        if (!isValidUrl(link)) {
+            Toast.makeText(this, getString(R.string.invalid_link), Toast.LENGTH_SHORT).show()
+            return
+        }
 
-               // Only support TikTok for now with TikWM API
-               if (selectedPlatform != "tiktok") {
-                   Toast.makeText(this, getString(R.string.only_tiktok_supported), Toast.LENGTH_SHORT).show()
-                   return
-               }
+        // Check if this video link was already downloaded
+        if (isVideoAlreadyDownloaded(link)) {
+            showVideoAlreadyExistsDialog(link)
+            return
+        }
 
-               // Check if this TikTok link was already downloaded
-               if (isVideoAlreadyDownloaded(link)) {
-                   showVideoAlreadyExistsDialog(link)
-                   return
-               }
+        showDownloadProgress()
 
-               showDownloadProgress()
+        lifecycleScope.launch {
+            try {
+                when (selectedPlatform) {
+                    "tiktok" -> downloadTikTokVideo(link)
+                    "instagram" -> downloadInstagramVideo(link)
+                    else -> {
+                        hideDownloadProgress()
+                        Toast.makeText(this@MainActivity, "Unsupported platform", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                hideDownloadProgress()
+                Toast.makeText(this@MainActivity, "Network error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    
+    private suspend fun downloadTikTokVideo(link: String) {
+        try {
+            val response = apiService.downloadTikTokVideo(link)
 
-               lifecycleScope.launch {
-                   try {
-                       val response = apiService.downloadTikTokVideo(link)
+            if (response.code == 0 && response.data != null) {
+                val videoUrl = response.data.play ?: response.data.wmplay
+                val title = response.data.title ?: "TikTok Video"
+                val thumbnail = response.data.cover
 
-                       if (response.code == 0 && response.data != null) {
-                           val videoUrl = response.data.play ?: response.data.wmplay
-                           val title = response.data.title ?: "TikTok Video"
-                           val thumbnail = response.data.cover
-
-                           if (videoUrl != null) {
-                               downloadFile(videoUrl, title, link)
-                           } else {
-                               hideDownloadProgress()
-                               Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
-                           }
-                       } else {
-                           hideDownloadProgress()
-                           Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
-                       }
-                   } catch (e: Exception) {
-                       hideDownloadProgress()
-                       Toast.makeText(this@MainActivity, "Network error: ${e.message}", Toast.LENGTH_LONG).show()
-                   }
-               }
-           }
+                if (videoUrl != null) {
+                    downloadFile(videoUrl, title, link)
+                } else {
+                    hideDownloadProgress()
+                    Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
+                }
+            } else {
+                hideDownloadProgress()
+                Toast.makeText(this@MainActivity, response.msg ?: "Download failed", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            hideDownloadProgress()
+            Toast.makeText(this@MainActivity, "TikTok download error: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+    
+    private suspend fun downloadInstagramVideo(link: String) {
+        try {
+            // Instagram API'si karmaşık olduğu için şimdilik bilgi mesajı gösterelim
+            hideDownloadProgress()
+            
+            AlertDialog.Builder(this@MainActivity)
+                .setTitle("🎬 Instagram Reels Desteği")
+                .setMessage("Instagram Reels indirme özelliği yakında eklenecek!\n\n" +
+                           "📱 Şu anda desteklenen platformlar:\n" +
+                           "✅ TikTok - Tam destek\n" +
+                           "🔄 Instagram Reels - Yakında\n" +
+                           "🔄 Facebook Videos - Yakında\n" +
+                           "🔄 Twitter Videos - Yakında\n\n" +
+                           "💡 Instagram Reels için:\n" +
+                           "• Reels linkini kopyalayın\n" +
+                           "• TikTok seçeneğini kullanın\n" +
+                           "• Gelecek güncellemede tam destek!")
+                .setPositiveButton("TikTok'a Geç") { _, _ ->
+                    // TikTok'a geri dön
+                    selectPlatform("tiktok", binding.tvTikTok)
+                }
+                .setNegativeButton("Kapat", null)
+                .show()
+                
+        } catch (e: Exception) {
+            hideDownloadProgress()
+            Toast.makeText(this@MainActivity, "Instagram özelliği henüz aktif değil", Toast.LENGTH_LONG).show()
+        }
+    }
     
                           private fun downloadFile(url: String, title: String, tikTokLink: String) {
                try {
@@ -445,15 +494,46 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
-               private fun isVideoLink(text: String): Boolean {
-               return text.contains("tiktok.com") ||
-                      text.contains("vm.tiktok.com") ||
-                      text.contains("vt.tiktok.com") ||
-                      text.contains("www.tiktok.com") ||
-                      text.contains("instagram.com") ||
-                      text.contains("facebook.com") ||
-                      text.contains("twitter.com")
-           }
+                   private fun isVideoLink(text: String): Boolean {
+        return text.contains("tiktok.com") ||
+               text.contains("vm.tiktok.com") ||
+               text.contains("vt.tiktok.com") ||
+               text.contains("www.tiktok.com") ||
+               text.contains("instagram.com") ||
+               text.contains("www.instagram.com") ||
+               text.contains("reels") ||
+               text.contains("facebook.com") ||
+               text.contains("twitter.com")
+    }
+    
+    private fun isInstagramLink(text: String): Boolean {
+        return text.contains("instagram.com") ||
+               text.contains("www.instagram.com") ||
+               text.contains("reels") ||
+               text.contains("reel/") ||
+               text.contains("p/")
+    }
+    
+    private fun checkForInstagramLinks() {
+        try {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            
+            if (clipboard.hasPrimaryClip()) {
+                val clipData = clipboard.primaryClip
+                if (clipData != null && clipData.itemCount > 0) {
+                    val text = clipData.getItemAt(0).text.toString()
+                    
+                    if (isInstagramLink(text)) {
+                        // Instagram linki bulundu, kullanıcıya bilgi ver
+                        binding.etLink.setText(text)
+                        Toast.makeText(this, "Instagram linki bulundu! Yakında desteklenecek.", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("InstagramCheck", "Error checking Instagram links: ${e.message}")
+        }
+    }
            
                private fun isVideoAlreadyDownloaded(videoLink: String): Boolean {
         // Check if this video link was already processed

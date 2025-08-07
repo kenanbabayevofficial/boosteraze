@@ -4024,6 +4024,9 @@ string how_to_use_description
 string how_to_use_title
 string icon_content_description
 string instagram
+string instagram_download_failed
+string instagram_no_video_url
+string instagram_supported
 string invalid_link
 string item_view_role_description
 string link_pasted
