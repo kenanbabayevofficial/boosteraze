@@ -96,12 +96,20 @@
         "source": "com.snaptikpro.app-main-56:/drawable/ic_logo.xml"
     },
     {
+        "merged": "com.snaptikpro.app-merged_res-54:/layout_activity_help.xml.flat",
+        "source": "com.snaptikpro.app-main-56:/layout/activity_help.xml"
+    },
+    {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_ic_delete.xml.flat",
         "source": "com.snaptikpro.app-main-56:/drawable/ic_delete.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/mipmap-xhdpi_ic_launcher_round.xml.flat",
         "source": "com.snaptikpro.app-main-56:/mipmap-xhdpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.snaptikpro.app-merged_res-54:/layout_item_help.xml.flat",
+        "source": "com.snaptikpro.app-main-56:/layout/item_help.xml"
     },
     {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_input_background.xml.flat",

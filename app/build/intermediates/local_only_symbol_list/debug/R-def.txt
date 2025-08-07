@@ -54,6 +54,7 @@ id ivBack
 id ivDelete
 id ivDownloads
 id ivHelp
+id ivIcon
 id ivLogo
 id ivPlay
 id ivSettings
@@ -66,12 +67,14 @@ id rbHD
 id rbSD
 id rgQuality
 id rvDownloads
+id rvHelp
 id switchAutoDownload
 id tvAbout
 id tvAppName
 id tvClearAll
 id tvClearHistory
 id tvDate
+id tvDescription
 id tvFacebook
 id tvInstagram
 id tvPrivacyPolicy
@@ -85,11 +88,13 @@ id tvTitle
 id tvTwitter
 id tvVersion
 layout activity_downloads
+layout activity_help
 layout activity_main
 layout activity_settings
 layout activity_splash
 layout activity_video_player
 layout item_download
+layout item_help
 mipmap ic_launcher
 mipmap ic_launcher_round
 raw loading_animation

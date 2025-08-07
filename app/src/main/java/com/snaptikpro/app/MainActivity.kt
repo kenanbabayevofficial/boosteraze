@@ -370,8 +370,8 @@ class MainActivity : AppCompatActivity() {
            }
     
     private fun openHelp() {
-        // TODO: Implement help activity
-        Toast.makeText(this, getString(R.string.help_coming_soon), Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, HelpActivity::class.java)
+        startActivity(intent)
     }
     
     private fun checkClipboardForVideoLink() {
