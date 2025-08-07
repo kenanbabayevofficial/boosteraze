@@ -35,8 +35,7 @@ data class DownloadRecord(
     val title: String,
     val path: String,
     val size: Long,
-    val date: String,
-    val thumbnailPath: String? = null
+    val date: String
 )
 
 class MainActivity : AppCompatActivity() {
@@ -162,10 +161,10 @@ class MainActivity : AppCompatActivity() {
                        if (response.code == 0 && response.data != null) {
                            val videoUrl = response.data.play ?: response.data.wmplay
                            val title = response.data.title ?: "TikTok Video"
-                           val thumbnailUrl = response.data.cover
+                           val thumbnail = response.data.cover
 
                            if (videoUrl != null) {
-                               downloadFile(videoUrl, title, link, thumbnailUrl)
+                               downloadFile(videoUrl, title, link)
                            } else {
                                hideDownloadProgress()
                                Toast.makeText(this@MainActivity, getString(R.string.no_video_url), Toast.LENGTH_LONG).show()
@@ -181,7 +180,7 @@ class MainActivity : AppCompatActivity() {
                }
            }
     
-                          private fun downloadFile(url: String, title: String, tikTokLink: String, thumbnailUrl: String?) {
+                          private fun downloadFile(url: String, title: String, tikTokLink: String) {
                try {
                    // Use DCIM directory so videos appear in gallery
                    val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
@@ -194,19 +193,6 @@ class MainActivity : AppCompatActivity() {
                    val randomNumber = (1000000000..9999999999).random()
                    val fileName = "${randomNumber}.mp4"
                    val file = File(downloadsDir, fileName)
-                   
-                   // Download thumbnail if available
-                   var thumbnailPath: String? = null
-                   if (!thumbnailUrl.isNullOrEmpty()) {
-                       try {
-                           val thumbnailFileName = "${randomNumber}_thumb.jpg"
-                           val thumbnailFile = File(downloadsDir, thumbnailFileName)
-                           downloadThumbnail(thumbnailUrl, thumbnailFile)
-                           thumbnailPath = thumbnailFile.absolutePath
-                       } catch (e: Exception) {
-                           android.util.Log.e("ThumbnailDownload", "Error downloading thumbnail: ${e.message}")
-                       }
-                   }
 
                    android.util.Log.d("DownloadManager", "Download path: ${file.absolutePath}")
                    android.util.Log.d("DownloadManager", "Directory exists: ${downloadsDir.exists()}")
@@ -222,7 +208,7 @@ class MainActivity : AppCompatActivity() {
                            // Save the video link to prevent re-downloading
                            saveDownloadedLink(tikTokLink)
                            Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
-                           saveDownloadRecord(title, file.absolutePath, file.length(), thumbnailPath)
+                           saveDownloadRecord(title, file.absolutePath, file.length())
 
                            // Add to MediaStore for Android 10+
                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
@@ -291,46 +277,16 @@ class MainActivity : AppCompatActivity() {
         binding.tvStatus.text = "Downloading... $progress%"
     }
     
-    private fun saveDownloadRecord(title: String, path: String, size: Long, thumbnailPath: String? = null) {
+    private fun saveDownloadRecord(title: String, path: String, size: Long) {
         val downloadRecord = DownloadRecord(
             title = title,
             path = path,
             size = size,
-            date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
-            thumbnailPath = thumbnailPath
+            date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
         )
         
         // Save to local database or shared preferences
         // For now, we'll just show a success message
-    }
-    
-    private fun downloadThumbnail(thumbnailUrl: String, thumbnailFile: File) {
-        try {
-            val client = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
-                .build()
-
-            val request = okhttp3.Request.Builder()
-                .url(thumbnailUrl)
-                .build()
-
-            client.newCall(request).execute().use { response ->
-                if (response.isSuccessful) {
-                    thumbnailFile.outputStream().use { fileOut ->
-                        response.body?.byteStream()?.use { bodyIn ->
-                            bodyIn.copyTo(fileOut)
-                        }
-                    }
-                    android.util.Log.d("ThumbnailDownload", "Thumbnail saved: ${thumbnailFile.absolutePath}")
-                } else {
-                    android.util.Log.e("ThumbnailDownload", "Failed to download thumbnail: ${response.code}")
-                }
-            }
-        } catch (e: Exception) {
-            android.util.Log.e("ThumbnailDownload", "Error downloading thumbnail: ${e.message}")
-        }
     }
     
     private fun showDownloadSuccessDialog(title: String, filePath: String) {
