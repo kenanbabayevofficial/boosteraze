@@ -3363,7 +3363,6 @@ id ivBack
 id ivDelete
 id ivDownloads
 id ivHelp
-id ivIcon
 id ivLogo
 id ivPlay
 id ivSettings
@@ -3511,7 +3510,6 @@ id rounded
 id row_index_key
 id rtl
 id rvDownloads
-id rvHelp
 id save_non_transition_alpha
 id save_overlay_view
 id sawtooth
@@ -3646,7 +3644,6 @@ id tvAppName
 id tvClearAll
 id tvClearHistory
 id tvDate
-id tvDescription
 id tvFacebook
 id tvInstagram
 id tvPrivacyPolicy
@@ -3795,7 +3792,6 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_downloads
-layout activity_help
 layout activity_main
 layout activity_settings
 layout activity_splash
@@ -3827,7 +3823,6 @@ layout exo_styled_settings_list_item
 layout exo_styled_sub_settings_list_item
 layout exo_track_selection_dialog
 layout item_download
-layout item_help
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title

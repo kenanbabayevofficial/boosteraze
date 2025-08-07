@@ -370,8 +370,40 @@ class MainActivity : AppCompatActivity() {
            }
     
     private fun openHelp() {
-        val intent = Intent(this, HelpActivity::class.java)
-        startActivity(intent)
+        AlertDialog.Builder(this)
+            .setTitle("📱 Video Downloader Pro - Nasıl Kullanılır?")
+            .setMessage("""
+                🚀 Uygulamayı kullanmaya başlamak için:
+                
+                1️⃣ Video linkini kopyalayın
+                2️⃣ Uygulamayı açın
+                3️⃣ Link otomatik olarak yapıştırılacak
+                4️⃣ "Yüklə" düğmesine basın
+                5️⃣ Video indirilecek ve galeriye eklenecek
+                6️⃣ "Yükləmələr" bölümünden videolarınızı görüntüleyin
+                
+                ⚡ Otomatik İndirme:
+                • Video linkini kopyalayın
+                • Uygulamayı açın
+                • İndirme otomatik başlayacak
+                
+                📱 Desteklenen Platformlar:
+                • TikTok (şu anda aktif)
+                • Diğer platformlar yakında eklenecek
+                
+                🎬 Video Oynatıcı:
+                • İndirilen videoları oynatın
+                • Paylaşın ve silin
+                • Tam ekran desteği
+                
+                🖼️ Galeri Entegrasyonu:
+                • Videolar galeri'de görünür
+                • DCIM/SnapTikPro klasörüne kaydedilir
+                
+                🎉 Bu kadar! Artık videolarınızı kolayca indirebilirsiniz.
+            """.trimIndent())
+            .setPositiveButton("Anladım", null)
+            .show()
     }
     
     private fun checkClipboardForVideoLink() {

@@ -58,10 +58,6 @@
             android:name="com.snaptikpro.app.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.SnapTikPro" />
-        <activity
-            android:name="com.snaptikpro.app.HelpActivity"
-            android:exported="false"
-            android:theme="@style/Theme.SnapTikPro" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
