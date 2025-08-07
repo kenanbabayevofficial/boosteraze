@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.snaptikpro.app.databinding.ItemDownloadBinding
 
+import java.io.File
 import java.text.DecimalFormat
 
 class DownloadsAdapter(
@@ -59,8 +60,22 @@ class DownloadsAdapter(
                    binding.tvDate.text = download.date
                    binding.tvSize.text = formatFileSize(download.size)
 
-                   // TODO: Load thumbnail if available
-                   // For now, using default icon
+                   // Load thumbnail if available using Glide
+                   if (!download.thumbnailPath.isNullOrEmpty()) {
+                       val thumbnailFile = File(download.thumbnailPath)
+                       if (thumbnailFile.exists()) {
+                           com.bumptech.glide.Glide.with(binding.root.context)
+                               .load(thumbnailFile)
+                               .placeholder(com.snaptikpro.app.R.drawable.ic_launcher_foreground)
+                               .error(com.snaptikpro.app.R.drawable.ic_launcher_foreground)
+                               .centerCrop()
+                               .into(binding.ivThumbnail)
+                       } else {
+                           binding.ivThumbnail.setImageResource(com.snaptikpro.app.R.drawable.ic_launcher_foreground)
+                       }
+                   } else {
+                       binding.ivThumbnail.setImageResource(com.snaptikpro.app.R.drawable.ic_launcher_foreground)
+                   }
                }
         
         private fun formatFileSize(size: Long): String {
