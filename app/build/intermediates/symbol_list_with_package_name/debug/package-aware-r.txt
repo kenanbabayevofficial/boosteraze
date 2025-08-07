@@ -3169,8 +3169,13 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btnClose
 id btnDelete
 id btnDownload
+id btnDownloadAnother
+id btnPlayVideo
+id btnShareVideo
+id btnViewDownloads
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3645,7 +3650,9 @@ id tvClearAll
 id tvClearHistory
 id tvDate
 id tvFacebook
+id tvFileInfo
 id tvInstagram
+id tvLocation
 id tvPrivacyPolicy
 id tvRateApp
 id tvShareApp
@@ -3656,6 +3663,7 @@ id tvTikTok
 id tvTitle
 id tvTwitter
 id tvVersion
+id tvVideoTitle
 id unchecked
 id uniform
 id unlabeled
@@ -3812,6 +3820,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_download_success
 layout exo_legacy_player_control_view
 layout exo_list_divider
 layout exo_player_control_ffwd_button

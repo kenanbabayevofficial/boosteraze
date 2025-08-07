@@ -144,6 +144,10 @@
         "source": "com.snaptikpro.app-main-56:/drawable/ic_google.xml"
     },
     {
+        "merged": "com.snaptikpro.app-merged_res-54:/layout_dialog_download_success.xml.flat",
+        "source": "com.snaptikpro.app-main-56:/layout/dialog_download_success.xml"
+    },
+    {
         "merged": "com.snaptikpro.app-merged_res-54:/drawable_splash_background.xml.flat",
         "source": "com.snaptikpro.app-main-56:/drawable/splash_background.xml"
     },

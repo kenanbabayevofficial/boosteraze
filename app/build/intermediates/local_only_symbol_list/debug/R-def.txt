@@ -44,8 +44,13 @@ drawable ic_wallet
 drawable input_background
 drawable splash_background
 drawable tab_background
+id btnClose
 id btnDelete
 id btnDownload
+id btnDownloadAnother
+id btnPlayVideo
+id btnShareVideo
+id btnViewDownloads
 id cardMain
 id emptyLayout
 id etLink
@@ -73,7 +78,9 @@ id tvClearAll
 id tvClearHistory
 id tvDate
 id tvFacebook
+id tvFileInfo
 id tvInstagram
+id tvLocation
 id tvPrivacyPolicy
 id tvRateApp
 id tvShareApp
@@ -84,11 +91,13 @@ id tvTikTok
 id tvTitle
 id tvTwitter
 id tvVersion
+id tvVideoTitle
 layout activity_downloads
 layout activity_main
 layout activity_settings
 layout activity_splash
 layout activity_video_player
+layout dialog_download_success
 layout item_download
 mipmap ic_launcher
 mipmap ic_launcher_round
