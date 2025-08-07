@@ -331,10 +331,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
     
-    private fun openSettings() {
-        // TODO: Implement settings activity
-        Toast.makeText(this, getString(R.string.settings_coming_soon), Toast.LENGTH_SHORT).show()
-    }
+               private fun openSettings() {
+               val intent = Intent(this, SettingsActivity::class.java)
+               startActivity(intent)
+           }
     
     private fun openHelp() {
         // TODO: Implement help activity

@@ -53,6 +53,10 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.snaptikpro.app.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SnapTikPro" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

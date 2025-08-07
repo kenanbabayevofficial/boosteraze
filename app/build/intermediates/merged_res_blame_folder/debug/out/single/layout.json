@@ -18,5 +18,9 @@
     {
         "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/item_download.xml",
         "source": "com.snaptikpro.app-main-56:/layout/item_download.xml"
+    },
+    {
+        "merged": "com.snaptikpro.app-mergeDebugResources-53:/layout/activity_settings.xml",
+        "source": "com.snaptikpro.app-main-56:/layout/activity_settings.xml"
     }
 ]
