@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" xmlns:ns2="http://schemas.android.com/tools">
+    <string-array name="exo_controls_playback_speeds">
+    <item>0,25x</item>
+    <item>0,5x</item>
+    <item>0,75x</item>
+    <item>Normal</item>
+    <item>1,25x</item>
+    <item>1,5x</item>
+    <item>2x</item>
+  </string-array>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+    <item quantity="one">%d saniye ileri sar</item>
+    <item quantity="other">%d saniye ileri sar</item>
+  </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+    <item quantity="one">%d saniye geri sar</item>
+    <item quantity="other">%d saniye geri sar</item>
+  </plurals>
+    <plurals name="mtrl_badge_content_description">
+    <item quantity="one">%d yeni bildirim</item>
+    <item quantity="other">%d yeni bildirim</item>
+  </plurals>
+    <string msgid="5976598919945601918" name="abc_action_bar_home_description">"Eve gidiş yolunu göster"</string>
+    <string msgid="8388173803310557296" name="abc_action_bar_up_description">"Yukarı git"</string>
+    <string msgid="3937310113216875497" name="abc_action_menu_overflow_description">"Diğer seçenekler"</string>
+    <string msgid="4692188335987374352" name="abc_action_mode_done">"Bitti"</string>
+    <string msgid="1189761859438369441" name="abc_activity_chooser_view_see_all">"Tümünü göster"</string>
+    <string msgid="2165779757652331008" name="abc_activitychooserview_choose_application">"Bir uygulama seçin"</string>
+    <string msgid="4215997306490295099" name="abc_capital_off">"KAPAT"</string>
+    <string msgid="884982626291842264" name="abc_capital_on">"AÇ"</string>
+    <string msgid="8833365367933412986" name="abc_menu_alt_shortcut_label">"Alt+"</string>
+    <string msgid="2223301931652355242" name="abc_menu_ctrl_shortcut_label">"Ctrl+"</string>
+    <string msgid="838001238306846836" name="abc_menu_delete_shortcut_label">"sil"</string>
+    <string msgid="7986526966204849475" name="abc_menu_enter_shortcut_label">"enter"</string>
+    <string msgid="375214403600139847" name="abc_menu_function_shortcut_label">"Function+"</string>
+    <string msgid="4192209724446364286" name="abc_menu_meta_shortcut_label">"Meta+"</string>
+    <string msgid="4741552369836443843" name="abc_menu_shift_shortcut_label">"Üst Karakter+"</string>
+    <string msgid="5473865519181928982" name="abc_menu_space_shortcut_label">"boşluk"</string>
+    <string msgid="6180552449598693998" name="abc_menu_sym_shortcut_label">"Sym+"</string>
+    <string msgid="5520303668377388990" name="abc_prepend_shortcut_label">"Menü+"</string>
+    <string msgid="7208076849092622260" name="abc_search_hint">"Ara…"</string>
+    <string msgid="3741173234950517107" name="abc_searchview_description_clear">"Sorguyu temizle"</string>
+    <string msgid="693312494995508443" name="abc_searchview_description_query">"Arama sorgusu"</string>
+    <string msgid="3417662926640357176" name="abc_searchview_description_search">"Ara"</string>
+    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Sorguyu gönder"</string>
+    <string msgid="2293578557972875415" name="abc_searchview_description_voice">"Sesli arama"</string>
+    <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Şununla paylaş:"</string>
+    <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> ile paylaş"</string>
+    <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Daralt"</string>
+    <string name="about">Hakkında</string>
+    <string name="all_downloads_cleared">Tüm indirmeler temizlendi</string>
+    <string name="app_name">Video Downloader Pro</string>
+    <string name="bottomsheet_action_collapse">Alt sayfayı daralt</string>
+    <string name="bottomsheet_action_expand">Alt sayfayı genişlet</string>
+    <string name="bottomsheet_action_expand_halfway">Yarım genişlet</string>
+    <string name="bottomsheet_drag_handle_clicked">Sürükleme tutamacına iki kez dokunuldu</string>
+    <string name="bottomsheet_drag_handle_content_description">Sürükleme tutamacı</string>
+    <string name="cancel">İptal</string>
+    <string name="character_counter_content_description">Girilen karakter: %1$d / %2$d</string>
+    <string name="character_counter_overflowed_content_description">Karakter sınırı aşıldı %1$d / %2$d</string>
+    <string name="clear">Temizle</string>
+    <string name="clear_all">Tümünü temizle</string>
+    <string name="clear_all_dialog_message">Tüm indirilen videoları silmek istediğinizden emin misiniz?</string>
+    <string name="clear_all_dialog_title">Tüm indirmeleri temizle</string>
+    <string name="clear_text_end_icon_content_description">Metni temizle</string>
+    <string name="developer">Geliştirici: SnapTik Pro Ekibi</string>
+    <string name="download">İndir</string>
+    <string name="download_another">Başka indir</string>
+    <string name="download_anyway">Yine de İndir</string>
+    <string name="download_complete">İndirme tamamlandı</string>
+    <string name="download_complete_message">Video \'%1$s\' başarıyla indirildi.</string>
+    <string name="download_complete_title">İndirme tamamlandı!</string>
+    <string name="download_failed">İndirme başarısız oldu</string>
+    <string name="downloading">İndiriliyor...</string>
+    <string name="downloads">İndirilenler</string>
+    <string name="enter_link">Link girin</string>
+    <string name="error_icon_content_description">Hata</string>
+    <string name="exo_controls_cc_disabled_description">Altyazıları etkinleştir</string>
+    <string name="exo_controls_cc_enabled_description">Altyazıları devre dışı bırak</string>
+    <string name="exo_controls_fastforward_description">İleri sar</string>
+    <string name="exo_controls_fullscreen_enter_description">Tam ekrana geç</string>
+    <string name="exo_controls_fullscreen_exit_description">Tam ekrandan çık</string>
+    <string name="exo_controls_hide">Oynatıcı kontrollerini gizle</string>
+    <string name="exo_controls_next_description">Sonraki</string>
+    <string name="exo_controls_overflow_hide_description">Ek ayarları gizle</string>
+    <string name="exo_controls_overflow_show_description">Ek ayarları göster</string>
+    <string name="exo_controls_pause_description">Duraklat</string>
+    <string name="exo_controls_play_description">Çal</string>
+    <string name="exo_controls_playback_speed">Hız</string>
+    <string name="exo_controls_previous_description">Önceki</string>
+    <string name="exo_controls_repeat_all_description">Geçerli mod: Tümünü tekrarla. Tekrarlamayı aç/kapat.</string>
+    <string name="exo_controls_repeat_off_description">Geçerli mod: Tekrarlama. Tekrarlamayı aç/kapat.</string>
+    <string name="exo_controls_repeat_one_description">Geçerli mod: Birini tekrarla. Tekrarlamayı aç/kapat.</string>
+    <string name="exo_controls_rewind_description">Geri sar</string>
+    <string name="exo_controls_seek_bar_description">Çalma ilerleme durumu</string>
+    <string name="exo_controls_settings_description">Ayarlar</string>
+    <string name="exo_controls_show">Oynatıcı kontrollerini göster</string>
+    <string name="exo_controls_shuffle_off_description">Karıştırma modunu etkinleştir</string>
+    <string name="exo_controls_shuffle_on_description">Karıştırma modunu devre dışı bırak</string>
+    <string name="exo_controls_stop_description">Durdur</string>
+    <string name="exo_controls_vr_description">VR modu</string>
+    <string name="exo_download_completed">İndirme işlemi tamamlandı</string>
+    <string name="exo_download_description">İndir</string>
+    <string name="exo_download_downloading">İndiriliyor</string>
+    <string name="exo_download_failed">İndirilemedi</string>
+    <string name="exo_download_notification_channel_name">İndirilenler</string>
+    <string name="exo_download_paused">İndirmeler duraklatıldı</string>
+    <string name="exo_download_paused_for_network">İndirmeler için ağ bekleniyor</string>
+    <string name="exo_download_paused_for_wifi">İndirmeler için kablosuz ağ bekleniyor</string>
+    <string name="exo_download_removing">İndirilenler kaldırılıyor</string>
+    <string name="exo_item_list">%1$s, %2$s</string>
+    <string name="exo_track_bitrate">%1$.2f Mbps</string>
+    <string name="exo_track_mono">Mono</string>
+    <string name="exo_track_resolution">%1$d × %2$d</string>
+    <string name="exo_track_role_alternate">Alternatif</string>
+    <string name="exo_track_role_closed_captions">Altyazı</string>
+    <string name="exo_track_role_commentary">Anlatım</string>
+    <string name="exo_track_role_supplementary">Ek kanal</string>
+    <string name="exo_track_selection_auto">Otomatik</string>
+    <string name="exo_track_selection_none">Yok</string>
+    <string name="exo_track_selection_title_audio">Ses</string>
+    <string name="exo_track_selection_title_text">Metin</string>
+    <string name="exo_track_selection_title_video">Video</string>
+    <string name="exo_track_stereo">Stereo</string>
+    <string name="exo_track_surround">Surround ses</string>
+    <string name="exo_track_surround_5_point_1">5.1 surround ses</string>
+    <string name="exo_track_surround_7_point_1">7.1 surround ses</string>
+    <string name="exo_track_unknown">Bilinmiyor</string>
+    <string name="exposed_dropdown_menu_content_description">Açılır menüyü göster</string>
+    <string name="facebook">Facebook</string>
+    <string name="file_not_found">Dosya bulunamadı</string>
+    <string name="help">Yardım</string>
+    <string name="help_coming_soon">Yardım yakında</string>
+    <string name="how_to_use_description">1️⃣ Video linkini kopyalayın\n2️⃣ Linki yukarıdaki alana yapıştırın\n3️⃣ İndir butonuna basın\n4️⃣ Video otomatik olarak indirilecek\n5️⃣ İndirilenler bölümünden videolarınızı görüntüleyin\n6️⃣ Videoları oynatın, paylaşın veya silin</string>
+    <string name="how_to_use_title">📱 Uygulama Nasıl Kullanılır?</string>
+    <string name="icon_content_description">İletişim kutusu simgesi</string>
+    <string name="instagram">Instagram</string>
+    <string name="invalid_link">Geçersiz link</string>
+    <string name="item_view_role_description">Sekme</string>
+    <string name="link_pasted">Link yapıştırıldı</string>
+    <string name="material_clock_toggle_content_description">ÖÖ veya ÖS\'yi seçin</string>
+    <string name="material_hour_24h_suffix">%1$s saat</string>
+    <string name="material_hour_selection">Saat seçin</string>
+    <string name="material_hour_suffix">Saat %1$s</string>
+    <string name="material_minute_selection">Dakikayı seçin</string>
+    <string name="material_minute_suffix">%1$s dakika</string>
+    <string name="material_timepicker_am">AM</string>
+    <string name="material_timepicker_clock_mode_description">Zaman girişi için saat moduna geçin.</string>
+    <string name="material_timepicker_hour">Saat</string>
+    <string name="material_timepicker_minute">Dakika</string>
+    <string name="material_timepicker_pm">PM</string>
+    <string name="material_timepicker_select_time">Zamanı seçin</string>
+    <string name="material_timepicker_text_input_mode_description">Zaman girişi için metin girişi moduna geçin.</string>
+    <string name="mtrl_badge_numberless_content_description">Yeni bildirim</string>
+    <string name="mtrl_chip_close_icon_content_description">%1$s içeriğini kaldır</string>
+    <string name="mtrl_exceed_max_badge_number_content_description" ns2:ignore="PluralsCandidate">%1$d adetten fazla yeni bildirim</string>
+    <string name="mtrl_picker_a11y_next_month">Sonraki aya değiştir</string>
+    <string name="mtrl_picker_a11y_prev_month">Önceki aya değiştir</string>
+    <string name="mtrl_picker_announce_current_selection">Geçerli seçim: %1$s</string>
+    <string name="mtrl_picker_cancel">İptal</string>
+    <string name="mtrl_picker_confirm">Tamam</string>
+    <string name="mtrl_picker_date_header_selected">%1$s</string>
+    <string name="mtrl_picker_date_header_title">Tarih Seçin</string>
+    <string name="mtrl_picker_date_header_unselected">Seçilen tarih</string>
+    <string name="mtrl_picker_day_of_week_column_header">Gün sütunu: %1$s</string>
+    <string name="mtrl_picker_invalid_format">Geçersiz biçim.</string>
+    <string name="mtrl_picker_invalid_format_example">Örnek: %1$s</string>
+    <string name="mtrl_picker_invalid_format_use">Tarih biçimi: %1$s</string>
+    <string name="mtrl_picker_invalid_range">Geçersiz aralık.</string>
+    <string name="mtrl_picker_navigate_to_year_description">%1$s yılına git</string>
+    <string name="mtrl_picker_out_of_range">İzin verilen aralığın dışında: %1$s</string>
+    <string name="mtrl_picker_range_header_only_end_selected">Başlangıç tarihi – %1$s</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s – Bitiş tarihi</string>
+    <string name="mtrl_picker_range_header_selected">%1$s-%2$s</string>
+    <string name="mtrl_picker_range_header_title">Aralık Seçin</string>
+    <string name="mtrl_picker_range_header_unselected">Başlangıç tarihi - Bitiş tarihi</string>
+    <string name="mtrl_picker_save">Kaydet</string>
+    <string name="mtrl_picker_text_input_date_hint">Tarih</string>
+    <string name="mtrl_picker_text_input_date_range_end_hint">Bitiş tarihi</string>
+    <string name="mtrl_picker_text_input_date_range_start_hint">Başlangıç tarihi</string>
+    <string name="mtrl_picker_text_input_day_abbr">g</string>
+    <string name="mtrl_picker_text_input_month_abbr">a</string>
+    <string name="mtrl_picker_text_input_year_abbr">y</string>
+    <string name="mtrl_picker_toggle_to_calendar_input_mode">Takvim giriş moduna geç</string>
+    <string name="mtrl_picker_toggle_to_day_selection">Gün seçmeye geçmek için dokunun</string>
+    <string name="mtrl_picker_toggle_to_text_input_mode">Metin giriş moduna geç</string>
+    <string name="mtrl_picker_toggle_to_year_selection">Yıl seçmeye geçmek için dokunun</string>
+    <string name="mtrl_timepicker_cancel">İptal</string>
+    <string name="mtrl_timepicker_confirm">Tamam</string>
+    <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Yukarı git"</string>
+    <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Gezinme çekmecesini aç"</string>
+    <string name="no_clipboard_text">Panoda metin yok</string>
+    <string name="no_downloads">Henüz indirme yok</string>
+    <string name="no_video_player">Video oynatıcı bulunamadı</string>
+    <string name="no_video_url">Video URL bulunamadı</string>
+    <string name="only_tiktok_supported">Sadece video platformları destekleniyor</string>
+    <string name="password_toggle_content_description">Şifreyi göster</string>
+    <string name="paste">Yapıştır</string>
+    <string name="permission_required">Depolama izni gerekli</string>
+    <string name="play_video">Videoyu oynat</string>
+    <string msgid="6264217191555673260" name="search_menu_title">"Ara"</string>
+    <string name="settings">Ayarlar</string>
+    <string name="settings_coming_soon">Ayarlar yakında</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="storage_permission_granted">Depolama izni verildi</string>
+    <string name="tiktok">Video Platform</string>
+    <string name="tiktok_link_found_downloading">Video linki bulundu, indiriliyor...</string>
+    <string name="twitter">Twitter</string>
+    <string name="version">Sürüm 1.0</string>
+    <string name="video_already_exists_message">Bu video zaten telefonunuza indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_message_link">Bu video linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
+    <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
+    <string name="view_downloads">İndirilenleri görüntüle</string>
+</resources>
