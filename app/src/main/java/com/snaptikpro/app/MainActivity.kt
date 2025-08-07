@@ -181,32 +181,21 @@ class MainActivity : AppCompatActivity() {
     
                           private fun downloadFile(url: String, title: String, tikTokLink: String) {
                try {
-                   // For Android 10+ (API 29+), use MediaStore API to save directly to gallery
-                   if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                       downloadToGallery(url, title, tikTokLink)
-                   } else {
-                       // For older versions, use file system
-                       downloadToFileSystem(url, title, tikTokLink)
-                   }
-               } catch (e: Exception) {
-                   android.util.Log.e("DownloadManager", "Error setting up download: ${e.message}")
-                   Toast.makeText(this, "Error setting up download: ${e.message}", Toast.LENGTH_LONG).show()
-               }
-           }
-
-           private fun downloadToFileSystem(url: String, title: String, tikTokLink: String) {
-               try {
-                   val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "SnapTikPro")
+                   // Use DCIM directory so videos appear in gallery
+                   val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
                    if (!downloadsDir.exists()) {
                        val created = downloadsDir.mkdirs()
                        android.util.Log.d("DownloadManager", "Created directory: $created, Path: ${downloadsDir.absolutePath}")
                    }
 
+                   // Clean filename
                    val randomNumber = (1000000000..9999999999).random()
                    val fileName = "${randomNumber}.mp4"
                    val file = File(downloadsDir, fileName)
 
                    android.util.Log.d("DownloadManager", "Download path: ${file.absolutePath}")
+                   android.util.Log.d("DownloadManager", "Directory exists: ${downloadsDir.exists()}")
+                   android.util.Log.d("DownloadManager", "Directory writable: ${downloadsDir.canWrite()}")
 
                    downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
                        override fun onProgress(progress: Int) {
@@ -215,10 +204,20 @@ class MainActivity : AppCompatActivity() {
 
                        override fun onSuccess(file: File) {
                            hideDownloadProgress()
+                           // Save the video link to prevent re-downloading
                            saveDownloadedLink(tikTokLink)
                            Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
                            saveDownloadRecord(title, file.absolutePath, file.length())
+
+                           // Add to MediaStore for Android 10+
+                           if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                               addToMediaStore(file)
+                           }
+
+                           // Trigger media scanner to make video appear in gallery
                            triggerMediaScanner(file.absolutePath)
+
+                           // Show success dialog with options
                            showDownloadSuccessDialog(title, file.absolutePath)
                        }
 
@@ -227,82 +226,35 @@ class MainActivity : AppCompatActivity() {
                            Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
                        }
                    })
+
                } catch (e: Exception) {
-                   android.util.Log.e("DownloadManager", "Error in file system download: ${e.message}")
-                   Toast.makeText(this, "Error in file system download: ${e.message}", Toast.LENGTH_LONG).show()
+                   android.util.Log.e("DownloadManager", "Error setting up download: ${e.message}")
+                   Toast.makeText(this, "Error setting up download: ${e.message}", Toast.LENGTH_LONG).show()
                }
            }
 
            @androidx.annotation.RequiresApi(android.os.Build.VERSION_CODES.Q)
-           private fun downloadToGallery(url: String, title: String, tikTokLink: String) {
+           private fun addToMediaStore(file: File) {
                try {
-                   val randomNumber = (1000000000..9999999999).random()
-                   val fileName = "${randomNumber}.mp4"
-
                    val contentValues = android.content.ContentValues().apply {
-                       put(android.provider.MediaStore.Video.Media.DISPLAY_NAME, fileName)
+                       put(android.provider.MediaStore.Video.Media.DISPLAY_NAME, file.name)
                        put(android.provider.MediaStore.Video.Media.MIME_TYPE, "video/mp4")
-                       put(android.provider.MediaStore.Video.Media.RELATIVE_PATH, "Download/SnapTikPro")
-                       put(android.provider.MediaStore.Video.Media.IS_PENDING, 1)
+                       put(android.provider.MediaStore.Video.Media.RELATIVE_PATH, "DCIM/SnapTikPro")
+                       put(android.provider.MediaStore.Video.Media.SIZE, file.length())
+                       put(android.provider.MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+                       put(android.provider.MediaStore.Video.Media.DATE_MODIFIED, file.lastModified() / 1000)
                    }
 
                    val resolver = contentResolver
                    val uri = resolver.insert(android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
 
                    if (uri != null) {
-                       showDownloadProgress()
-
-                       lifecycleScope.launch {
-                           try {
-                               val response = okhttp3.OkHttpClient().newCall(
-                                   okhttp3.Request.Builder().url(url).build()
-                               ).execute()
-
-                               if (response.isSuccessful) {
-                                   resolver.openOutputStream(uri)?.use { outputStream ->
-                                       response.body?.byteStream()?.use { inputStream ->
-                                           val buffer = ByteArray(8192)
-                                           var bytesRead: Int
-                                           var totalBytes = 0L
-                                           val contentLength = response.body?.contentLength() ?: 0L
-
-                                           while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-                                               outputStream.write(buffer, 0, bytesRead)
-                                               totalBytes += bytesRead
-
-                                               if (contentLength > 0) {
-                                                   val progress = ((totalBytes * 100) / contentLength).toInt()
-                                                   updateDownloadProgress(progress)
-                                               }
-                                           }
-                                       }
-                                   }
-
-                                   // Mark as not pending
-                                   contentValues.clear()
-                                   contentValues.put(android.provider.MediaStore.Video.Media.IS_PENDING, 0)
-                                   resolver.update(uri, contentValues, null, null)
-
-                                   hideDownloadProgress()
-                                   saveDownloadedLink(tikTokLink)
-                                   Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
-                                   saveDownloadRecord(title, uri.toString(), 0)
-                                   showDownloadSuccessDialog(title, uri.toString())
-                               } else {
-                                   hideDownloadProgress()
-                                   Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
-                               }
-                           } catch (e: Exception) {
-                               hideDownloadProgress()
-                               Toast.makeText(this@MainActivity, "Download error: ${e.message}", Toast.LENGTH_LONG).show()
-                           }
-                       }
+                       android.util.Log.d("MediaStore", "Video added to MediaStore: $uri")
                    } else {
-                       Toast.makeText(this, "Failed to create media entry", Toast.LENGTH_LONG).show()
+                       android.util.Log.e("MediaStore", "Failed to add video to MediaStore")
                    }
                } catch (e: Exception) {
-                   android.util.Log.e("DownloadManager", "Error in gallery download: ${e.message}")
-                   Toast.makeText(this, "Error in gallery download: ${e.message}", Toast.LENGTH_LONG).show()
+                   android.util.Log.e("MediaStore", "Error adding video to MediaStore: ${e.message}")
                }
            }
     
@@ -538,33 +490,14 @@ class MainActivity : AppCompatActivity() {
            private fun triggerMediaScanner(filePath: String) {
                try {
                    val file = File(filePath)
-                   val directory = file.parentFile
                    
-                   // Remove .nomedia file if it exists
-                   val nomediaFile = File(directory, ".nomedia")
-                   if (nomediaFile.exists()) {
-                       nomediaFile.delete()
-                       android.util.Log.d("MediaScanner", "Removed .nomedia file")
-                   }
-                   
-                   // Trigger media scanner for the file
+                   // Trigger media scanner to make video appear in gallery
                    val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
                    val uri = Uri.fromFile(file)
                    intent.data = uri
                    sendBroadcast(intent)
                    
-                   // Also trigger for the directory
-                   val directoryIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-                   val directoryUri = Uri.fromFile(directory)
-                   directoryIntent.data = directoryUri
-                   sendBroadcast(directoryIntent)
-                   
-                   // Force refresh gallery
-                   val refreshIntent = Intent("android.intent.action.MEDIA_MOUNTED")
-                   refreshIntent.data = Uri.parse("file://" + Environment.getExternalStorageDirectory())
-                   sendBroadcast(refreshIntent)
-                   
-                   android.util.Log.d("MediaScanner", "Triggered multiple media scanner broadcasts for: $filePath")
+                   android.util.Log.d("MediaScanner", "Triggered media scanner for: $filePath")
                } catch (e: Exception) {
                    android.util.Log.e("MediaScanner", "Error triggering media scanner: ${e.message}")
                }
