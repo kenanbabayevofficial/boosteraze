@@ -1402,6 +1402,7 @@ color abc_tint_seek_thumb
 color abc_tint_spinner
 color abc_tint_switch_track
 color accent
+color accent_container
 color accent_dark
 color accent_light
 color accent_material_dark
@@ -2009,7 +2010,10 @@ color mtrl_textinput_hovered_box_stroke_color
 color notification_action_color_filter
 color notification_icon_bg_color
 color notification_material_background_media_default_color
+color outline
+color outline_variant
 color primary
+color primary_container
 color primary_dark
 color primary_dark_material_dark
 color primary_dark_material_light
@@ -2023,6 +2027,10 @@ color primary_text_disabled_material_light
 color ripple
 color ripple_material_dark
 color ripple_material_light
+color secondary
+color secondary_container
+color secondary_dark
+color secondary_light
 color secondary_text_default_material_dark
 color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
@@ -2030,6 +2038,7 @@ color secondary_text_disabled_material_light
 color success
 color surface
 color surface_light
+color surface_variant
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2037,6 +2046,9 @@ color switch_thumb_material_light
 color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
 color text_hint
+color text_on_primary
+color text_on_secondary
+color text_on_surface
 color text_primary
 color text_secondary
 color tooltip_background_dark
@@ -2876,6 +2888,8 @@ drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable button_background
+drawable button_primary_modern
+drawable card_background_modern
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
@@ -2961,6 +2975,7 @@ drawable exo_styled_controls_subtitle_off
 drawable exo_styled_controls_subtitle_on
 drawable exo_styled_controls_vr
 drawable gradient_header
+drawable gradient_primary
 drawable ic_arrow_back_black_24
 drawable ic_back
 drawable ic_clear_black_24
@@ -2991,6 +3006,7 @@ drawable ic_support
 drawable ic_user
 drawable ic_wallet
 drawable input_background
+drawable input_background_modern
 drawable m3_appbar_background
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
@@ -3064,6 +3080,7 @@ drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable splash_background
 drawable tab_background
+drawable tab_background_modern
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
