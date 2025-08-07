@@ -50,9 +50,6 @@ public final class ActivityMainBinding implements ViewBinding {
   public final ProgressBar progressBar;
 
   @NonNull
-  public final TextView tvDownloadCount;
-
-  @NonNull
   public final TextView tvFacebook;
 
   @NonNull
@@ -70,9 +67,8 @@ public final class ActivityMainBinding implements ViewBinding {
   private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnDownload,
       @NonNull CardView cardMain, @NonNull EditText etLink, @NonNull LinearLayout headerLayout,
       @NonNull ImageView ivDownloads, @NonNull ImageView ivHelp, @NonNull ImageView ivSettings,
-      @NonNull ProgressBar progressBar, @NonNull TextView tvDownloadCount,
-      @NonNull TextView tvFacebook, @NonNull TextView tvInstagram, @NonNull TextView tvStatus,
-      @NonNull TextView tvTikTok, @NonNull TextView tvTwitter) {
+      @NonNull ProgressBar progressBar, @NonNull TextView tvFacebook, @NonNull TextView tvInstagram,
+      @NonNull TextView tvStatus, @NonNull TextView tvTikTok, @NonNull TextView tvTwitter) {
     this.rootView = rootView;
     this.btnDownload = btnDownload;
     this.cardMain = cardMain;
@@ -82,7 +78,6 @@ public final class ActivityMainBinding implements ViewBinding {
     this.ivHelp = ivHelp;
     this.ivSettings = ivSettings;
     this.progressBar = progressBar;
-    this.tvDownloadCount = tvDownloadCount;
     this.tvFacebook = tvFacebook;
     this.tvInstagram = tvInstagram;
     this.tvStatus = tvStatus;
@@ -165,12 +160,6 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvDownloadCount;
-      TextView tvDownloadCount = ViewBindings.findChildViewById(rootView, id);
-      if (tvDownloadCount == null) {
-        break missingId;
-      }
-
       id = R.id.tvFacebook;
       TextView tvFacebook = ViewBindings.findChildViewById(rootView, id);
       if (tvFacebook == null) {
@@ -202,8 +191,8 @@ public final class ActivityMainBinding implements ViewBinding {
       }
 
       return new ActivityMainBinding((ConstraintLayout) rootView, btnDownload, cardMain, etLink,
-          headerLayout, ivDownloads, ivHelp, ivSettings, progressBar, tvDownloadCount, tvFacebook,
-          tvInstagram, tvStatus, tvTikTok, tvTwitter);
+          headerLayout, ivDownloads, ivHelp, ivSettings, progressBar, tvFacebook, tvInstagram,
+          tvStatus, tvTikTok, tvTwitter);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

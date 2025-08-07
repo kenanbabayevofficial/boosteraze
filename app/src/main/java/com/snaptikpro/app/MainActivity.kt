@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         setupDownloadManager()
         setupUI()
         checkPermissions()
-        updateDownloadCount()
         
         // Check clipboard for video link on app start with delay
         binding.root.postDelayed({
@@ -221,9 +220,6 @@ class MainActivity : AppCompatActivity() {
 
                            // Show success dialog with options
                            showDownloadSuccessDialog(title, file.absolutePath)
-                           
-                           // Update download count
-                           updateDownloadCount()
                        }
 
                        override fun onError(error: String) {
@@ -374,22 +370,7 @@ class MainActivity : AppCompatActivity() {
                startActivity(intent)
            }
     
-    private fun updateDownloadCount() {
-        try {
-            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
-            if (downloadsDir.exists()) {
-                val files = downloadsDir.listFiles { file ->
-                    file.extension.lowercase() in listOf("mp4", "avi", "mov", "mkv") && file.exists() && file.length() > 0
-                }
-                val count = files?.size ?: 0
-                binding.tvDownloadCount.text = "📥 $count video indirildi"
-            } else {
-                binding.tvDownloadCount.text = "📥 0 video indirildi"
-            }
-        } catch (e: Exception) {
-            binding.tvDownloadCount.text = "📥 0 video indirildi"
-        }
-    }
+
     
     private fun openHelp() {
         AlertDialog.Builder(this)
@@ -535,9 +516,6 @@ class MainActivity : AppCompatActivity() {
     
                    override fun onResume() {
         super.onResume()
-        // Update download count when returning to app
-        updateDownloadCount()
-        
         // Check clipboard when returning to the app with a small delay
         binding.root.postDelayed({
             checkClipboardForVideoLink()

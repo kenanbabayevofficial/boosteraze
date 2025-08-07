@@ -3644,7 +3644,6 @@ id tvAppName
 id tvClearAll
 id tvClearHistory
 id tvDate
-id tvDownloadCount
 id tvFacebook
 id tvInstagram
 id tvPrivacyPolicy
