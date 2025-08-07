@@ -6727,7 +6727,7 @@
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
   </style>
-    <style name="Theme.SnapTikPro" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.SnapTikPro" parent="Theme.MaterialComponents.NoActionBar">
         
         <item name="colorPrimary">@color/accent</item>
         <item name="colorPrimaryVariant">@color/accent_dark</item>

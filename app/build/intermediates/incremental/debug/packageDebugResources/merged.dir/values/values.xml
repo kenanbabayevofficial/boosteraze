@@ -69,7 +69,7 @@
     <string name="video_already_exists_message_link">Bu TikTok linki zaten indirilmiş:\n\n\'%1$s\'\n\nNe yapmak istiyorsunuz?</string>
     <string name="video_already_exists_title">⚠️ Video Zaten İndirilmiş</string>
     <string name="view_downloads">Yükləmələrə bax</string>
-    <style name="Theme.SnapTikPro" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.SnapTikPro" parent="Theme.MaterialComponents.NoActionBar">
         
         <item name="colorPrimary">@color/accent</item>
         <item name="colorPrimaryVariant">@color/accent_dark</item>
