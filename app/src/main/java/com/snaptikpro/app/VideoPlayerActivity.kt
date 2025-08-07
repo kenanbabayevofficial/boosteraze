@@ -62,13 +62,20 @@ class VideoPlayerActivity : AppCompatActivity() {
             // Create ExoPlayer
             player = ExoPlayer.Builder(this).build()
             
-            // Create media item
-            val uri = FileProvider.getUriForFile(
-                this,
-                "${packageName}.fileprovider",
-                file
-            )
-            val mediaItem = MediaItem.fromUri(uri)
+            // Create media item - try different approaches
+            val mediaItem = try {
+                // First try FileProvider
+                val uri = FileProvider.getUriForFile(
+                    this,
+                    "${packageName}.fileprovider",
+                    file
+                )
+                MediaItem.fromUri(uri)
+            } catch (e: Exception) {
+                // If FileProvider fails, try direct file URI
+                val uri = Uri.fromFile(file)
+                MediaItem.fromUri(uri)
+            }
             
             // Set media item to player
             player?.setMediaItem(mediaItem)
@@ -110,11 +117,17 @@ class VideoPlayerActivity : AppCompatActivity() {
         try {
             val file = File(videoPath!!)
             if (file.exists()) {
-                val uri = FileProvider.getUriForFile(
-                    this,
-                    "${packageName}.fileprovider",
-                    file
-                )
+                val uri = try {
+                    // First try FileProvider
+                    FileProvider.getUriForFile(
+                        this,
+                        "${packageName}.fileprovider",
+                        file
+                    )
+                } catch (e: Exception) {
+                    // If FileProvider fails, use direct file URI
+                    Uri.fromFile(file)
+                }
                 
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "video/*"

@@ -154,11 +154,17 @@ class DownloadsActivity : AppCompatActivity() {
         try {
             val file = File(downloadItem.path)
             if (file.exists()) {
-                val uri = FileProvider.getUriForFile(
-                    this,
-                    "${packageName}.fileprovider",
-                    file
-                )
+                val uri = try {
+                    // First try FileProvider
+                    FileProvider.getUriForFile(
+                        this,
+                        "${packageName}.fileprovider",
+                        file
+                    )
+                } catch (e: Exception) {
+                    // If FileProvider fails, use direct file URI
+                    Uri.fromFile(file)
+                }
                 
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "video/*"
