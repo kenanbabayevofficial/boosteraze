@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $body = $_POST['body'] ?? '';
     
     if (empty($title) || empty($body)) {
-        $error = 'Please fill in both title and message.';
+        $error = 'Lütfen başlık ve mesaj alanlarını doldurunuz.';
     } else {
         try {
             $pdo = getDB();
@@ -28,24 +28,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tokens = $stmt->fetchAll(PDO::FETCH_COLUMN);
             
             if (empty($tokens)) {
-                $error = 'No active push tokens found.';
+                $error = 'Aktif push token bulunamadı.';
             } else {
                 // Include FCM send function
                 require_once 'fcm_send.php';
                 $result = sendPush($tokens, $title, $body);
                 
                 if ($result) {
-                    $success = "Push notification sent successfully to " . count($tokens) . " devices!";
+                    $success = "Push bildirimi " . count($tokens) . " cihaza başarıyla gönderildi!";
                     
                     // Log the notification
                     $stmt = $pdo->prepare("INSERT INTO push_history (title, message, sent_by, target_devices, successful_sends) VALUES (?, ?, ?, ?, ?)");
                     $stmt->execute([$title, $body, $_SESSION['admin_id'], count($tokens), count($tokens)]);
                 } else {
-                    $error = 'Failed to send push notification.';
+                    $error = 'Push bildirimi gönderilemedi.';
                 }
             }
         } catch (PDOException $e) {
-            $error = 'Database error: ' . $e->getMessage();
+            $error = 'Veritabanı hatası: ' . $e->getMessage();
         }
     }
 }
@@ -59,16 +59,16 @@ try {
     $stmt = $pdo->query("SELECT COUNT(*) as total_notifications FROM push_history");
     $totalNotifications = $stmt->fetch()['total_notifications'];
 } catch (PDOException $e) {
-    $error = 'Database error: ' . $e->getMessage();
+    $error = 'Veritabanı hatası: ' . $e->getMessage();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Push Notifications - SnapTikPro Admin Panel</title>
+    <title>Bildirimler - SnapTikPro Admin Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -84,11 +84,11 @@ try {
                 <span>SnapTikPro Admin</span>
             </div>
             <div class="user-menu">
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+                <span>Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-                <a href="logout.php" class="btn btn-secondary">Logout</a>
+                <a href="logout.php" class="btn btn-secondary">Çıkış Yap</a>
             </div>
         </div>
     </header>
@@ -99,31 +99,31 @@ try {
             <li class="nav-item">
                 <a href="index.php" class="nav-link">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
-                    Dashboard
+                    Ana Sayfa
                 </a>
             </li>
             <li class="nav-item">
                 <a href="admob.php" class="nav-link">
                     <i class="fas fa-ad nav-icon"></i>
-                    AdMob Settings
+                    AdMob Ayarları
                 </a>
             </li>
             <li class="nav-item">
                 <a href="push.php" class="nav-link active">
                     <i class="fas fa-bell nav-icon"></i>
-                    Push Notifications
+                    Bildirimler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="stats.php" class="nav-link">
                     <i class="fas fa-chart-bar nav-icon"></i>
-                    Statistics
+                    İstatistikler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="users.php" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
-                    Users
+                    Kullanıcılar
                 </a>
             </li>
         </ul>
@@ -133,9 +133,9 @@ try {
     <main class="main-content">
         <div class="container">
             <div class="fade-in">
-                <h1>Push Notifications</h1>
+                <h1>Bildirimler</h1>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-                    Send push notifications to all registered users.
+                    Tüm kayıtlı kullanıcılara push bildirimi gönderin.
                 </p>
             </div>
             
@@ -157,24 +157,24 @@ try {
             <div class="dashboard-grid fade-in">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Active Tokens</h3>
+                        <h3 class="card-title">Aktif Token</h3>
                         <div class="card-icon notifications">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
                     </div>
                     <div class="card-value"><?php echo number_format($totalTokens); ?></div>
-                    <div class="card-label">Registered devices</div>
+                    <div class="card-label">Kayıtlı cihaz</div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Total Sent</h3>
+                        <h3 class="card-title">Toplam Gönderilen</h3>
                         <div class="card-icon notifications">
                             <i class="fas fa-paper-plane"></i>
                         </div>
                     </div>
                     <div class="card-value"><?php echo number_format($totalNotifications); ?></div>
-                    <div class="card-label">Notifications sent</div>
+                    <div class="card-label">Gönderilen bildirim</div>
                 </div>
             </div>
 
@@ -182,37 +182,37 @@ try {
             <div class="form-container fade-in">
                 <h3 class="card-title">
                     <i class="fas fa-bell"></i>
-                    Send Push Notification
+                    Push Bildirimi Gönder
                 </h3>
                 
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="title" class="form-label">
                             <i class="fas fa-heading"></i>
-                            Notification Title
+                            Bildirim Başlığı
                         </label>
                         <input type="text" id="title" name="title" class="form-input" 
                                value="<?php echo htmlspecialchars($_POST['title'] ?? ''); ?>" 
-                               placeholder="Enter notification title" required>
+                               placeholder="Bildirim başlığını girin" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="body" class="form-label">
                             <i class="fas fa-comment"></i>
-                            Notification Message
+                            Bildirim Mesajı
                         </label>
                         <textarea id="body" name="body" class="form-textarea" 
-                                  placeholder="Enter notification message" required><?php echo htmlspecialchars($_POST['body'] ?? ''); ?></textarea>
+                                  placeholder="Bildirim mesajını girin" required><?php echo htmlspecialchars($_POST['body'] ?? ''); ?></textarea>
                     </div>
                     
                     <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-paper-plane"></i>
-                            Send Notification
+                            Bildirimi Gönder
                         </button>
                         <a href="index.php" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
-                            Back to Dashboard
+                            Ana Sayfaya Dön
                         </a>
                     </div>
                 </form>
@@ -222,16 +222,16 @@ try {
             <div class="card fade-in" style="margin-top: 2rem;">
                 <h3 class="card-title">
                     <i class="fas fa-history"></i>
-                    Recent Notifications
+                    Son Bildirimler
                 </h3>
                 <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Message</th>
-                                <th>Sent Date</th>
-                                <th>Target Devices</th>
+                                <th>Başlık</th>
+                                <th>Mesaj</th>
+                                <th>Gönderim Tarihi</th>
+                                <th>Hedef Cihaz</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -252,7 +252,7 @@ try {
                                     echo "</tr>";
                                 }
                             } catch (PDOException $e) {
-                                echo "<tr><td colspan='4'>No notification history available</td></tr>";
+                                echo "<tr><td colspan='4'>Bildirim geçmişi bulunamadı</td></tr>";
                             }
                             ?>
                         </tbody>

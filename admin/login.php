@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     
     if (empty($username) || empty($password)) {
-        $error = 'Please enter both username and password.';
+        $error = 'Lütfen kullanıcı adı ve şifre giriniz.';
     } else {
         try {
             $pdo = getDB();
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: index.php');
                 exit;
             } else {
-                $error = 'Invalid username or password.';
+                $error = 'Geçersiz kullanıcı adı veya şifre.';
                 // Debug information (remove in production)
                 error_log("Login failed for username: $username");
                 error_log("User found: " . ($user ? 'Yes' : 'No'));
@@ -39,18 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } catch (PDOException $e) {
-            $error = 'Database error. Please try again.';
+            $error = 'Veritabanı hatası. Lütfen tekrar deneyiniz.';
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SnapTikPro Admin Panel</title>
+    <title>Giriş - SnapTikPro Admin Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -63,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-video"></i>
                 </div>
                 <h1 class="login-title">SnapTikPro Admin</h1>
-                <p class="login-subtitle">Sign in to your admin panel</p>
+                <p class="login-subtitle">Admin paneline giriş yapın</p>
             </div>
             
             <?php if ($error): ?>
@@ -75,28 +74,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <form method="POST" action="">
                 <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="username" class="form-label">Kullanıcı Adı</label>
                     <input type="text" id="username" name="username" class="form-input" 
                            value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>" 
-                           placeholder="Enter your username" required>
+                           placeholder="Kullanıcı adınızı girin" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">Şifre</label>
                     <input type="password" id="password" name="password" class="form-input" 
-                           placeholder="Enter your password" required>
+                           placeholder="Şifrenizi girin" required>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
                     <i class="fas fa-sign-in-alt"></i>
-                    Sign In
+                    Giriş Yap
                 </button>
             </form>
             
             <div style="text-align: center; margin-top: 2rem; color: var(--text-secondary);">
-                <p><strong>Default Credentials:</strong></p>
-                <p>Username: <code>admin</code></p>
-                <p>Password: <code>admin123</code></p>
+                <p><strong>Varsayılan Giriş Bilgileri:</strong></p>
+                <p>Kullanıcı Adı: <code>admin</code></p>
+                <p>Şifre: <code>admin123</code></p>
             </div>
         </div>
     </div>

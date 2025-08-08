@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$key, $value, $value]);
         }
         
-        $success = 'AdMob settings updated successfully!';
+        $success = 'AdMob ayarları başarıyla güncellendi!';
         
     } catch (PDOException $e) {
-        $error = 'Database error: ' . $e->getMessage();
+        $error = 'Veritabanı hatası: ' . $e->getMessage();
     }
 }
 
@@ -45,16 +45,16 @@ try {
         $currentSettings[$row['setting_key']] = $row['setting_value'];
     }
 } catch (PDOException $e) {
-    $error = 'Database error: ' . $e->getMessage();
+    $error = 'Veritabanı hatası: ' . $e->getMessage();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdMob Settings - SnapTikPro Admin Panel</title>
+    <title>AdMob Ayarları - SnapTikPro Admin Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -70,12 +70,11 @@ try {
                 <span>SnapTikPro Admin</span>
             </div>
             <div class="user-menu">
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+                <span>Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-
-                <a href="logout.php" class="btn btn-secondary">Logout</a>
+                <a href="logout.php" class="btn btn-secondary">Çıkış Yap</a>
             </div>
         </div>
     </header>
@@ -86,34 +85,33 @@ try {
             <li class="nav-item">
                 <a href="index.php" class="nav-link">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
-                    Dashboard
+                    Ana Sayfa
                 </a>
             </li>
             <li class="nav-item">
                 <a href="admob.php" class="nav-link active">
                     <i class="fas fa-ad nav-icon"></i>
-                    AdMob Settings
+                    AdMob Ayarları
                 </a>
             </li>
             <li class="nav-item">
                 <a href="push.php" class="nav-link">
                     <i class="fas fa-bell nav-icon"></i>
-                    Push Notifications
+                    Bildirimler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="stats.php" class="nav-link">
                     <i class="fas fa-chart-bar nav-icon"></i>
-                    Statistics
+                    İstatistikler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="users.php" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
-                    Users
+                    Kullanıcılar
                 </a>
             </li>
-
         </ul>
     </nav>
 
@@ -121,9 +119,9 @@ try {
     <main class="main-content">
         <div class="container">
             <div class="fade-in">
-                <h1>AdMob Settings</h1>
+                <h1>AdMob Ayarları</h1>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-                    Manage your AdMob ad unit IDs. These settings will be used by the Android app to display ads.
+                    AdMob reklam birimi ID'lerinizi yönetin. Bu ayarlar Android uygulaması tarafından reklamları göstermek için kullanılacaktır.
                 </p>
             </div>
             
@@ -146,63 +144,63 @@ try {
                     <div class="form-group">
                         <label for="admob_app_id" class="form-label">
                             <i class="fas fa-mobile-alt"></i>
-                            AdMob App ID
+                            AdMob Uygulama ID
                         </label>
                         <input type="text" id="admob_app_id" name="admob_app_id" class="form-input" 
                                value="<?php echo htmlspecialchars($currentSettings['admob_app_id'] ?? ''); ?>" 
                                placeholder="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy">
                         <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
-                            Your AdMob app ID (found in AdMob console)
+                            AdMob uygulama ID'niz (AdMob konsolunda bulunur)
                         </small>
                     </div>
                     
                     <div class="form-group">
                         <label for="admob_banner" class="form-label">
                             <i class="fas fa-rectangle-ad"></i>
-                            Banner Ad Unit ID
+                            Banner Reklam Birimi ID
                         </label>
                         <input type="text" id="admob_banner" name="admob_banner" class="form-input" 
                                value="<?php echo htmlspecialchars($currentSettings['admob_banner'] ?? ''); ?>" 
                                placeholder="ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy">
                         <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
-                            Banner ad unit ID for displaying banner ads
+                            Banner reklamları göstermek için banner reklam birimi ID
                         </small>
                     </div>
                     
                     <div class="form-group">
                         <label for="admob_interstitial" class="form-label">
                             <i class="fas fa-window-maximize"></i>
-                            Interstitial Ad Unit ID
+                            Tam Sayfa Reklam Birimi ID
                         </label>
                         <input type="text" id="admob_interstitial" name="admob_interstitial" class="form-input" 
                                value="<?php echo htmlspecialchars($currentSettings['admob_interstitial'] ?? ''); ?>" 
                                placeholder="ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy">
                         <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
-                            Interstitial ad unit ID for full-screen ads
+                            Tam sayfa reklamları için interstitial reklam birimi ID
                         </small>
                     </div>
                     
                     <div class="form-group">
                         <label for="admob_rewarded" class="form-label">
                             <i class="fas fa-gift"></i>
-                            Rewarded Ad Unit ID
+                            Ödüllü Reklam Birimi ID
                         </label>
                         <input type="text" id="admob_rewarded" name="admob_rewarded" class="form-input" 
                                value="<?php echo htmlspecialchars($currentSettings['admob_rewarded'] ?? ''); ?>" 
                                placeholder="ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy">
                         <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
-                            Rewarded ad unit ID for reward-based ads
+                            Ödül tabanlı reklamlar için ödüllü reklam birimi ID
                         </small>
                     </div>
                     
                     <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i>
-                            Save Settings
+                            Ayarları Kaydet
                         </button>
                         <a href="index.php" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
-                            Back to Dashboard
+                            Ana Sayfaya Dön
                         </a>
                     </div>
                 </form>
@@ -212,40 +210,40 @@ try {
             <div class="card fade-in" style="margin-top: 2rem;">
                 <h3 class="card-title">
                     <i class="fas fa-info-circle"></i>
-                    Test Ad Unit IDs
+                    Test Reklam Birimi ID'leri
                 </h3>
                 <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                    Use these test ad unit IDs for development and testing:
+                    Geliştirme ve test için bu test reklam birimi ID'lerini kullanın:
                 </p>
                 <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Ad Type</th>
-                                <th>Test Ad Unit ID</th>
-                                <th>Description</th>
+                                <th>Reklam Tipi</th>
+                                <th>Test Reklam Birimi ID</th>
+                                <th>Açıklama</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>App ID</strong></td>
+                                <td><strong>Uygulama ID</strong></td>
                                 <td><code>ca-app-pub-3940256099942544~3347511713</code></td>
-                                <td>Test app ID for Android</td>
+                                <td>Android için test uygulama ID</td>
                             </tr>
                             <tr>
                                 <td><strong>Banner</strong></td>
                                 <td><code>ca-app-pub-3940256099942544/6300978111</code></td>
-                                <td>Test banner ad</td>
+                                <td>Test banner reklamı</td>
                             </tr>
                             <tr>
-                                <td><strong>Interstitial</strong></td>
+                                <td><strong>Tam Sayfa</strong></td>
                                 <td><code>ca-app-pub-3940256099942544/1033173712</code></td>
-                                <td>Test interstitial ad</td>
+                                <td>Test interstitial reklamı</td>
                             </tr>
                             <tr>
-                                <td><strong>Rewarded</strong></td>
+                                <td><strong>Ödüllü</strong></td>
                                 <td><code>ca-app-pub-3940256099942544/5224354917</code></td>
-                                <td>Test rewarded ad</td>
+                                <td>Test ödüllü reklamı</td>
                             </tr>
                         </tbody>
                     </table>

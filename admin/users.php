@@ -24,23 +24,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'delete':
                 $stmt = $pdo->prepare("DELETE FROM users WHERE device_id = ?");
                 $stmt->execute([$device_id]);
-                $success = 'User deleted successfully!';
+                $success = 'Kullanıcı başarıyla silindi!';
                 break;
                 
             case 'deactivate':
                 $stmt = $pdo->prepare("UPDATE users SET is_active = 0 WHERE device_id = ?");
                 $stmt->execute([$device_id]);
-                $success = 'User deactivated successfully!';
+                $success = 'Kullanıcı başarıyla devre dışı bırakıldı!';
                 break;
                 
             case 'activate':
                 $stmt = $pdo->prepare("UPDATE users SET is_active = 1 WHERE device_id = ?");
                 $stmt->execute([$device_id]);
-                $success = 'User activated successfully!';
+                $success = 'Kullanıcı başarıyla etkinleştirildi!';
                 break;
         }
     } catch (PDOException $e) {
-        $error = 'Database error: ' . $e->getMessage();
+        $error = 'Veritabanı hatası: ' . $e->getMessage();
     }
 }
 
@@ -72,16 +72,16 @@ try {
     $users = $stmt->fetchAll();
     
 } catch (PDOException $e) {
-    $error = 'Database error: ' . $e->getMessage();
+    $error = 'Veritabanı hatası: ' . $e->getMessage();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users - SnapTikPro Admin Panel</title>
+    <title>Kullanıcılar - SnapTikPro Admin Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -97,12 +97,11 @@ try {
                 <span>SnapTikPro Admin</span>
             </div>
             <div class="user-menu">
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+                <span>Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-
-                <a href="logout.php" class="btn btn-secondary">Logout</a>
+                <a href="logout.php" class="btn btn-secondary">Çıkış Yap</a>
             </div>
         </div>
     </header>
@@ -113,34 +112,33 @@ try {
             <li class="nav-item">
                 <a href="index.php" class="nav-link">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
-                    Dashboard
+                    Ana Sayfa
                 </a>
             </li>
             <li class="nav-item">
                 <a href="admob.php" class="nav-link">
                     <i class="fas fa-ad nav-icon"></i>
-                    AdMob Settings
+                    AdMob Ayarları
                 </a>
             </li>
             <li class="nav-item">
                 <a href="push.php" class="nav-link">
                     <i class="fas fa-bell nav-icon"></i>
-                    Push Notifications
+                    Bildirimler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="stats.php" class="nav-link">
                     <i class="fas fa-chart-bar nav-icon"></i>
-                    Statistics
+                    İstatistikler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="users.php" class="nav-link active">
                     <i class="fas fa-users nav-icon"></i>
-                    Users
+                    Kullanıcılar
                 </a>
             </li>
-
         </ul>
     </nav>
 
@@ -148,9 +146,9 @@ try {
     <main class="main-content">
         <div class="container">
             <div class="fade-in">
-                <h1>User Management</h1>
+                <h1>Kullanıcı Yönetimi</h1>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-                    Manage registered users and their activities.
+                    Kayıtlı kullanıcıları ve aktivitelerini yönetin.
                 </p>
             </div>
             
@@ -173,7 +171,7 @@ try {
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-users"></i>
-                        Registered Users (<?php echo number_format($totalUsers); ?>)
+                        Kayıtlı Kullanıcılar (<?php echo number_format($totalUsers); ?>)
                     </h3>
                 </div>
                 
@@ -181,13 +179,13 @@ try {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Device ID</th>
-                                <th>Device Model</th>
-                                <th>Android Version</th>
-                                <th>Downloads</th>
-                                <th>Last Seen</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>Cihaz ID</th>
+                                <th>Cihaz Modeli</th>
+                                <th>Android Sürümü</th>
+                                <th>İndirme</th>
+                                <th>Son Görülme</th>
+                                <th>Durum</th>
+                                <th>İşlemler</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -197,8 +195,8 @@ try {
                                         <td>
                                             <code><?php echo htmlspecialchars(substr($user['device_id'], 0, 20)); ?>...</code>
                                         </td>
-                                        <td><?php echo htmlspecialchars($user['device_model'] ?? 'Unknown'); ?></td>
-                                        <td><?php echo htmlspecialchars($user['android_version'] ?? 'Unknown'); ?></td>
+                                        <td><?php echo htmlspecialchars($user['device_model'] ?? 'Bilinmiyor'); ?></td>
+                                        <td><?php echo htmlspecialchars($user['android_version'] ?? 'Bilinmiyor'); ?></td>
                                         <td>
                                             <span class="badge badge-info">
                                                 <?php echo number_format($user['download_count']); ?>
@@ -207,9 +205,9 @@ try {
                                         <td><?php echo htmlspecialchars($user['last_seen']); ?></td>
                                         <td>
                                             <?php if ($user['is_active']): ?>
-                                                <span class="badge badge-success">Active</span>
+                                                <span class="badge badge-success">Aktif</span>
                                             <?php else: ?>
-                                                <span class="badge badge-error">Inactive</span>
+                                                <span class="badge badge-error">Pasif</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
@@ -224,7 +222,7 @@ try {
                                                         <i class="fas fa-play"></i>
                                                     </button>
                                                 <?php endif; ?>
-                                                <button type="submit" name="action" value="delete" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="return confirm('Are you sure you want to delete this user?')">
+                                                <button type="submit" name="action" value="delete" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -234,7 +232,7 @@ try {
                             <?php else: ?>
                                 <tr>
                                     <td colspan="7" style="text-align: center; color: var(--text-secondary);">
-                                        No users found
+                                        Kullanıcı bulunamadı
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -248,7 +246,7 @@ try {
                         <?php if ($page > 1): ?>
                             <a href="?page=<?php echo $page - 1; ?>" class="btn btn-secondary">
                                 <i class="fas fa-chevron-left"></i>
-                                Previous
+                                Önceki
                             </a>
                         <?php endif; ?>
                         
@@ -260,7 +258,7 @@ try {
                         
                         <?php if ($page < $totalPages): ?>
                             <a href="?page=<?php echo $page + 1; ?>" class="btn btn-secondary">
-                                Next
+                                Sonraki
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         <?php endif; ?>

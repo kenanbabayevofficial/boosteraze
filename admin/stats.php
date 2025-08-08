@@ -72,16 +72,16 @@ try {
     $top_users = $stmt->fetchAll();
     
 } catch (PDOException $e) {
-    $error = 'Database error: ' . $e->getMessage();
+    $error = 'Veritabanı hatası: ' . $e->getMessage();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics - SnapTikPro Admin Panel</title>
+    <title>İstatistikler - SnapTikPro Admin Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -98,12 +98,11 @@ try {
                 <span>SnapTikPro Admin</span>
             </div>
             <div class="user-menu">
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+                <span>Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-
-                <a href="logout.php" class="btn btn-secondary">Logout</a>
+                <a href="logout.php" class="btn btn-secondary">Çıkış Yap</a>
             </div>
         </div>
     </header>
@@ -114,34 +113,33 @@ try {
             <li class="nav-item">
                 <a href="index.php" class="nav-link">
                     <i class="fas fa-tachometer-alt nav-icon"></i>
-                    Dashboard
+                    Ana Sayfa
                 </a>
             </li>
             <li class="nav-item">
                 <a href="admob.php" class="nav-link">
                     <i class="fas fa-ad nav-icon"></i>
-                    AdMob Settings
+                    AdMob Ayarları
                 </a>
             </li>
             <li class="nav-item">
                 <a href="push.php" class="nav-link">
                     <i class="fas fa-bell nav-icon"></i>
-                    Push Notifications
+                    Bildirimler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="stats.php" class="nav-link active">
                     <i class="fas fa-chart-bar nav-icon"></i>
-                    Statistics
+                    İstatistikler
                 </a>
             </li>
             <li class="nav-item">
                 <a href="users.php" class="nav-link">
                     <i class="fas fa-users nav-icon"></i>
-                    Users
+                    Kullanıcılar
                 </a>
             </li>
-
         </ul>
     </nav>
 
@@ -149,9 +147,9 @@ try {
     <main class="main-content">
         <div class="container">
             <div class="fade-in">
-                <h1>Statistics & Analytics</h1>
+                <h1>İstatistikler ve Analizler</h1>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-                    Detailed analytics and insights about your app usage.
+                    Uygulama kullanımı hakkında detaylı analizler ve içgörüler.
                 </p>
             </div>
             
@@ -166,46 +164,46 @@ try {
             <div class="dashboard-grid fade-in">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Total Users</h3>
+                        <h3 class="card-title">Toplam Kullanıcı</h3>
                         <div class="card-icon users">
                             <i class="fas fa-users"></i>
                         </div>
                     </div>
                     <div class="card-value"><?php echo number_format($stats['total_users']); ?></div>
-                    <div class="card-label">Registered devices</div>
+                    <div class="card-label">Kayıtlı cihaz</div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Active Users (7d)</h3>
+                        <h3 class="card-title">Aktif Kullanıcı (7g)</h3>
                         <div class="card-icon users">
                             <i class="fas fa-user-check"></i>
                         </div>
                     </div>
                     <div class="card-value"><?php echo number_format($stats['active_users_7d']); ?></div>
-                    <div class="card-label">Last 7 days</div>
+                    <div class="card-label">Son 7 gün</div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Total Downloads</h3>
+                        <h3 class="card-title">Toplam İndirme</h3>
                         <div class="card-icon downloads">
                             <i class="fas fa-download"></i>
                         </div>
                     </div>
                     <div class="card-value"><?php echo number_format($stats['total_downloads']); ?></div>
-                    <div class="card-label">All time</div>
+                    <div class="card-label">Tüm zamanlar</div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Today's Downloads</h3>
+                        <h3 class="card-title">Bugünkü İndirme</h3>
                         <div class="card-icon downloads">
                             <i class="fas fa-calendar-day"></i>
                         </div>
                     </div>
                     <div class="card-value"><?php echo number_format($stats['today_downloads']); ?></div>
-                    <div class="card-label">Downloads today</div>
+                    <div class="card-label">Bugün indirilen</div>
                 </div>
             </div>
 
@@ -213,7 +211,7 @@ try {
             <div class="card fade-in">
                 <h3 class="card-title">
                     <i class="fas fa-chart-line"></i>
-                    Daily Downloads (Last 7 Days)
+                    Günlük İndirmeler (Son 7 Gün)
                 </h3>
                 <canvas id="downloadsChart" width="400" height="200"></canvas>
             </div>
@@ -223,19 +221,19 @@ try {
                 <div class="card">
                     <h3 class="card-title">
                         <i class="fas fa-calendar-week"></i>
-                        Weekly Statistics
+                        Haftalık İstatistikler
                     </h3>
                     <div style="margin-top: 1rem;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span>This Week:</span>
+                            <span>Bu Hafta:</span>
                             <strong><?php echo number_format($stats['week_downloads']); ?></strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span>Yesterday:</span>
+                            <span>Dün:</span>
                             <strong><?php echo number_format($stats['yesterday_downloads']); ?></strong>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <span>Active Users (30d):</span>
+                            <span>Aktif Kullanıcı (30g):</span>
                             <strong><?php echo number_format($stats['active_users_30d']); ?></strong>
                         </div>
                     </div>
@@ -244,19 +242,19 @@ try {
                 <div class="card">
                     <h3 class="card-title">
                         <i class="fas fa-calendar-alt"></i>
-                        Monthly Statistics
+                        Aylık İstatistikler
                     </h3>
                     <div style="margin-top: 1rem;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span>This Month:</span>
+                            <span>Bu Ay:</span>
                             <strong><?php echo number_format($stats['month_downloads']); ?></strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span>Avg Daily:</span>
+                            <span>Günlük Ortalama:</span>
                             <strong><?php echo number_format(round($stats['month_downloads'] / date('d'))); ?></strong>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <span>Total Users:</span>
+                            <span>Toplam Kullanıcı:</span>
                             <strong><?php echo number_format($stats['total_users']); ?></strong>
                         </div>
                     </div>
@@ -267,16 +265,16 @@ try {
             <div class="card fade-in">
                 <h3 class="card-title">
                     <i class="fas fa-trophy"></i>
-                    Top Users by Downloads
+                    İndirme Sayısına Göre En İyi Kullanıcılar
                 </h3>
                 <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Rank</th>
-                                <th>Device ID</th>
-                                <th>Downloads</th>
-                                <th>Last Seen</th>
+                                <th>Sıra</th>
+                                <th>Cihaz ID</th>
+                                <th>İndirme</th>
+                                <th>Son Görülme</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -304,7 +302,7 @@ try {
                             <?php else: ?>
                                 <tr>
                                     <td colspan="4" style="text-align: center; color: var(--text-secondary);">
-                                        No data available
+                                        Veri bulunamadı
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -316,51 +314,35 @@ try {
     </main>
 
     <script>
-        // Chart.js configuration
-        const ctx = document.getElementById('downloadsChart').getContext('2d');
-        
+        // Chart data
         const chartData = {
-            labels: <?php echo json_encode(array_column($daily_downloads, 'date')); ?>,
+            labels: <?php echo json_encode(array_map(function($item) { return date('d/m', strtotime($item['date'])); }, $daily_downloads)); ?>,
             datasets: [{
-                label: 'Downloads',
-                data: <?php echo json_encode(array_column($daily_downloads, 'count')); ?>,
-                backgroundColor: 'rgba(33, 150, 243, 0.2)',
-                borderColor: 'rgba(33, 150, 243, 1)',
-                borderWidth: 2,
-                tension: 0.4,
-                fill: true
+                label: 'Günlük İndirmeler',
+                data: <?php echo json_encode(array_map(function($item) { return $item['count']; }, $daily_downloads)); ?>,
+                borderColor: '#4CAF50',
+                backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                tension: 0.4
             }]
         };
 
+        // Create chart
+        const ctx = document.getElementById('downloadsChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: chartData,
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        labels: {
-                            color: '#FFFFFF'
-                        }
+                        display: false
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        },
                         ticks: {
-                            color: '#FFFFFF'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        },
-                        ticks: {
-                            color: '#FFFFFF'
+                            stepSize: 1
                         }
                     }
                 }
