@@ -35,6 +35,17 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.messaging.FirebaseMessaging
+import android.provider.Settings
+import com.snaptikpro.app.network.AdminApiService
+import com.snaptikpro.app.network.AdMobConfig
+import com.snaptikpro.app.network.DeviceRegistration
+import java.net.URL
 
 
 data class DownloadRecord(
@@ -45,37 +56,45 @@ data class DownloadRecord(
 )
 
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var apiService: ApiService
+    private lateinit var adminApiService: AdminApiService
     private lateinit var downloadManager: DownloadManager
     private var selectedPlatform = "tiktok"
-    
+    private var interstitialAd: InterstitialAd? = null
+    private var adMobConfig: AdMobConfig? = null
+
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
         private const val BASE_URL = "https://www.tikwm.com/" // TikWM API URL
+        private const val ADMIN_BASE_URL = "https://your-domain.com/admin/api/" // Admin API URL
         private const val PREFS_NAME = "clipboard_prefs"
         private const val KEY_LAST_LINK = "last_processed_link"
     }
-    
-        override fun onCreate(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupNotificationChannel() // Bildirim kanalı oluştur
+        setupNotificationChannel()
         setupApiService()
+        setupAdminApiService()
         setupDownloadManager()
         setupUI()
+        setupAdMob()
+        setupFCM()
+        registerDevice()
         checkPermissions()
 
         // Check clipboard for video link on app start with delay
         binding.root.postDelayed({
             checkClipboardForVideoLink()
-        }, 1000) // 1 second delay to ensure app is fully loaded
+        }, 1000)
     }
-    
-        private fun setupApiService() {
+
+    private fun setupApiService() {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -92,51 +111,125 @@ class MainActivity : AppCompatActivity() {
 
         apiService = retrofit.create(ApiService::class.java)
     }
-    
 
-    
+    private fun setupAdminApiService() {
+        val client = OkHttpClient.Builder().build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ADMIN_BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        adminApiService = retrofit.create(AdminApiService::class.java)
+    }
+
     private fun setupDownloadManager() {
         downloadManager = DownloadManager(this)
     }
-    
-        private fun setupUI() {
+
+    private fun setupAdMob() {
+        MobileAds.initialize(this) {}
+        
+        // Load AdMob config from admin panel
+        lifecycleScope.launch {
+            try {
+                adMobConfig = adminApiService.getAdMobConfig()
+                
+                // Load banner ad
+                val adRequest = AdRequest.Builder().build()
+                binding.adView.loadAd(adRequest)
+                
+                // Load interstitial ad
+                loadInterstitialAd()
+                
+            } catch (e: Exception) {
+                // Use default test ads if admin panel is not available
+                val adRequest = AdRequest.Builder().build()
+                binding.adView.loadAd(adRequest)
+            }
+        }
+    }
+
+    private fun loadInterstitialAd() {
+        val adUnitId = adMobConfig?.interstitial ?: "ca-app-pub-3940256099942544/1033173712" // Test ad
+        val adRequest = AdRequest.Builder().build()
+        
+        InterstitialAd.load(this, adUnitId, adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdLoaded(ad: InterstitialAd) {
+                interstitialAd = ad
+            }
+            override fun onAdFailedToLoad(error: com.google.android.gms.ads.LoadAdError) {
+                interstitialAd = null
+            }
+        })
+    }
+
+    private fun setupFCM() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                // Send token to admin panel
+                lifecycleScope.launch {
+                    try {
+                        adminApiService.registerPushToken(DeviceRegistration(getUniqueDeviceId(), token))
+                    } catch (e: Exception) {
+                        // Handle error
+                    }
+                }
+            }
+        }
+    }
+
+    private fun registerDevice() {
+        lifecycleScope.launch {
+            try {
+                adminApiService.registerDevice(DeviceRegistration(getUniqueDeviceId(), ""))
+            } catch (e: Exception) {
+                // Handle error
+            }
+        }
+    }
+
+    private fun getUniqueDeviceId(): String {
+        return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+    }
+
+    private fun setupUI() {
         // Platform tabs - Only TikTok supported
         binding.tvTikTok.setOnClickListener { selectPlatform("tiktok", binding.tvTikTok) }
-        
+
         // Hide other platforms
         binding.tvInstagram.visibility = View.GONE
         binding.tvFacebook.visibility = View.GONE
         binding.tvTwitter.visibility = View.GONE
-        
+
         // Buttons
         binding.btnDownload.setOnClickListener { downloadVideo() }
-        
+
         // Header buttons
         binding.ivDownloads.setOnClickListener { openDownloads() }
         binding.ivSettings.setOnClickListener { openSettings() }
         binding.ivHelp.setOnClickListener { openHelp() }
-        
+
         // Set TikTok as default selected
         selectPlatform("tiktok", binding.tvTikTok)
     }
-    
+
     private fun selectPlatform(platform: String, selectedView: View) {
         selectedPlatform = platform
-        
+
         // Reset TikTok tab
         binding.tvTikTok.setBackgroundResource(0)
         binding.tvTikTok.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         binding.tvTikTok.isSelected = false
-        
+
         // Set selected tab
         selectedView.setBackgroundResource(R.drawable.tab_background)
         (selectedView as TextView).setTextColor(ContextCompat.getColor(this, R.color.text_primary))
         selectedView.isSelected = true
     }
-    
-    
-    
-                   private fun downloadVideo() {
+
+    private fun downloadVideo() {
         val link = binding.etLink.text.toString().trim()
 
         if (link.isEmpty()) {
@@ -149,7 +242,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Check if this video link was already downloaded
+        // Check if this TikTok link was already downloaded
         if (isVideoAlreadyDownloaded(link)) {
             showVideoAlreadyExistsDialog(link)
             return
@@ -172,7 +265,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    
+
     private suspend fun downloadTikTokVideo(link: String) {
         try {
             val response = apiService.downloadTikTokVideo(link)
@@ -197,129 +290,89 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "TikTok download error: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
-    
 
-    
+    private fun downloadFile(url: String, title: String, tikTokLink: String) {
+        try {
+            // Use DCIM directory so videos appear in gallery
+            val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
+            if (!downloadsDir.exists()) {
+                val created = downloadsDir.mkdirs()
+                android.util.Log.d("DownloadManager", "Created directory: $created, Path: ${downloadsDir.absolutePath}")
+            }
 
-    
+            // Clean filename
+            val randomNumber = (1000000000..9999999999).random()
+            val fileName = "${randomNumber}.mp4"
+            val file = File(downloadsDir, fileName)
 
-    
+            android.util.Log.d("DownloadManager", "Download path: ${file.absolutePath}")
+            android.util.Log.d("DownloadManager", "Directory exists: ${downloadsDir.exists()}")
+            android.util.Log.d("DownloadManager", "Directory writable: ${downloadsDir.canWrite()}")
 
-    
+            downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
+                override fun onProgress(progress: Int) {
+                    updateDownloadProgress(progress)
+                }
 
-    
+                override fun onSuccess(file: File) {
+                    hideDownloadProgress()
+                    // Save the video link to prevent re-downloading
+                    saveDownloadedLink(tikTokLink)
+                    Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
+                    saveDownloadRecord(title, file.absolutePath, file.length())
 
-    
+                    // Add to MediaStore for Android 10+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                        addToMediaStore(file)
+                    }
 
-    
+                    // Trigger media scanner to make video appear in gallery
+                    triggerMediaScanner(file.absolutePath)
 
-    
+                    // Show success dialog with options
+                    showDownloadSuccessDialog(title, file.absolutePath)
 
-    
+                    // Show notification
+                    showDownloadNotification(file.absolutePath, title)
 
-    
+                    // Show interstitial ad
+                    showInterstitialAd()
+                }
 
-    
-                          private fun downloadFile(url: String, title: String, tikTokLink: String) {
-               try {
-                   // Use DCIM directory so videos appear in gallery
-                   val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "SnapTikPro")
-                   if (!downloadsDir.exists()) {
-                       val created = downloadsDir.mkdirs()
-                       android.util.Log.d("DownloadManager", "Created directory: $created, Path: ${downloadsDir.absolutePath}")
-                   }
+                override fun onError(error: String) {
+                    hideDownloadProgress()
+                    Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
+                }
+            })
 
-                   // Clean filename
-                   val randomNumber = (1000000000..9999999999).random()
-                   val fileName = "${randomNumber}.mp4"
-                   val file = File(downloadsDir, fileName)
+        } catch (e: Exception) {
+            android.util.Log.e("DownloadManager", "Error setting up download: ${e.message}")
+            Toast.makeText(this, "Error setting up download: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
 
-                   android.util.Log.d("DownloadManager", "Download path: ${file.absolutePath}")
-                   android.util.Log.d("DownloadManager", "Directory exists: ${downloadsDir.exists()}")
-                   android.util.Log.d("DownloadManager", "Directory writable: ${downloadsDir.canWrite()}")
+    private fun showInterstitialAd() {
+        interstitialAd?.show(this) ?: run {
+            // Ad not loaded, try to load again
+            loadInterstitialAd()
+        }
+    }
 
-                   downloadManager.downloadFile(url, file, object : DownloadManager.DownloadCallback {
-                       override fun onProgress(progress: Int) {
-                           updateDownloadProgress(progress)
-                       }
-
-                       override fun onSuccess(file: File) {
-                           hideDownloadProgress()
-                           // Save the video link to prevent re-downloading
-                           saveDownloadedLink(tikTokLink)
-                           Toast.makeText(this@MainActivity, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
-                           saveDownloadRecord(title, file.absolutePath, file.length())
-
-                           // Add to MediaStore for Android 10+
-                           if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                               addToMediaStore(file)
-                           }
-
-                           // Trigger media scanner to make video appear in gallery
-                           triggerMediaScanner(file.absolutePath)
-
-                           // Show success dialog with options
-                           showDownloadSuccessDialog(title, file.absolutePath)
-
-                           // Bildirim göster
-                           showDownloadNotification(file.absolutePath, title)
-                       }
-
-                       override fun onError(error: String) {
-                           hideDownloadProgress()
-                           Toast.makeText(this@MainActivity, getString(R.string.download_failed), Toast.LENGTH_LONG).show()
-                       }
-                   })
-
-               } catch (e: Exception) {
-                   android.util.Log.e("DownloadManager", "Error setting up download: ${e.message}")
-                   Toast.makeText(this, "Error setting up download: ${e.message}", Toast.LENGTH_LONG).show()
-               }
-           }
-
-           @androidx.annotation.RequiresApi(android.os.Build.VERSION_CODES.Q)
-           private fun addToMediaStore(file: File) {
-               try {
-                   val contentValues = android.content.ContentValues().apply {
-                       put(android.provider.MediaStore.Video.Media.DISPLAY_NAME, file.name)
-                       put(android.provider.MediaStore.Video.Media.MIME_TYPE, "video/mp4")
-                       put(android.provider.MediaStore.Video.Media.RELATIVE_PATH, "DCIM/SnapTikPro")
-                       put(android.provider.MediaStore.Video.Media.SIZE, file.length())
-                       put(android.provider.MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
-                       put(android.provider.MediaStore.Video.Media.DATE_MODIFIED, file.lastModified() / 1000)
-                   }
-
-                   val resolver = contentResolver
-                   val uri = resolver.insert(android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-                   if (uri != null) {
-                       android.util.Log.d("MediaStore", "Video added to MediaStore: $uri")
-                   } else {
-                       android.util.Log.e("MediaStore", "Failed to add video to MediaStore")
-                   }
-               } catch (e: Exception) {
-                   android.util.Log.e("MediaStore", "Error adding video to MediaStore: ${e.message}")
-               }
-           }
-    
     private fun showDownloadProgress() {
         binding.progressBar.visibility = View.VISIBLE
         binding.tvStatus.visibility = View.VISIBLE
-        binding.tvStatus.text = getString(R.string.downloading)
-        binding.btnDownload.isEnabled = false
+        binding.tvStatus.text = "Downloading video..."
     }
-    
+
+    private fun updateDownloadProgress(progress: Int) {
+        binding.tvStatus.text = "Downloading... $progress%"
+    }
+
     private fun hideDownloadProgress() {
         binding.progressBar.visibility = View.GONE
         binding.tvStatus.visibility = View.GONE
-        binding.btnDownload.isEnabled = true
     }
-    
-    private fun updateDownloadProgress(progress: Int) {
-        binding.progressBar.progress = progress
-        binding.tvStatus.text = "Downloading... $progress%"
-    }
-    
+
     private fun saveDownloadRecord(title: String, path: String, size: Long) {
         val downloadRecord = DownloadRecord(
             title = title,
@@ -348,7 +401,7 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
-    
+
     private fun playVideo(filePath: String) {
         val file = File(filePath)
         if (file.exists()) {
@@ -358,27 +411,34 @@ class MainActivity : AppCompatActivity() {
                     "${packageName}.fileprovider",
                     file
                 )
-                
+
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setDataAndType(uri, "video/*")
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                
+
                 startActivity(intent)
             } catch (e: Exception) {
                 Toast.makeText(this, getString(R.string.no_video_player), Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show()
+            // Remove from list if file doesn't exist
         }
     }
-    
+
     private fun isValidUrl(url: String): Boolean {
-        return url.startsWith("http://") || url.startsWith("https://")
+        return try {
+            URL(url).toURI()
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
-    
+
     private fun checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) 
-            != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -386,73 +446,70 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
-    
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, getString(R.string.storage_permission_granted), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, getString(R.string.permission_required), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    
+
     private fun openDownloads() {
         val intent = Intent(this, DownloadsActivity::class.java)
         startActivity(intent)
     }
-    
-               private fun openSettings() {
-               val intent = Intent(this, SettingsActivity::class.java)
-               startActivity(intent)
-           }
-    
 
-    
+    private fun openSettings() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun openHelp() {
         AlertDialog.Builder(this)
             .setTitle("📱 Video Downloader Pro - Nasıl Kullanılır?")
             .setMessage("""
                 🚀 Uygulamayı kullanmaya başlamak için:
-                
+
                 1️⃣ Video linkini kopyalayın
                 2️⃣ Uygulamayı açın
                 3️⃣ Link otomatik olarak yapıştırılacak
                 4️⃣ "Yüklə" düğmesine basın
                 5️⃣ Video indirilecek ve galeriye eklenecek
                 6️⃣ "Yükləmələr" bölümünden videolarınızı görüntüleyin
-                
+
                 ⚡ Otomatik İndirme:
                 • Video linkini kopyalayın
                 • Uygulamayı açın
                 • İndirme otomatik başlayacak
-                
+
                 📱 Desteklenen Platformlar:
                 • TikTok (şu anda aktif)
                 • Diğer platformlar yakında eklenecek
-                
+
                 🎬 Video Oynatıcı:
                 • İndirilen videoları oynatın
                 • Paylaşın ve silin
                 • Tam ekran desteği
-                
+
                 🖼️ Galeri Entegrasyonu:
                 • Videolar galeri'de görünür
                 • DCIM/SnapTikPro klasörüne kaydedilir
-                
+
                 🎉 Bu kadar! Artık videolarınızı kolayca indirebilirsiniz.
             """.trimIndent())
             .setPositiveButton("Anladım", null)
             .show()
     }
-    
-        private fun checkClipboardForVideoLink() {
+
+    private fun checkClipboardForVideoLink() {
         try {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -487,17 +544,15 @@ class MainActivity : AppCompatActivity() {
             android.util.Log.e("ClipboardCheck", "Error checking clipboard: ${e.message}")
         }
     }
-    
-                   private fun isVideoLink(text: String): Boolean {
+
+    private fun isVideoLink(text: String): Boolean {
         return text.contains("tiktok.com") ||
                text.contains("vm.tiktok.com") ||
                text.contains("vt.tiktok.com") ||
                text.contains("www.tiktok.com")
     }
-    
 
-           
-               private fun isVideoAlreadyDownloaded(videoLink: String): Boolean {
+    private fun isVideoAlreadyDownloaded(videoLink: String): Boolean {
         // Check if this video link was already processed
         val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
         val downloadedLinks = prefs.getStringSet("downloaded_links", setOf()) ?: setOf()
@@ -507,20 +562,20 @@ class MainActivity : AppCompatActivity() {
 
         return downloadedLinks.contains(cleanLink)
     }
-           
-           private fun cleanVideoLink(link: String): String {
-               // Remove query parameters and get the base TikTok URL
-               return try {
-                   val uri = Uri.parse(link)
-                   val baseUrl = "${uri.scheme}://${uri.host}${uri.path}"
-                   baseUrl
-               } catch (e: Exception) {
-                   // If parsing fails, return the original link
-                   link
-               }
-           }
-           
-               private fun saveDownloadedLink(videoLink: String) {
+
+    private fun cleanVideoLink(link: String): String {
+        // Remove query parameters and get the base TikTok URL
+        return try {
+            val uri = Uri.parse(link)
+            val baseUrl = "${uri.scheme}://${uri.host}${uri.path}"
+            baseUrl
+        } catch (e: Exception) {
+            // If parsing fails, return the original link
+            link
+        }
+    }
+
+    private fun saveDownloadedLink(videoLink: String) {
         val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
         val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
 
@@ -529,34 +584,30 @@ class MainActivity : AppCompatActivity() {
 
         prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
     }
-           
-           private fun showVideoAlreadyExistsDialog(videoLink: String) {
-               AlertDialog.Builder(this)
-                   .setTitle(getString(R.string.video_already_exists_title))
-                   .setMessage(getString(R.string.video_already_exists_message_link).format(videoLink))
-                   .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
-                       openDownloads()
-                   }
-                   .setNegativeButton(getString(R.string.download_anyway)) { _, _ ->
-                       // Force download anyway by removing from history
-                       val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
-                       val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
-                       val cleanLink = cleanVideoLink(videoLink)
-                       downloadedLinks.remove(cleanLink)
-                       prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
-                       
-                       // Start download
-                       downloadVideo()
-                   }
-                   .setNeutralButton(getString(R.string.cancel), null)
-                   .show()
-           }
-    
 
-    
+    private fun showVideoAlreadyExistsDialog(videoLink: String) {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.video_already_exists_title))
+            .setMessage(getString(R.string.video_already_exists_message_link).format(videoLink))
+            .setPositiveButton(getString(R.string.view_downloads)) { _, _ ->
+                openDownloads()
+            }
+            .setNegativeButton(getString(R.string.download_anyway)) { _, _ ->
+                // Force download anyway by removing from history
+                val prefs = getSharedPreferences("download_history", Context.MODE_PRIVATE)
+                val downloadedLinks = prefs.getStringSet("downloaded_links", setOf())?.toMutableSet() ?: mutableSetOf()
+                val cleanLink = cleanVideoLink(videoLink)
+                downloadedLinks.remove(cleanLink)
+                prefs.edit().putStringSet("downloaded_links", downloadedLinks).apply()
 
-    
-                   override fun onResume() {
+                // Start download
+                downloadVideo()
+            }
+            .setNeutralButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    override fun onResume() {
         super.onResume()
         // Check clipboard when returning to the app with a small delay
         binding.root.postDelayed({
@@ -564,21 +615,46 @@ class MainActivity : AppCompatActivity() {
         }, 500) // 500ms delay to ensure clipboard is ready
     }
 
-           private fun triggerMediaScanner(filePath: String) {
-               try {
-                   val file = File(filePath)
-                   
-                   // Trigger media scanner to make video appear in gallery
-                   val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-                   val uri = Uri.fromFile(file)
-                   intent.data = uri
-                   sendBroadcast(intent)
-                   
-                   android.util.Log.d("MediaScanner", "Triggered media scanner for: $filePath")
-               } catch (e: Exception) {
-                   android.util.Log.e("MediaScanner", "Error triggering media scanner: ${e.message}")
-               }
-           }
+    private fun triggerMediaScanner(filePath: String) {
+        try {
+            val file = File(filePath)
+
+            // Trigger media scanner to make video appear in gallery
+            val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            val uri = Uri.fromFile(file)
+            intent.data = uri
+            sendBroadcast(intent)
+
+            android.util.Log.d("MediaScanner", "Triggered media scanner for: $filePath")
+        } catch (e: Exception) {
+            android.util.Log.e("MediaScanner", "Error triggering media scanner: ${e.message}")
+        }
+    }
+
+    @androidx.annotation.RequiresApi(android.os.Build.VERSION_CODES.Q)
+    private fun addToMediaStore(file: File) {
+        try {
+            val contentValues = android.content.ContentValues().apply {
+                put(android.provider.MediaStore.Video.Media.DISPLAY_NAME, file.name)
+                put(android.provider.MediaStore.Video.Media.MIME_TYPE, "video/mp4")
+                put(android.provider.MediaStore.Video.Media.RELATIVE_PATH, "DCIM/SnapTikPro")
+                put(android.provider.MediaStore.Video.Media.SIZE, file.length())
+                put(android.provider.MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+                put(android.provider.MediaStore.Video.Media.DATE_MODIFIED, file.lastModified() / 1000)
+            }
+
+            val resolver = contentResolver
+            val uri = resolver.insert(android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+            if (uri != null) {
+                android.util.Log.d("MediaStore", "Video added to MediaStore: $uri")
+            } else {
+                android.util.Log.e("MediaStore", "Failed to add video to MediaStore")
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("MediaStore", "Error adding video to MediaStore: ${e.message}")
+        }
+    }
 
     private fun setupNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
