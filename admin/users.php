@@ -68,7 +68,9 @@ try {
         ORDER BY u.last_seen DESC 
         LIMIT ? OFFSET ?
     ");
-    $stmt->execute([$limit, $offset]);
+    $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+    $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+    $stmt->execute();
     $users = $stmt->fetchAll();
     
 } catch (PDOException $e) {
