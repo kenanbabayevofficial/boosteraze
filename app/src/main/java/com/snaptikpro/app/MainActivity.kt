@@ -30,6 +30,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.os.Build
+import androidx.core.app.NotificationCompat
 
 
 data class DownloadRecord(
@@ -58,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupNotificationChannel() // Bildirim kanalı oluştur
         setupApiService()
         setupDownloadManager()
         setupUI()
@@ -254,6 +260,9 @@ class MainActivity : AppCompatActivity() {
 
                            // Show success dialog with options
                            showDownloadSuccessDialog(title, file.absolutePath)
+
+                           // Bildirim göster
+                           showDownloadNotification(file.absolutePath, title)
                        }
 
                        override fun onError(error: String) {
@@ -570,4 +579,34 @@ class MainActivity : AppCompatActivity() {
                    android.util.Log.e("MediaScanner", "Error triggering media scanner: ${e.message}")
                }
            }
+
+    private fun setupNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "download_channel",
+                "İndirme Bildirimleri",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.description = "Video indirme tamamlandığında bildirimler"
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun showDownloadNotification(filePath: String, title: String) {
+        val intent = Intent(this, DownloadsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val builder = NotificationCompat.Builder(this, "download_channel")
+            .setSmallIcon(R.drawable.ic_download)
+            .setContentTitle(getString(R.string.download_complete_title))
+            .setContentText(getString(R.string.download_complete_message, title))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+    }
 }
