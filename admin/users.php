@@ -1,123 +1,271 @@
 <?php
 session_start();
-require_once 'config/database.php';
-require_once 'includes/auth.php';
+require_once 'config.php';
+require_once 'db.php';
 
-// Check if user is logged in and is admin
-if (!isLoggedIn() || !isAdmin()) {
+// Check if user is logged in
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header('Location: login.php');
-    exit();
+    exit;
 }
 
-// Handle user ban/unban
-if (isset($_POST['action']) && isset($_POST['user_id'])) {
-    $user_id = $_POST['user_id'];
-    $action = $_POST['action'];
+$error = '';
+$success = '';
+
+// Handle user actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $device_id = $_POST['device_id'] ?? '';
     
-    if ($action === 'ban') {
-        $stmt = $pdo->prepare("UPDATE users SET is_banned = 1 WHERE id = ?");
-        $stmt->execute([$user_id]);
-    } elseif ($action === 'unban') {
-        $stmt = $pdo->prepare("UPDATE users SET is_banned = 0 WHERE id = ?");
-        $stmt->execute([$user_id]);
+    try {
+        $pdo = getDB();
+        
+        switch ($action) {
+            case 'delete':
+                $stmt = $pdo->prepare("DELETE FROM users WHERE device_id = ?");
+                $stmt->execute([$device_id]);
+                $success = 'User deleted successfully!';
+                break;
+                
+            case 'deactivate':
+                $stmt = $pdo->prepare("UPDATE users SET is_active = 0 WHERE device_id = ?");
+                $stmt->execute([$device_id]);
+                $success = 'User deactivated successfully!';
+                break;
+                
+            case 'activate':
+                $stmt = $pdo->prepare("UPDATE users SET is_active = 1 WHERE device_id = ?");
+                $stmt->execute([$device_id]);
+                $success = 'User activated successfully!';
+                break;
+        }
+    } catch (PDOException $e) {
+        $error = 'Database error: ' . $e->getMessage();
     }
-    
-    header('Location: users.php');
-    exit();
 }
 
-// Get users
-$stmt = $pdo->query("SELECT * FROM users WHERE is_admin = 0 ORDER BY created_at DESC");
-$users = $stmt->fetchAll();
+// Get users with pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 20;
+$offset = ($page - 1) * $limit;
+
+try {
+    $pdo = getDB();
+    
+    // Get total count
+    $stmt = $pdo->query("SELECT COUNT(*) as total FROM users");
+    $totalUsers = $stmt->fetch()['total'];
+    $totalPages = ceil($totalUsers / $limit);
+    
+    // Get users
+    $stmt = $pdo->prepare("
+        SELECT u.*, 
+               COUNT(dh.id) as download_count,
+               MAX(dh.download_date) as last_download
+        FROM users u 
+        LEFT JOIN download_history dh ON u.device_id = dh.device_id
+        GROUP BY u.device_id 
+        ORDER BY u.last_seen DESC 
+        LIMIT ? OFFSET ?
+    ");
+    $stmt->execute([$limit, $offset]);
+    $users = $stmt->fetchAll();
+    
+} catch (PDOException $e) {
+    $error = 'Database error: ' . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kullanıcılar - TRLike Admin Panel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/admin.css" rel="stylesheet">
+    <title>Users - SnapTikPro Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <?php include 'includes/sidebar.php'; ?>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <span>SnapTikPro Admin</span>
+            </div>
+            <div class="user-menu">
+                <span>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <a href="logout.php" class="btn btn-secondary">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.php" class="nav-link">
+                    <i class="fas fa-tachometer-alt nav-icon"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admob.php" class="nav-link">
+                    <i class="fas fa-ad nav-icon"></i>
+                    AdMob Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="push.php" class="nav-link">
+                    <i class="fas fa-bell nav-icon"></i>
+                    Push Notifications
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="stats.php" class="nav-link">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                    Statistics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="users.php" class="nav-link active">
+                    <i class="fas fa-users nav-icon"></i>
+                    Users
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="fade-in">
+                <h1>User Management</h1>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                    Manage registered users and their activities.
+                </p>
+            </div>
             
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Kullanıcılar</h1>
+            <?php if ($success): ?>
+                <div class="alert alert-success fade-in">
+                    <i class="fas fa-check-circle"></i>
+                    <?php echo htmlspecialchars($success); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($error): ?>
+                <div class="alert alert-error fade-in">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Users Table -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-users"></i>
+                        Registered Users (<?php echo number_format($totalUsers); ?>)
+                    </h3>
                 </div>
                 
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Kullanıcı Listesi</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Device ID</th>
+                                <th>Device Model</th>
+                                <th>Android Version</th>
+                                <th>Downloads</th>
+                                <th>Last Seen</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($users)): ?>
+                                <?php foreach ($users as $user): ?>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>E-posta</th>
-                                        <th>Ad</th>
-                                        <th>Kredi</th>
-                                        <th>Durum</th>
-                                        <th>Kayıt Tarihi</th>
-                                        <th>İşlemler</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($users as $user): ?>
-                                    <tr>
-                                        <td><?php echo $user['id']; ?></td>
-                                        <td><?php echo $user['email']; ?></td>
-                                        <td><?php echo $user['name'] ?: '-'; ?></td>
-                                        <td><?php echo $user['credits']; ?></td>
                                         <td>
-                                            <?php if ($user['is_banned']): ?>
-                                                <span class="badge bg-danger">Yasaklı</span>
+                                            <code><?php echo htmlspecialchars(substr($user['device_id'], 0, 20)); ?>...</code>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($user['device_model'] ?? 'Unknown'); ?></td>
+                                        <td><?php echo htmlspecialchars($user['android_version'] ?? 'Unknown'); ?></td>
+                                        <td>
+                                            <span class="badge badge-info">
+                                                <?php echo number_format($user['download_count']); ?>
+                                            </span>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($user['last_seen']); ?></td>
+                                        <td>
+                                            <?php if ($user['is_active']): ?>
+                                                <span class="badge badge-success">Active</span>
                                             <?php else: ?>
-                                                <span class="badge bg-success">Aktif</span>
+                                                <span class="badge badge-error">Inactive</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo date('d.m.Y H:i', strtotime($user['created_at'])); ?></td>
                                         <td>
-                                            <?php if ($user['is_banned']): ?>
-                                                <form method="POST" style="display: inline;">
-                                                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                                    <input type="hidden" name="action" value="unban">
-                                                    <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Kullanıcının yasağını kaldırmak istediğinizden emin misiniz?')">
-                                                        <i class="fas fa-unlock"></i> Yasak Kaldır
+                                            <form method="POST" style="display: inline;">
+                                                <input type="hidden" name="device_id" value="<?php echo htmlspecialchars($user['device_id']); ?>">
+                                                <?php if ($user['is_active']): ?>
+                                                    <button type="submit" name="action" value="deactivate" class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                                        <i class="fas fa-pause"></i>
                                                     </button>
-                                                </form>
-                                            <?php else: ?>
-                                                <form method="POST" style="display: inline;">
-                                                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                                    <input type="hidden" name="action" value="ban">
-                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Kullanıcıyı yasaklamak istediğinizden emin misiniz?')">
-                                                        <i class="fas fa-ban"></i> Yasakla
+                                                <?php else: ?>
+                                                    <button type="submit" name="action" value="activate" class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                                        <i class="fas fa-play"></i>
                                                     </button>
-                                                </form>
-                                            <?php endif; ?>
+                                                <?php endif; ?>
+                                                <button type="submit" name="action" value="delete" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="return confirm('Are you sure you want to delete this user?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-secondary);">
+                                        No users found
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
-            </main>
+                
+                <!-- Pagination -->
+                <?php if ($totalPages > 1): ?>
+                    <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;">
+                        <?php if ($page > 1): ?>
+                            <a href="?page=<?php echo $page - 1; ?>" class="btn btn-secondary">
+                                <i class="fas fa-chevron-left"></i>
+                                Previous
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
+                            <a href="?page=<?php echo $i; ?>" class="btn <?php echo $i === $page ? 'btn-primary' : 'btn-secondary'; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endfor; ?>
+                        
+                        <?php if ($page < $totalPages): ?>
+                            <a href="?page=<?php echo $page + 1; ?>" class="btn btn-secondary">
+                                Next
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/admin.js"></script>
+    </main>
 </body>
 </html>
