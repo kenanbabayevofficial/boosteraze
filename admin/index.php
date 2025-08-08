@@ -59,6 +59,10 @@ try {
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
+                <a href="change_password.php" class="btn btn-primary" style="margin-right: 0.5rem;">
+                    <i class="fas fa-key"></i>
+                    Change Password
+                </a>
                 <a href="logout.php" class="btn btn-secondary">Logout</a>
             </div>
         </div>
@@ -184,6 +188,10 @@ try {
                     <a href="users.php" class="btn btn-info">
                         <i class="fas fa-users"></i>
                         Manage Users
+                    </a>
+                    <a href="change_password.php" class="btn btn-secondary">
+                        <i class="fas fa-key"></i>
+                        Change Password
                     </a>
                 </div>
             </div>

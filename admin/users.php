@@ -101,6 +101,10 @@ try {
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
+                <a href="change_password.php" class="btn btn-primary" style="margin-right: 0.5rem;">
+                    <i class="fas fa-key"></i>
+                    Change Password
+                </a>
                 <a href="logout.php" class="btn btn-secondary">Logout</a>
             </div>
         </div>
