@@ -31,6 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             } else {
                 $error = 'Invalid username or password.';
+                // Debug information (remove in production)
+                error_log("Login failed for username: $username");
+                error_log("User found: " . ($user ? 'Yes' : 'No'));
+                if ($user) {
+                    error_log("Password verify result: " . (password_verify($password, $user['password_hash']) ? 'True' : 'False'));
+                }
             }
         } catch (PDOException $e) {
             $error = 'Database error. Please try again.';

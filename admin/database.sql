@@ -76,8 +76,9 @@ CREATE TABLE IF NOT EXISTS push_history (
 );
 
 -- Insert default admin user (username: admin, password: admin123)
-INSERT INTO admin_users (username, password_hash, email, role) VALUES 
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@snaptikpro.com', 'admin');
+-- Note: Run setup_admin.php to create admin user with correct password hash
+-- INSERT INTO admin_users (username, password_hash, email, role) VALUES 
+-- ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@snaptikpro.com', 'admin');
 
 -- Insert default AdMob settings (test ads)
 INSERT INTO settings (setting_key, setting_value) VALUES 
