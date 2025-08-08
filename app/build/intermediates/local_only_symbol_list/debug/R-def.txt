@@ -119,9 +119,6 @@ string help_coming_soon
 string how_to_use_description
 string how_to_use_title
 string instagram
-string instagram_download_failed
-string instagram_no_video_url
-string instagram_supported
 string invalid_link
 string link_pasted
 string no_clipboard_text

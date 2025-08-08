@@ -2146,10 +2146,7 @@
     <string name="how_to_use_description">1️⃣ Video linkini kopyalayın\n2️⃣ Linki yuxarıdakı sahəyə yapışdırın\n3️⃣ Yüklə düyməsinə basın\n4️⃣ Video avtomatik olaraq yüklənəcək\n5️⃣ Yükləmələr bölməsindən videolarınızı görüntüləyin\n6️⃣ Videoları oynadın, paylaşın və ya silin</string>
     <string name="how_to_use_title">📱 Tətbiq necə istifadə olunur?</string>
     <string description="Content description for an icon that appears in the title area of a dialog" name="icon_content_description">Dialog Icon</string>
-    <string name="instagram">📸 Instagram</string>
-    <string name="instagram_download_failed">Instagram video yükləmə uğursuz oldu</string>
-    <string name="instagram_no_video_url">Instagram video URL tapılmadı</string>
-    <string name="instagram_supported">Instagram Reels dəstəklənir</string>
+    <string name="instagram">Instagram</string>
     <string name="invalid_link">Yanlış link</string>
     <string name="item_view_role_description">Tab</string>
     <string name="link_pasted">Link yapışdırıldı</string>

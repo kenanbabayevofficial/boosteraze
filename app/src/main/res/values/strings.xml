@@ -9,7 +9,7 @@
     <string name="invalid_link">Yanlış link</string>
     <string name="permission_required">Daxili yaddaş icazəsi tələb olunur</string>
     <string name="tiktok">Video Platform</string>
-    <string name="instagram">📸 Instagram</string>
+    <string name="instagram">Instagram</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
     <string name="settings">Tənzimləmələr</string>
@@ -32,9 +32,7 @@
     <string name="link_pasted">Link yapışdırıldı</string>
     <string name="no_clipboard_text">Klipbordda mətn yoxdur</string>
     <string name="only_tiktok_supported">Yalnız video platformları dəstəklənir</string>
-    <string name="instagram_supported">Instagram Reels dəstəklənir</string>
-    <string name="instagram_download_failed">Instagram video yükləmə uğursuz oldu</string>
-    <string name="instagram_no_video_url">Instagram video URL tapılmadı</string>
+
     <string name="no_video_url">Video URL tapılmadı</string>
     <string name="storage_permission_granted">Daxili yaddaş icazəsi verildi</string>
     <string name="settings_coming_soon">Tənzimləmələr tezliklə</string>
