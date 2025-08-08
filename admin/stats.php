@@ -102,10 +102,7 @@ try {
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-                <a href="change_password.php" class="btn btn-primary" style="margin-right: 0.5rem; font-weight: bold; font-size: 1.1rem;">
-                    <i class="fas fa-key"></i>
-                    🔐 Change Password
-                </a>
+
                 <a href="logout.php" class="btn btn-secondary">Logout</a>
             </div>
         </div>
@@ -144,12 +141,7 @@ try {
                     Users
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="change_password.php" class="nav-link">
-                    <i class="fas fa-key nav-icon"></i>
-                    Change Password
-                </a>
-            </li>
+
         </ul>
     </nav>
 
