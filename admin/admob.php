@@ -112,6 +112,12 @@ try {
                     Users
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="change_password.php" class="nav-link">
+                    <i class="fas fa-key nav-icon"></i>
+                    Change Password
+                </a>
+            </li>
         </ul>
     </nav>
 
