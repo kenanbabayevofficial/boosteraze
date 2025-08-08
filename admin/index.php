@@ -59,9 +59,9 @@ try {
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-                <a href="change_password.php" class="btn btn-primary" style="margin-right: 0.5rem;">
+                <a href="change_password.php" class="btn btn-primary" style="margin-right: 0.5rem; font-weight: bold; font-size: 1.1rem;">
                     <i class="fas fa-key"></i>
-                    Change Password
+                    🔐 Change Password
                 </a>
                 <a href="logout.php" class="btn btn-secondary">Logout</a>
             </div>
@@ -189,9 +189,24 @@ try {
                         <i class="fas fa-users"></i>
                         Manage Users
                     </a>
-                    <a href="change_password.php" class="btn btn-secondary">
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="card fade-in" style="margin-top: 2rem; border: 2px solid var(--primary-color);">
+                <div class="card-header">
+                    <h3 class="card-title" style="color: var(--primary-color);">
+                        <i class="fas fa-user-cog"></i>
+                        Account Settings
+                    </h3>
+                </div>
+                <div style="padding: 1rem 0;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        Manage your admin account settings and security.
+                    </p>
+                    <a href="change_password.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
                         <i class="fas fa-key"></i>
-                        Change Password
+                        🔐 Change Admin Password
                     </a>
                 </div>
             </div>
