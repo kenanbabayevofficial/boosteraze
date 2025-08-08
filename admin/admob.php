@@ -71,10 +71,25 @@ try {
             </div>
             <div class="user-menu">
                 <span>Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
+                <div class="user-menu-dropdown">
+                    <button class="user-menu-trigger" onclick="toggleUserMenu()">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-menu-dropdown-content" id="userDropdown">
+                        <a href="change_password.php">
+                            <i class="fas fa-key"></i>
+                            Şifreyi Değiştir
+                        </a>
+                        <div class="divider"></div>
+                        <a href="logout.php">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Çıkış Yap
+                        </a>
+                    </div>
                 </div>
-                <a href="logout.php" class="btn btn-secondary">Çıkış Yap</a>
             </div>
         </div>
     </header>
@@ -251,5 +266,25 @@ try {
             </div>
         </div>
     </main>
+
+    <script>
+        // User dropdown menu
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.user-menu-trigger') && !event.target.matches('.user-menu-trigger *')) {
+                const dropdowns = document.getElementsByClassName('user-menu-dropdown-content');
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>
