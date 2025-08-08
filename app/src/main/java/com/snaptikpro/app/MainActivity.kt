@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
         private const val BASE_URL = "https://www.tikwm.com/" // TikWM API URL
-        private const val INSTAGRAM_BASE_URL = "https://api.instagram.com/" // Instagram API URL
-        private const val INSTAGRAM_SCRAPER_URL = "https://www.instagram.com/" // Instagram Scraper URL
+        private const val INSTAGRAM_API_URL = "https://api.instagram.com/" // Instagram API URL
+        private const val INSTAGRAM_DOWNLOADER_URL = "https://www.instagram.com/" // Instagram Downloader URL
         private const val PREFS_NAME = "clipboard_prefs"
         private const val KEY_LAST_LINK = "last_processed_link"
     }
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(INSTAGRAM_BASE_URL)
+            .baseUrl(INSTAGRAM_API_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -235,7 +235,7 @@ class MainActivity : AppCompatActivity() {
     private suspend fun downloadInstagramVideo(link: String) {
         try {
             // Instagram için basit ve etkili yöntem
-            downloadInstagramSimple(link)
+            downloadInstagramWithSimpleMethod(link)
         } catch (e: Exception) {
             hideDownloadProgress()
             android.util.Log.e("InstagramDownload", "Error: ${e.message}")
@@ -243,48 +243,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
-    private suspend fun downloadInstagramSimple(link: String) {
+    private suspend fun downloadInstagramWithSimpleMethod(link: String) {
         try {
-            // Instagram için gelişmiş yöntem - GraphQL API kullan
+            // Instagram için çok basit yöntem - Instagram sayfasını direkt çek
             val client = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
                 .build()
             
-            // Instagram GraphQL API endpoint
-            val graphqlUrl = "https://www.instagram.com/graphql/query/"
-            
-            // Instagram post ID'sini çıkar
-            val postId = extractInstagramPostId(link)
-            if (postId == null) {
-                showInstagramErrorDialog()
-                return
-            }
-            
-            // GraphQL query
-            val query = """
-                {
-                    "query_hash": "9f8827793ef34641b2fb195d4d41151c",
-                    "variables": {
-                        "shortcode": "$postId"
-                    }
-                }
-            """.trimIndent()
-            
-            val requestBody = okhttp3.RequestBody.create(
-                "application/json".toMediaType(),
-                query
-            )
-            
+            // Instagram sayfasını direkt olarak çek
             val request = okhttp3.Request.Builder()
-                .url(graphqlUrl)
-                .post(requestBody)
+                .url(link)
                 .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1")
-                .header("Accept", "application/json")
-                .header("Content-Type", "application/json")
-                .header("X-Requested-With", "XMLHttpRequest")
-                .header("Referer", link)
+                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Accept-Encoding", "gzip, deflate")
+                .header("Connection", "keep-alive")
+                .header("Upgrade-Insecure-Requests", "1")
                 .build()
             
             val response = client.newCall(request).execute()
@@ -292,27 +268,139 @@ class MainActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 val responseBody = response.body?.string()
                 if (responseBody != null) {
-                    // GraphQL response'dan video URL'sini çıkar
-                    val videoUrl = extractFromGraphQLResponse(responseBody)
+                    // Instagram video URL'sini çıkar
+                    val videoUrl = extractInstagramVideoUrlFromHTML(responseBody)
                     if (videoUrl != null) {
                         val title = "Instagram Video"
                         downloadFile(videoUrl, title, link)
                     } else {
-                        // Fallback: Basit web scraping
-                        downloadInstagramWithWebScraping(link)
+                        // Instagram video bulunamadı, kullanıcıya bilgi ver
+                        showInstagramNotVideoDialog()
                     }
                 } else {
-                    downloadInstagramWithWebScraping(link)
+                    showInstagramErrorDialog()
                 }
             } else {
-                downloadInstagramWithWebScraping(link)
+                showInstagramErrorDialog()
             }
             
         } catch (e: Exception) {
-            android.util.Log.e("InstagramSimple", "GraphQL method error: ${e.message}")
-            // Fallback: Basit web scraping
-            downloadInstagramWithWebScraping(link)
+            android.util.Log.e("InstagramSimple", "Simple method error: ${e.message}")
+            showInstagramErrorDialog()
         }
+    }
+    
+    private suspend fun downloadInstagramFromPage(link: String) {
+        try {
+            // Instagram sayfasını direkt olarak çek
+            val client = OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+                .build()
+            
+            val request = okhttp3.Request.Builder()
+                .url(link)
+                .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1")
+                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Accept-Encoding", "gzip, deflate")
+                .header("Connection", "keep-alive")
+                .build()
+            
+            val response = client.newCall(request).execute()
+            
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                if (responseBody != null) {
+                    // Instagram video URL'sini çıkar
+                    val videoUrl = extractInstagramVideoUrlFromHTML(responseBody)
+                    if (videoUrl != null) {
+                        val title = "Instagram Video"
+                        downloadFile(videoUrl, title, link)
+                    } else {
+                        // Instagram video bulunamadı, kullanıcıya bilgi ver
+                        showInstagramNotVideoDialog()
+                    }
+                } else {
+                    showInstagramErrorDialog()
+                }
+            } else {
+                showInstagramErrorDialog()
+            }
+            
+        } catch (e: Exception) {
+            android.util.Log.e("InstagramPage", "Page method error: ${e.message}")
+            showInstagramErrorDialog()
+        }
+    }
+    
+    private fun extractFromOEmbedResponse(jsonResponse: String, originalLink: String): String? {
+        try {
+            // oEmbed response'dan video URL'sini çıkar
+            val patterns = listOf(
+                "\"video_url\":\"([^\"]+)\"",
+                "\"contentUrl\":\"([^\"]+)\"",
+                "\"url\":\"([^\"]+)\"",
+                "\"thumbnail_url\":\"([^\"]+)\""
+            )
+            
+            for (pattern in patterns) {
+                val regex = Regex(pattern)
+                val matchResult = regex.find(jsonResponse)
+                if (matchResult != null) {
+                    val videoUrl = matchResult.groupValues[1]
+                    val cleanUrl = videoUrl.replace("\\u0026", "&")
+                    if (cleanUrl.contains(".mp4") || cleanUrl.contains("video") || cleanUrl.contains("cdninstagram")) {
+                        return cleanUrl
+                    }
+                }
+            }
+            
+            return null
+        } catch (e: Exception) {
+            android.util.Log.e("InstagramExtract", "Error extracting from oEmbed: ${e.message}")
+            return null
+        }
+    }
+    
+    private fun extractInstagramVideoUrlFromHTML(htmlContent: String): String? {
+        try {
+            // Instagram video URL'sini çıkarmak için basit pattern
+            val videoUrlPattern = "\"video_url\":\"([^\"]+)\""
+            val regex = Regex(videoUrlPattern)
+            val matchResult = regex.find(htmlContent)
+            
+            if (matchResult != null) {
+                val videoUrl = matchResult.groupValues[1]
+                return videoUrl.replace("\\u0026", "&")
+            }
+            
+            return null
+        } catch (e: Exception) {
+            android.util.Log.e("InstagramExtract", "Error extracting video URL: ${e.message}")
+            return null
+        }
+    }
+    
+    private fun showInstagramNotVideoDialog() {
+        AlertDialog.Builder(this@MainActivity)
+            .setTitle("📸 Instagram İçeriği")
+            .setMessage("Bu Instagram linki bir video değil. Instagram'da sadece video içerikler indirilebilir:\n\n" +
+                       "✅ Desteklenen:\n" +
+                       "• Instagram Reels\n" +
+                       "• Video postları\n" +
+                       "• IGTV videoları\n\n" +
+                       "❌ Desteklenmeyen:\n" +
+                       "• Fotoğraf postları\n" +
+                       "• Story'ler\n" +
+                       "• Özel/gizli içerikler\n\n" +
+                       "Lütfen bir video linki deneyin.")
+            .setPositiveButton("Tamam", null)
+            .setNegativeButton("TikTok'a Geç") { _, _ ->
+                selectPlatform("tiktok", binding.tvTikTok)
+            }
+            .show()
     }
     
     private fun extractInstagramPostId(link: String): String? {
