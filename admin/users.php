@@ -40,9 +40,9 @@ try {
             GROUP BY device_id
         ) dh ON u.device_id = dh.device_id
         ORDER BY u.last_seen DESC 
-        LIMIT ? OFFSET ?
-    ");
-    $stmt->execute([$limit, $offset]);
+        LIMIT " . (int)$limit . " OFFSET " . (int)$offset
+    );
+    $stmt->execute();
     $users = $stmt->fetchAll();
     
 } catch (PDOException $e) {
