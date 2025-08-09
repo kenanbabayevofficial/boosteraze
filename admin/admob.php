@@ -14,12 +14,12 @@ $error = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and validate input
+    // Sanitize and validate input (PHP 8.1+ compatible)
     $settings = [
-        'admob_banner' => trim(filter_input(INPUT_POST, 'admob_banner', FILTER_SANITIZE_STRING)) ?? '',
-        'admob_interstitial' => trim(filter_input(INPUT_POST, 'admob_interstitial', FILTER_SANITIZE_STRING)) ?? '',
-        'admob_rewarded' => trim(filter_input(INPUT_POST, 'admob_rewarded', FILTER_SANITIZE_STRING)) ?? '',
-        'admob_app_id' => trim(filter_input(INPUT_POST, 'admob_app_id', FILTER_SANITIZE_STRING)) ?? ''
+        'admob_banner' => trim(htmlspecialchars($_POST['admob_banner'] ?? '', ENT_QUOTES, 'UTF-8')),
+        'admob_interstitial' => trim(htmlspecialchars($_POST['admob_interstitial'] ?? '', ENT_QUOTES, 'UTF-8')),
+        'admob_rewarded' => trim(htmlspecialchars($_POST['admob_rewarded'] ?? '', ENT_QUOTES, 'UTF-8')),
+        'admob_app_id' => trim(htmlspecialchars($_POST['admob_app_id'] ?? '', ENT_QUOTES, 'UTF-8'))
     ];
     
     // Validate AdMob IDs format

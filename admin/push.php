@@ -14,9 +14,9 @@ $error = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and validate input
-    $title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING)) ?? '';
-    $message = trim(filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING)) ?? '';
+    // Sanitize and validate input (PHP 8.1+ compatible)
+    $title = trim(htmlspecialchars($_POST['title'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $message = trim(htmlspecialchars($_POST['message'] ?? '', ENT_QUOTES, 'UTF-8'));
     
     // Validate input
     if (empty($title) || empty($message)) {

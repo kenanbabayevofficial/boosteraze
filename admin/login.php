@@ -6,9 +6,9 @@ require_once 'db.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and validate input
-    $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING)) ?? '';
-    $password = trim(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING)) ?? '';
+    // Sanitize and validate input (PHP 8.1+ compatible)
+    $username = trim(htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $password = trim(htmlspecialchars($_POST['password'] ?? '', ENT_QUOTES, 'UTF-8'));
     
     // Validate input
     if (empty($username) || empty($password)) {

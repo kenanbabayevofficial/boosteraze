@@ -14,10 +14,10 @@ $error = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and validate input
-    $currentPassword = trim(filter_input(INPUT_POST, 'current_password', FILTER_SANITIZE_STRING)) ?? '';
-    $newPassword = trim(filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING)) ?? '';
-    $confirmPassword = trim(filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING)) ?? '';
+    // Sanitize and validate input (PHP 8.1+ compatible)
+    $currentPassword = trim(htmlspecialchars($_POST['current_password'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $newPassword = trim(htmlspecialchars($_POST['new_password'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $confirmPassword = trim(htmlspecialchars($_POST['confirm_password'] ?? '', ENT_QUOTES, 'UTF-8'));
     
     // Validate input
     if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
