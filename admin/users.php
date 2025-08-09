@@ -25,7 +25,7 @@ try {
     $totalPages = ceil($totalUsers / $limit);
     
     // Get users with pagination
-    $stmt = $pdo->prepare("
+    $query = "
         SELECT 
             u.device_id, 
             u.fcm_token, 
@@ -40,9 +40,9 @@ try {
             GROUP BY device_id
         ) dh ON u.device_id = dh.device_id
         ORDER BY u.last_seen DESC 
-        LIMIT " . (int)$offset . ", " . (int)$limit
-    );
-    $stmt->execute();
+        LIMIT " . (int)$offset . ", " . (int)$limit;
+    
+    $stmt = $pdo->query($query);
     $users = $stmt->fetchAll();
     
 } catch (PDOException $e) {
