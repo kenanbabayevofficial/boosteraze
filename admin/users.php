@@ -40,7 +40,7 @@ try {
             GROUP BY device_id
         ) dh ON u.device_id = dh.device_id
         ORDER BY u.last_seen DESC 
-        LIMIT " . (int)$limit . " OFFSET " . (int)$offset
+        LIMIT " . (int)$offset . ", " . (int)$limit
     );
     $stmt->execute();
     $users = $stmt->fetchAll();
