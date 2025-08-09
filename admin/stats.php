@@ -38,13 +38,17 @@ try {
     $stmt = $pdo->query("
         SELECT 
             CASE 
-                WHEN device_id LIKE '%tiktok%' THEN 'TikTok'
-                WHEN device_id LIKE '%instagram%' THEN 'Instagram'
+                WHEN video_url LIKE '%tiktok%' OR video_url LIKE '%vm.tiktok%' OR video_url LIKE '%vt.tiktok%' THEN 'TikTok'
+                WHEN video_url LIKE '%instagram%' OR video_url LIKE '%reels%' THEN 'Instagram'
+                WHEN video_url LIKE '%facebook%' OR video_url LIKE '%fb.com%' THEN 'Facebook'
+                WHEN video_url LIKE '%youtube%' OR video_url LIKE '%youtu.be%' THEN 'YouTube'
                 ELSE 'Diğer'
             END as platform,
             COUNT(*) as count
         FROM download_history 
+        WHERE download_status = 'success'
         GROUP BY platform
+        ORDER BY count DESC
     ");
     $platformStats = $stmt->fetchAll();
     
@@ -407,10 +411,10 @@ try {
         new Chart(downloadCtx, {
             type: 'line',
             data: {
-                labels: <?php echo json_encode(array_column($dailyStats, 'date')); ?>,
+                labels: <?php echo !empty($dailyStats) ? json_encode(array_column($dailyStats, 'date')) : json_encode([]); ?>,
                 datasets: [{
                     label: 'Günlük İndirmeler',
-                    data: <?php echo json_encode(array_column($dailyStats, 'count')); ?>,
+                    data: <?php echo !empty($dailyStats) ? json_encode(array_column($dailyStats, 'count')) : json_encode([]); ?>,
                     borderColor: '#667eea',
                     backgroundColor: 'rgba(102, 126, 234, 0.1)',
                     tension: 0.4,
@@ -446,10 +450,10 @@ try {
         new Chart(platformCtx, {
             type: 'doughnut',
             data: {
-                labels: <?php echo json_encode(array_column($platformStats, 'platform')); ?>,
+                labels: <?php echo !empty($platformStats) ? json_encode(array_column($platformStats, 'platform')) : json_encode(['Veri Yok']); ?>,
                 datasets: [{
-                    data: <?php echo json_encode(array_column($platformStats, 'count')); ?>,
-                    backgroundColor: ['#667eea', '#764ba2', '#f093fb'],
+                    data: <?php echo !empty($platformStats) ? json_encode(array_column($platformStats, 'count')) : json_encode([1]); ?>,
+                    backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#ff6b6b', '#4ecdc4'],
                     borderWidth: 0
                 }]
             },
@@ -469,10 +473,10 @@ try {
         new Chart(userCtx, {
             type: 'bar',
             data: {
-                labels: <?php echo json_encode(array_column($userStats, 'date')); ?>,
+                labels: <?php echo !empty($userStats) ? json_encode(array_column($userStats, 'date')) : json_encode([]); ?>,
                 datasets: [{
                     label: 'Yeni Kullanıcılar',
-                    data: <?php echo json_encode(array_column($userStats, 'count')); ?>,
+                    data: <?php echo !empty($userStats) ? json_encode(array_column($userStats, 'count')) : json_encode([]); ?>,
                     backgroundColor: '#0dcaf0',
                     borderRadius: 8
                 }]

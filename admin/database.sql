@@ -14,20 +14,22 @@ CREATE TABLE IF NOT EXISTS settings (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Users table for device registration
+-- Users table for device registration (Updated structure)
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     device_id VARCHAR(255) NOT NULL UNIQUE,
     device_model VARCHAR(255),
     android_version VARCHAR(50),
     app_version VARCHAR(50),
+    fcm_token TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     total_downloads INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE
 );
 
--- Push tokens table for FCM notifications
+-- Push tokens table for FCM notifications (Legacy - kept for compatibility)
 CREATE TABLE IF NOT EXISTS push_tokens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     device_id VARCHAR(255) NOT NULL,
@@ -62,7 +64,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
     is_active BOOLEAN DEFAULT TRUE
 );
 
--- Push notification history
+-- Push notification history (Legacy)
 CREATE TABLE IF NOT EXISTS push_history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -73,6 +75,17 @@ CREATE TABLE IF NOT EXISTS push_history (
     successful_sends INT DEFAULT 0,
     failed_sends INT DEFAULT 0,
     FOREIGN KEY (sent_by) REFERENCES admin_users(id)
+);
+
+-- Notifications table for new push system
+CREATE TABLE IF NOT EXISTS notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    success_count INT DEFAULT 0,
+    total_count INT DEFAULT 0,
+    status ENUM('sent', 'failed', 'pending') DEFAULT 'pending'
 );
 
 -- Insert default admin user (username: admin, password: admin123)
@@ -88,17 +101,20 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ('admob_app_id', 'ca-app-pub-3940256099942544~3347511713'),
 ('fcm_server_key', 'YOUR_FCM_SERVER_KEY_HERE'),
 ('app_version', '1.0'),
-('app_name', 'Video Downloader Pro');
+('app_name', 'Video Downloader Pro')
+ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 
 -- Create indexes for better performance
 CREATE INDEX idx_users_device_id ON users(device_id);
+CREATE INDEX idx_users_fcm_token ON users(fcm_token(255));
 CREATE INDEX idx_push_tokens_device_id ON push_tokens(device_id);
 CREATE INDEX idx_download_history_device_id ON download_history(device_id);
 CREATE INDEX idx_download_history_date ON download_history(download_date);
 CREATE INDEX idx_settings_key ON settings(setting_key);
+CREATE INDEX idx_notifications_sent_at ON notifications(sent_at);
 
 -- Create views for statistics
-CREATE VIEW user_stats AS
+CREATE OR REPLACE VIEW user_stats AS
 SELECT 
     COUNT(*) as total_users,
     COUNT(CASE WHEN last_seen >= DATE_SUB(NOW(), INTERVAL 7 DAY) THEN 1 END) as active_users_7d,
@@ -106,7 +122,7 @@ SELECT
     SUM(total_downloads) as total_downloads
 FROM users;
 
-CREATE VIEW daily_downloads AS
+CREATE OR REPLACE VIEW daily_downloads AS
 SELECT 
     DATE(download_date) as download_date,
     COUNT(*) as downloads_count,

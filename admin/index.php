@@ -378,12 +378,19 @@ try {
                                                 <?php
                                                 try {
                                                     $stmt = $pdo->query("
-                                                        SELECT device_id, 'İndirme' as action, download_date as date, download_status as status
+                                                        SELECT 
+                                                            device_id, 
+                                                            'İndirme' as action, 
+                                                            download_date as date, 
+                                                            download_status as status
                                                         FROM download_history 
+                                                        WHERE download_status IN ('success', 'failed')
                                                         ORDER BY download_date DESC 
                                                         LIMIT 10
                                                     ");
+                                                    $hasData = false;
                                                     while ($row = $stmt->fetch()) {
+                                                        $hasData = true;
                                                         $statusClass = $row['status'] === 'success' ? 'success' : 'danger';
                                                         echo "<tr>";
                                                         echo "<td><code>" . htmlspecialchars(substr($row['device_id'], 0, 20)) . "...</code></td>";
@@ -391,6 +398,9 @@ try {
                                                         echo "<td>" . htmlspecialchars($row['date']) . "</td>";
                                                         echo "<td><span class='badge bg-$statusClass'>" . htmlspecialchars($row['status']) . "</span></td>";
                                                         echo "</tr>";
+                                                    }
+                                                    if (!$hasData) {
+                                                        echo "<tr><td colspan='4' class='text-center text-muted'>Henüz aktivite bulunmuyor</td></tr>";
                                                     }
                                                 } catch (PDOException $e) {
                                                     echo "<tr><td colspan='4' class='text-center text-muted'>Son aktivite bulunamadı</td></tr>";

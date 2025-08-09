@@ -26,10 +26,20 @@ try {
     
     // Get users with pagination
     $stmt = $pdo->prepare("
-        SELECT device_id, fcm_token, last_seen, created_at, 
-               (SELECT COUNT(*) FROM download_history WHERE download_history.device_id = users.device_id) as download_count
-        FROM users 
-        ORDER BY last_seen DESC 
+        SELECT 
+            u.device_id, 
+            u.fcm_token, 
+            u.last_seen, 
+            u.created_at,
+            COALESCE(dh.download_count, 0) as download_count
+        FROM users u
+        LEFT JOIN (
+            SELECT device_id, COUNT(*) as download_count
+            FROM download_history 
+            WHERE download_status = 'success'
+            GROUP BY device_id
+        ) dh ON u.device_id = dh.device_id
+        ORDER BY u.last_seen DESC 
         LIMIT ? OFFSET ?
     ");
     $stmt->execute([$limit, $offset]);
@@ -304,7 +314,14 @@ try {
                                             <h2 class="fw-bold text-info mb-1">
                                                 <?php 
                                                 try {
-                                                    $stmt = $pdo->query("SELECT COUNT(*) as fcm FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''");
+                                                    $stmt = $pdo->query("
+                                                        SELECT COUNT(DISTINCT fcm_token) as fcm 
+                                                        FROM (
+                                                            SELECT fcm_token FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''
+                                                            UNION
+                                                            SELECT fcm_token FROM push_tokens WHERE fcm_token IS NOT NULL AND fcm_token != '' AND is_active = 1
+                                                        ) as all_tokens
+                                                    ");
                                                     echo number_format($stmt->fetch()['fcm']);
                                                 } catch (PDOException $e) {
                                                     echo '0';

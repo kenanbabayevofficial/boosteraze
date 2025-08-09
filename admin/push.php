@@ -23,8 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo = getDB();
             
-            // Get all FCM tokens
-            $stmt = $pdo->query("SELECT fcm_token FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''");
+            // Get all FCM tokens (from both users table and push_tokens table)
+            $stmt = $pdo->query("
+                SELECT DISTINCT fcm_token 
+                FROM (
+                    SELECT fcm_token FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''
+                    UNION
+                    SELECT fcm_token FROM push_tokens WHERE fcm_token IS NOT NULL AND fcm_token != '' AND is_active = 1
+                ) as all_tokens
+                WHERE fcm_token IS NOT NULL AND fcm_token != ''
+            ");
             $tokens = $stmt->fetchAll(PDO::FETCH_COLUMN);
             
             if (empty($tokens)) {
@@ -88,12 +96,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 try {
     $pdo = getDB();
     
-    // Active tokens count
-    $stmt = $pdo->query("SELECT COUNT(*) as active_tokens FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''");
+    // Active tokens count (from both tables)
+    $stmt = $pdo->query("
+        SELECT COUNT(DISTINCT fcm_token) as active_tokens 
+        FROM (
+            SELECT fcm_token FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''
+            UNION
+            SELECT fcm_token FROM push_tokens WHERE fcm_token IS NOT NULL AND fcm_token != '' AND is_active = 1
+        ) as all_tokens
+    ");
     $activeTokens = $stmt->fetch()['active_tokens'];
     
-    // Total notifications sent
-    $stmt = $pdo->query("SELECT COUNT(*) as total_notifications FROM notifications");
+    // Total notifications sent (from both tables)
+    $stmt = $pdo->query("
+        SELECT 
+            COALESCE(n.count, 0) + COALESCE(ph.count, 0) as total_notifications
+        FROM 
+            (SELECT COUNT(*) as count FROM notifications) n,
+            (SELECT COUNT(*) as count FROM push_history) ph
+    ");
     $totalNotifications = $stmt->fetch()['total_notifications'];
     
 } catch (PDOException $e) {
