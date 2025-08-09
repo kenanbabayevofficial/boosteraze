@@ -6,34 +6,43 @@ require_once 'db.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    // Sanitize and validate input
+    $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING)) ?? '';
+    $password = trim(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING)) ?? '';
     
+    // Validate input
     if (empty($username) || empty($password)) {
-        $error = 'Lütfen kullanıcı adı ve şifre giriniz.';
+        $error = 'Lütfen kullanıcı adı ve şifre alanlarını doldurunuz.';
+    } elseif (strlen($username) > 100 || strlen($password) > 255) {
+        $error = 'Geçersiz kullanıcı adı veya şifre.';
     } else {
         try {
             $pdo = getDB();
-            $stmt = $pdo->prepare("SELECT id, username, password_hash FROM admin_users WHERE username = ? AND is_active = 1");
+            
+            // Use prepared statement to prevent SQL injection
+            $stmt = $pdo->prepare("SELECT id, username, password_hash FROM admin_users WHERE username = ? AND is_active = 1 LIMIT 1");
             $stmt->execute([$username]);
             $user = $stmt->fetch();
             
             if ($user && password_verify($password, $user['password_hash'])) {
+                // Set session variables
                 $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_id'] = $user['id'];
+                $_SESSION['admin_user_id'] = $user['id'];
                 $_SESSION['admin_username'] = $user['username'];
+                $_SESSION['admin_login_time'] = time();
                 
-                // Update last login
+                // Update last login time
                 $stmt = $pdo->prepare("UPDATE admin_users SET last_login = NOW() WHERE id = ?");
                 $stmt->execute([$user['id']]);
                 
+                // Redirect to dashboard
                 header('Location: index.php');
                 exit;
             } else {
                 $error = 'Geçersiz kullanıcı adı veya şifre.';
             }
         } catch (PDOException $e) {
-            $error = 'Veritabanı hatası. Lütfen tekrar deneyiniz.';
+            $error = 'Giriş yapılırken bir hata oluştu.';
         }
     }
 }

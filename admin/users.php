@@ -3,8 +3,8 @@ session_start();
 require_once 'config.php';
 require_once 'db.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+// Check session security
+if (!checkSessionSecurity()) {
     header('Location: login.php');
     exit;
 }
@@ -14,8 +14,9 @@ $users = [];
 $totalUsers = 0;
 $totalPages = 0;
 
-// Pagination
+// Pagination with validation
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max(1, $page); // Ensure page is at least 1
 $limit = 20;
 $offset = ($page - 1) * $limit;
 

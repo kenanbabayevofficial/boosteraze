@@ -3,8 +3,8 @@ session_start();
 require_once 'config.php';
 require_once 'db.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+// Check session security
+if (!checkSessionSecurity()) {
     header('Location: login.php');
     exit;
 }
@@ -14,11 +14,15 @@ $error = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'] ?? '';
-    $message = $_POST['message'] ?? '';
+    // Sanitize and validate input
+    $title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING)) ?? '';
+    $message = trim(filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING)) ?? '';
     
+    // Validate input
     if (empty($title) || empty($message)) {
         $error = 'Lütfen başlık ve mesaj alanlarını doldurunuz.';
+    } elseif (strlen($title) > 255 || strlen($message) > 1000) {
+        $error = 'Başlık veya mesaj çok uzun.';
     } else {
         try {
             $pdo = getDB();
@@ -76,11 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($response && isset($response['success']) && $response['success'] > 0) {
                         $success = "Bildirim başarıyla gönderildi! {$response['success']} cihaza ulaştırıldı.";
                         
-                        // Log the notification
+                        // Log the notification using prepared statement
                         $stmt = $pdo->prepare("INSERT INTO notifications (title, message, sent_at, success_count, total_count) VALUES (?, ?, NOW(), ?, ?)");
                         $stmt->execute([$title, $message, $response['success'], count($tokens)]);
                     } else {
-                        $error = 'Bildirim gönderilemedi. FCM yanıtı: ' . $result;
+                        $error = 'Bildirim gönderilemedi. FCM yanıtı: ' . substr($result, 0, 100);
                     }
                 } else {
                     $error = 'FCM sunucusuna bağlanılamadı. HTTP Kodu: ' . $httpCode;

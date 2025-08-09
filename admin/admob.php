@@ -3,8 +3,8 @@ session_start();
 require_once 'config.php';
 require_once 'db.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+// Check session security
+if (!checkSessionSecurity()) {
     header('Location: login.php');
     exit;
 }
@@ -14,25 +14,58 @@ $error = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $pdo = getDB();
-        
-        $settings = [
-            'admob_banner' => $_POST['admob_banner'] ?? '',
-            'admob_interstitial' => $_POST['admob_interstitial'] ?? '',
-            'admob_rewarded' => $_POST['admob_rewarded'] ?? '',
-            'admob_app_id' => $_POST['admob_app_id'] ?? ''
-        ];
-        
-        foreach ($settings as $key => $value) {
-            $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
-            $stmt->execute([$key, $value, $value]);
+    // Sanitize and validate input
+    $settings = [
+        'admob_banner' => trim(filter_input(INPUT_POST, 'admob_banner', FILTER_SANITIZE_STRING)) ?? '',
+        'admob_interstitial' => trim(filter_input(INPUT_POST, 'admob_interstitial', FILTER_SANITIZE_STRING)) ?? '',
+        'admob_rewarded' => trim(filter_input(INPUT_POST, 'admob_rewarded', FILTER_SANITIZE_STRING)) ?? '',
+        'admob_app_id' => trim(filter_input(INPUT_POST, 'admob_app_id', FILTER_SANITIZE_STRING)) ?? ''
+    ];
+    
+    // Validate AdMob IDs format
+    $validAdMobPattern = '/^ca-app-pub-[0-9]+\/[0-9]+$/';
+    $validAppIdPattern = '/^ca-app-pub-[0-9]+~[0-9]+$/';
+    
+    $isValid = true;
+    $errorMessage = '';
+    
+    if (!empty($settings['admob_banner']) && !preg_match($validAdMobPattern, $settings['admob_banner'])) {
+        $isValid = false;
+        $errorMessage = 'Geçersiz Banner AdMob ID formatı.';
+    }
+    
+    if (!empty($settings['admob_interstitial']) && !preg_match($validAdMobPattern, $settings['admob_interstitial'])) {
+        $isValid = false;
+        $errorMessage = 'Geçersiz Interstitial AdMob ID formatı.';
+    }
+    
+    if (!empty($settings['admob_rewarded']) && !preg_match($validAdMobPattern, $settings['admob_rewarded'])) {
+        $isValid = false;
+        $errorMessage = 'Geçersiz Rewarded AdMob ID formatı.';
+    }
+    
+    if (!empty($settings['admob_app_id']) && !preg_match($validAppIdPattern, $settings['admob_app_id'])) {
+        $isValid = false;
+        $errorMessage = 'Geçersiz App ID formatı.';
+    }
+    
+    if ($isValid) {
+        try {
+            $pdo = getDB();
+            
+            // Update settings using prepared statements
+            foreach ($settings as $key => $value) {
+                $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
+                $stmt->execute([$key, $value, $value]);
+            }
+            
+            $success = 'AdMob ayarları başarıyla güncellendi.';
+            
+        } catch (PDOException $e) {
+            $error = 'Veritabanı hatası: ' . $e->getMessage();
         }
-        
-        $success = 'AdMob ayarları başarıyla güncellendi!';
-        
-    } catch (PDOException $e) {
-        $error = 'Veritabanı hatası: ' . $e->getMessage();
+    } else {
+        $error = $errorMessage;
     }
 }
 

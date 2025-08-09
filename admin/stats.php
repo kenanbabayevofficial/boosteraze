@@ -3,8 +3,8 @@ session_start();
 require_once 'config.php';
 require_once 'db.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+// Check session security
+if (!checkSessionSecurity()) {
     header('Location: login.php');
     exit;
 }

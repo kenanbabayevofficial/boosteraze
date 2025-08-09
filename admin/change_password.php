@@ -3,8 +3,8 @@ session_start();
 require_once 'config.php';
 require_once 'db.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+// Check session security
+if (!checkSessionSecurity()) {
     header('Location: login.php');
     exit;
 }
@@ -14,35 +14,48 @@ $error = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $currentPassword = $_POST['current_password'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
-    $confirmPassword = $_POST['confirm_password'] ?? '';
+    // Sanitize and validate input
+    $currentPassword = trim(filter_input(INPUT_POST, 'current_password', FILTER_SANITIZE_STRING)) ?? '';
+    $newPassword = trim(filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING)) ?? '';
+    $confirmPassword = trim(filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING)) ?? '';
     
+    // Validate input
     if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
         $error = 'Lütfen tüm alanları doldurunuz.';
+    } elseif (strlen($newPassword) < 8) {
+        $error = 'Yeni şifre en az 8 karakter olmalıdır.';
+    } elseif (strlen($newPassword) > 255) {
+        $error = 'Yeni şifre çok uzun.';
     } elseif ($newPassword !== $confirmPassword) {
         $error = 'Yeni şifreler eşleşmiyor.';
-    } elseif (strlen($newPassword) < 6) {
-        $error = 'Yeni şifre en az 6 karakter olmalıdır.';
+    } elseif ($currentPassword === $newPassword) {
+        $error = 'Yeni şifre mevcut şifre ile aynı olamaz.';
     } else {
         try {
             $pdo = getDB();
             
             // Verify current password
-            $stmt = $pdo->prepare("SELECT password_hash FROM admin_users WHERE id = ?");
-            $stmt->execute([$_SESSION['admin_id']]);
+            $stmt = $pdo->prepare("SELECT password_hash FROM admin_users WHERE id = ? AND is_active = 1 LIMIT 1");
+            $stmt->execute([$_SESSION['admin_user_id']]);
             $user = $stmt->fetch();
             
             if ($user && password_verify($currentPassword, $user['password_hash'])) {
-                // Update password
+                // Hash new password
                 $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?");
-                $stmt->execute([$newPasswordHash, $_SESSION['admin_id']]);
                 
-                $success = 'Şifreniz başarıyla güncellendi!';
+                // Update password using prepared statement
+                $stmt = $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?");
+                $stmt->execute([$newPasswordHash, $_SESSION['admin_user_id']]);
+                
+                $success = 'Şifreniz başarıyla güncellendi.';
+                
+                // Clear form data
+                $currentPassword = $newPassword = $confirmPassword = '';
+                
             } else {
                 $error = 'Mevcut şifre yanlış.';
             }
+            
         } catch (PDOException $e) {
             $error = 'Veritabanı hatası: ' . $e->getMessage();
         }
