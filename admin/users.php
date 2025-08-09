@@ -10,6 +10,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 }
 
 $error = '';
+$users = [];
+$totalUsers = 0;
+$totalPages = 0;
 
 // Pagination
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -24,22 +27,10 @@ try {
     $totalUsers = $stmt->fetch()['total'];
     $totalPages = ceil($totalUsers / $limit);
     
-    // Get users with pagination - using simple query without complex joins
+    // Get users with pagination - simplest possible query
     $query = "SELECT device_id, fcm_token, last_seen, created_at FROM users ORDER BY last_seen DESC LIMIT " . (int)$offset . ", " . (int)$limit;
     $stmt = $pdo->query($query);
     $users = $stmt->fetchAll();
-    
-    // Get download counts separately to avoid complex joins
-    $downloadCounts = [];
-    if (!empty($users)) {
-        $deviceIds = array_column($users, 'device_id');
-        $placeholders = str_repeat('?,', count($deviceIds) - 1) . '?';
-        $stmt = $pdo->prepare("SELECT device_id, COUNT(*) as count FROM download_history WHERE device_id IN ($placeholders) AND download_status = 'success' GROUP BY device_id");
-        $stmt->execute($deviceIds);
-        while ($row = $stmt->fetch()) {
-            $downloadCounts[$row['device_id']] = $row['count'];
-        }
-    }
     
 } catch (PDOException $e) {
     $error = 'Veritabanı hatası: ' . $e->getMessage();
@@ -332,18 +323,16 @@ try {
                                                     <th>FCM Token</th>
                                                     <th>Son Görülme</th>
                                                     <th>Kayıt Tarihi</th>
-                                                    <th>İndirme Sayısı</th>
                                                     <th>Durum</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                if (isset($users) && !empty($users)):
+                                                if (!empty($users)):
                                                     $counter = $offset + 1;
                                                     foreach ($users as $user):
                                                         $isActive = strtotime($user['last_seen']) > strtotime('-7 days');
                                                         $hasFCM = !empty($user['fcm_token']);
-                                                        $downloadCount = isset($downloadCounts[$user['device_id']]) ? $downloadCounts[$user['device_id']] : 0;
                                                         $statusClass = $isActive ? 'success' : 'secondary';
                                                         $statusText = $isActive ? 'Aktif' : 'Pasif';
                                                 ?>
@@ -374,11 +363,6 @@ try {
                                                         </small>
                                                     </td>
                                                     <td>
-                                                        <span class="badge bg-info">
-                                                            <?php echo number_format($downloadCount); ?>
-                                                        </span>
-                                                    </td>
-                                                    <td>
                                                         <span class="badge bg-<?php echo $statusClass; ?>">
                                                             <?php echo $statusText; ?>
                                                         </span>
@@ -389,7 +373,7 @@ try {
                                                 else:
                                                 ?>
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-muted py-4">
+                                                    <td colspan="6" class="text-center text-muted py-4">
                                                         <i class="fas fa-users fa-2x mb-3"></i>
                                                         <p class="mb-0">Henüz kullanıcı bulunmuyor</p>
                                                     </td>
