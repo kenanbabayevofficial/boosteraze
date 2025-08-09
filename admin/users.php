@@ -24,26 +24,22 @@ try {
     $totalUsers = $stmt->fetch()['total'];
     $totalPages = ceil($totalUsers / $limit);
     
-    // Get users with pagination
-    $query = "
-        SELECT 
-            u.device_id, 
-            u.fcm_token, 
-            u.last_seen, 
-            u.created_at,
-            COALESCE(dh.download_count, 0) as download_count
-        FROM users u
-        LEFT JOIN (
-            SELECT device_id, COUNT(*) as download_count
-            FROM download_history 
-            WHERE download_status = 'success'
-            GROUP BY device_id
-        ) dh ON u.device_id = dh.device_id
-        ORDER BY u.last_seen DESC 
-        LIMIT " . (int)$offset . ", " . (int)$limit;
-    
+    // Get users with pagination - using simple query without complex joins
+    $query = "SELECT device_id, fcm_token, last_seen, created_at FROM users ORDER BY last_seen DESC LIMIT " . (int)$offset . ", " . (int)$limit;
     $stmt = $pdo->query($query);
     $users = $stmt->fetchAll();
+    
+    // Get download counts separately to avoid complex joins
+    $downloadCounts = [];
+    if (!empty($users)) {
+        $deviceIds = array_column($users, 'device_id');
+        $placeholders = str_repeat('?,', count($deviceIds) - 1) . '?';
+        $stmt = $pdo->prepare("SELECT device_id, COUNT(*) as count FROM download_history WHERE device_id IN ($placeholders) AND download_status = 'success' GROUP BY device_id");
+        $stmt->execute($deviceIds);
+        while ($row = $stmt->fetch()) {
+            $downloadCounts[$row['device_id']] = $row['count'];
+        }
+    }
     
 } catch (PDOException $e) {
     $error = 'Veritabanı hatası: ' . $e->getMessage();
@@ -146,25 +142,9 @@ try {
             color: white;
         }
         
-        .pagination {
+        .pagination .page-link {
             border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        
-        .page-link {
-            border: none;
-            color: #667eea;
-            font-weight: 500;
-        }
-        
-        .page-link:hover {
-            background-color: #667eea;
-            color: white;
-        }
-        
-        .page-item.active .page-link {
-            background-color: #667eea;
-            border-color: #667eea;
+            margin: 0 0.125rem;
         }
     </style>
 </head>
@@ -175,24 +155,21 @@ try {
             <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
-                        <h4 class="text-white fw-bold">
-                            <i class="fas fa-video me-2"></i>
-                            SnapTikPro
-                        </h4>
-                        <p class="text-white-50 small">Admin Paneli</p>
+                        <h4 class="text-white fw-bold">SnapTikPro Admin</h4>
+                        <p class="text-white-50 small">Video Downloader Pro</p>
                     </div>
                     
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" href="index.php">
                                 <i class="fas fa-tachometer-alt"></i>
-                                Ana Sayfa
+                                Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="admob.php">
                                 <i class="fas fa-ad"></i>
-                                AdMob Ayarları
+                                AdMob Yönet
                             </a>
                         </li>
                         <li class="nav-item">
@@ -314,14 +291,7 @@ try {
                                             <h2 class="fw-bold text-info mb-1">
                                                 <?php 
                                                 try {
-                                                    $stmt = $pdo->query("
-                                                        SELECT COUNT(DISTINCT fcm_token) as fcm 
-                                                        FROM (
-                                                            SELECT fcm_token FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''
-                                                            UNION
-                                                            SELECT fcm_token FROM push_tokens WHERE fcm_token IS NOT NULL AND fcm_token != '' AND is_active = 1
-                                                        ) as all_tokens
-                                                    ");
+                                                    $stmt = $pdo->query("SELECT COUNT(*) as fcm FROM users WHERE fcm_token IS NOT NULL AND fcm_token != ''");
                                                     echo number_format($stmt->fetch()['fcm']);
                                                 } catch (PDOException $e) {
                                                     echo '0';
@@ -373,6 +343,7 @@ try {
                                                     foreach ($users as $user):
                                                         $isActive = strtotime($user['last_seen']) > strtotime('-7 days');
                                                         $hasFCM = !empty($user['fcm_token']);
+                                                        $downloadCount = isset($downloadCounts[$user['device_id']]) ? $downloadCounts[$user['device_id']] : 0;
                                                         $statusClass = $isActive ? 'success' : 'secondary';
                                                         $statusText = $isActive ? 'Aktif' : 'Pasif';
                                                 ?>
@@ -404,7 +375,7 @@ try {
                                                     </td>
                                                     <td>
                                                         <span class="badge bg-info">
-                                                            <?php echo number_format($user['download_count']); ?>
+                                                            <?php echo number_format($downloadCount); ?>
                                                         </span>
                                                     </td>
                                                     <td>
@@ -420,7 +391,7 @@ try {
                                                 <tr>
                                                     <td colspan="7" class="text-center text-muted py-4">
                                                         <i class="fas fa-users fa-2x mb-3"></i>
-                                                        <p>Henüz kullanıcı bulunmuyor</p>
+                                                        <p class="mb-0">Henüz kullanıcı bulunmuyor</p>
                                                     </td>
                                                 </tr>
                                                 <?php endif; ?>
@@ -441,7 +412,7 @@ try {
                                             <?php endif; ?>
                                             
                                             <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
-                                                <li class="page-item <?php echo $i === $page ? 'active' : ''; ?>">
+                                                <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
                                                     <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                                 </li>
                                             <?php endfor; ?>
