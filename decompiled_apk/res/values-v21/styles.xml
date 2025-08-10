@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TEMPEK" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/APKTOOL_DUPLICATE_drawable_0x7f020001</item>
+        <item name="android:colorPrimary">@color/TEMPEK</item>
+        <item name="android:colorPrimaryDark">@color/APKTOOL_DUPLICATE_color_0x7f050001</item>
+        <item name="android:colorAccent">@color/APKTOOL_DUPLICATE_color_0x7f050002</item>
+        <item name="android:navigationBarColor">?android:colorPrimary</item>
+    </style>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TEMPEK" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/APKTOOL_DUPLICATE_drawable_0x7f020001</item>
+    </style>
+</resources>
